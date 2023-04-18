@@ -1,0 +1,5 @@
+<p>booking works!</p>
+{{ timeSlots$ | async | json }}
+<div *ngFor="let timeSlot of timeSlots$ | async">
+  {{ timeSlot.start }} - {{ timeSlot.end }}
+</div>
