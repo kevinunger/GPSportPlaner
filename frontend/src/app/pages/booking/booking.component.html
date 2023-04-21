@@ -1,5 +1,16 @@
-<p>booking works!</p>
-{{ timeSlots$ | async | json }}
-<div *ngFor="let timeSlot of timeSlots$ | async">
-  {{ timeSlot.start }} - {{ timeSlot.end }}
+<div class="pageContainer">
+  <div class="topRulesContainer">
+    <ul>
+      <li>Eine Eintragung ist erst 24h im vorraus möglich</li>
+      <li>Es kann maximal 2h am Stück trainiert werden</li>
+    </ul>
+  </div>
+
+  <div class="timeslotsContainer">
+    <ng-container *ngFor="let timeSlot of timeSlots">
+      <app-timeslot *ngIf="timeSlot.start !== 0" [timeslot]="timeSlot"> </app-timeslot>
+    </ng-container>
+  </div>
+
+  <div></div>
 </div>

@@ -1,0 +1,99 @@
+@import '/src/_variables';
+
+.b-contain {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.b-contain *,
+.b-contain *::before,
+.b-contain *::after {
+  box-sizing: content-box !important;
+}
+
+.b-contain input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.b-contain {
+  display: table;
+  position: relative;
+  cursor: pointer;
+}
+
+.b-contain input[type='checkbox'] ~ .b-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2.5rem;
+  width: 2.5rem;
+  background: #f1f5f900;
+  transition: background 250ms;
+  border: 1px solid $primary-color;
+  border-radius: 0.2rem;
+}
+
+.b-contain input[type='checkbox'] ~ .b-input::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 14px;
+  top: 6px;
+  width: 0.6rem;
+  height: 1.2rem;
+  border: solid $primary-color;
+  border-width: 0 2px 2px 0;
+  transition: background 250ms;
+  transform: rotate(45deg);
+}
+
+.b-contain input[type='radio'] ~ .b-input::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 4px;
+  top: 4px;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3rem;
+  background: #ffffff;
+  transition: background 250ms;
+}
+
+.b-contain input[type='checkbox']:disabled ~ .b-input::after {
+  border-color: #ffffff;
+}
+
+.b-contain input:checked ~ .b-input::after {
+  display: block;
+}
+
+.b-contain:hover input[type='checkbox']:not([disabled]) ~ .b-input,
+.b-contain input[type='checkbox']:focus ~ .b-input {
+  background: #e2e8f0;
+  border-color: #64748b;
+}
+
+.b-contain input:focus ~ .b-input {
+  // box-shadow: 0 0 0 2px #60a5fa;
+}
+
+.b-contain input[type='checkbox']:checked ~ .b-input {
+}
+
+.b-contain input[type='checkbox']:disabled ~ .b-input {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.124);
+  border-color: rgba(66, 165, 246, 0.129);
+}
+
+.b-contain:hover input[type='checkbox']:not([disabled]):checked ~ .b-input,
+.b-contain input[type='checkbox']:checked:focus ~ .b-input {
+  // background: #2563eb;
+  // border-color: #1e40af;
+}

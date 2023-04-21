@@ -8,9 +8,8 @@ describe('AdminslotEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminslotEditComponent ]
-    })
-    .compileComponents();
+      declarations: [AdminslotEditComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AdminslotEditComponent);
     component = fixture.componentInstance;

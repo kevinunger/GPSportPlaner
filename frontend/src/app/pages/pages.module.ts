@@ -7,9 +7,18 @@ import { BookingOverviewComponent } from './booking-overview/booking-overview.co
 import { AdminsOverviewComponent } from './admins-overview/admins-overview.component';
 import { AdminsEditComponent } from './admins-edit/admins-edit.component';
 import { PopupComponent } from './admins-edit/popup/popup.component';
+import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [BookingComponent, BookingConfirmationComponent, BookingOverviewComponent, AdminsOverviewComponent, AdminsEditComponent, PopupComponent],
-  imports: [CommonModule, PagesRoutingModule],
+  declarations: [
+    BookingComponent,
+    BookingConfirmationComponent,
+    BookingOverviewComponent,
+    AdminsOverviewComponent,
+    AdminsEditComponent,
+    PopupComponent,
+  ],
+  imports: [CommonModule, PagesRoutingModule, CoreModule],
 })
 export class PagesModule {}

@@ -1,0 +1,23 @@
+{
+  "name": "gpsportplaner",
+  "author": "Kevin Unger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:frontend": "cd frontend && ng serve",
+    "start:backend": "cd backend && npm run dev",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinunger/GPSportPlaner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kevinunger/GPSportPlaner/issues"
+  },
+  "homepage": "https://github.com/kevinunger/GPSportPlaner#readme",
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

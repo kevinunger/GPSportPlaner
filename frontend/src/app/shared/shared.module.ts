@@ -3,15 +3,9 @@ import { CommonModule } from '@angular/common';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ButtonComponent } from './button/button.component';
 
-
-
 @NgModule({
-  declarations: [
-    CheckboxComponent,
-    ButtonComponent
-  ],
-  imports: [
-    CommonModule
-  ]
+  declarations: [CheckboxComponent, ButtonComponent],
+  imports: [],
+  exports: [CheckboxComponent, ButtonComponent],
 })
-export class CommonModule { }
+export class SharedModule {}

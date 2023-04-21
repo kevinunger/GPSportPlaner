@@ -1,12 +1,14 @@
-import mongoose from "mongoose";
+import { Schema, model, connect } from "mongoose";
 
-const bookingsSchema = new mongoose.Schema({
-  start: String,
-  end: String,
+import { IBooking } from "../types/index";
+
+const bookingsSchema = new Schema<IBooking>({
+  start: Number,
+  end: Number,
   bookedBy: String,
 });
 
 // compile to model
-const Booking = mongoose.model("Booking", bookingsSchema);
+const Booking = model<IBooking>("Booking", bookingsSchema);
 
-export default Booking;
+export { Booking, IBooking };
