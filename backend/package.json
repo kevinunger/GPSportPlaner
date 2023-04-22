@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --clearCache && jest",
+    "test": "jest --clearCache && jest --detectOpenHandles",
     "testWatch": "jest --clearCache && jest --watchAll",
     "build": "npx tsc",
     "start": "node dist/index.js",

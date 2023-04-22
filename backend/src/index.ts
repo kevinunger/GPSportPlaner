@@ -29,10 +29,13 @@ app.get('/', (req: any, res: any) => {
   res.send('Express + TypeScript Server');
 });
 
-connectMongo().catch(err => console.log(err));
+if (process.env.NODE_ENV !== 'test') {
+  connectMongo().catch(err => console.log(err));
 
-app.listen(port, () => {
-  console.log(`using env: ${env}`);
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+  app.listen(port, () => {
+    console.log(`using env: ${env}`);
+    console.log(`[server]: Server is running at http://localhost:${port}`);
+  });
+}
+
 export { app };
