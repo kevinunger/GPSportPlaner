@@ -14,7 +14,11 @@ export class BookingComponent implements OnInit {
     currentTime: 0,
     currentTimeZoneOffset: 0,
   };
+
   public timeSlots: IBooking[] = [];
+  public selectedTimeSlots: IBooking[] = [];
+  public userName: string = '';
+  public successFullSumbission: boolean = false;
   constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
@@ -26,6 +30,27 @@ export class BookingComponent implements OnInit {
       this.timeSlots = this.createTimeSlots(bookings.currentTime);
       console.log(bookings.currentTime);
       console.log(bookings.currentTimeZoneOffset);
+    });
+
+    // subscribe to selected bookings
+    this.bookingService.getSelectedBookingsByUser().subscribe(timeslots => {
+      console.log(timeslots);
+      this.selectedTimeSlots = timeslots;
+    });
+  }
+
+  public onNameInput(event: any): void {
+    console.log(event.target.value);
+
+    this.bookingService.changeNameOfBookings(event.target.value);
+  }
+
+  public onSubmit(): void {
+    console.log('onSubmit');
+    console.log(this.selectedTimeSlots);
+    this.bookingService.submitBookings(this.selectedTimeSlots).then(response => {
+      console.log(response);
+      this.successFullSumbission = true;
     });
   }
 
@@ -54,10 +79,14 @@ export class BookingComponent implements OnInit {
     for (let i = 0; i < 48; i++) {
       const start = timeToStartFirstSlot + i * MILLISECONDS_IN_HALF_HOUR;
       const end = start + MILLISECONDS_IN_HALF_HOUR;
+
+      // check if timeSlot is alrady booked by someone
+      // check if there is a booking with the same start time
+      const booking = this.bookings.data.find(booking => booking.start === start);
       timeSlots.push({
         start,
         end,
-        bookedBy: '',
+        bookedBy: booking?.bookedBy || '',
       });
     }
     return timeSlots;

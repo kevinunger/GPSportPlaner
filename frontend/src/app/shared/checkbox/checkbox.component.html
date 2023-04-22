@@ -1,4 +1,8 @@
 <label class="b-contain">
   <input type="checkbox" [disabled]="disabled" [checked]="checked" />
-  <div class="b-input"></div>
+  <div class="b-input">
+    <div class="tooltip" [ngClass]="{ hiddenTooltip: !disabled }">
+      <span class="tooltiptext">{{ tooltipText }}</span>
+    </div>
+  </div>
 </label>

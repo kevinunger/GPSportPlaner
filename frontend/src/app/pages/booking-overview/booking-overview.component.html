@@ -1,1 +1,9 @@
-<p>booking-overview works!</p>
+<div class="pageContainer">
+  <div>
+    <div class="timeslotsContainer">
+      <ng-container *ngFor="let timeSlot of timeSlots">
+        <app-timeslot *ngIf="timeSlot.start !== 0" [timeslot]="timeSlot" [isReadOnly]="true"> </app-timeslot>
+      </ng-container>
+    </div>
+  </div>
+</div>

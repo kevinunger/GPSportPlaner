@@ -19,6 +19,6 @@ import { SharedModule } from '../shared/shared.module';
     AdminsEditComponent,
     PopupComponent,
   ],
-  imports: [CommonModule, PagesRoutingModule, CoreModule],
+  imports: [CommonModule, PagesRoutingModule, CoreModule, SharedModule],
 })
 export class PagesModule {}

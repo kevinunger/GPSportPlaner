@@ -1,9 +1,14 @@
 <div class="timeslot">
   <span class="day">{{ day_formatted }}</span>
   <span class="time">{{ start_formatted }} - {{ end_formatted }}</span>
-  <div class="checkboxContainer">
+  <div *ngIf="!isReadOnly" class="checkboxContainer">
     <div class="checkboxContainerInner">
-      <app-checkbox></app-checkbox>
+      <app-checkbox
+        [checked]="checked"
+        [disabled]="disabled"
+        (click)="$event.preventDefault(); disabled ? null : checked ? onUncheck() : onCheck()"
+        [tooltipText]="timeslot.bookedBy"
+      ></app-checkbox>
     </div>
   </div>
 </div>

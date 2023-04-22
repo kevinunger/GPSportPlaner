@@ -1,4 +1,16 @@
 <div class="header">
-  <h1 class="headerText">Trag dich ein!</h1>
-  <button class="menuBtn"><fa-icon [icon]="faBars"></fa-icon></button>
+  <h1 class="headerText">{{ headerTitle }}</h1>
+  <button (click)="onToggleMenu()" class="menuBtn"><fa-icon [icon]="faBars"></fa-icon></button>
+
+  <div class="menu" [ngClass]="{ menuActive: menuActive }">
+    <div *ngFor="let entry of menuEntries" class="menuInner">
+      <app-menu-entry
+        (click)="onToggleMenu()"
+        [title]="entry.title"
+        [link]="entry.link"
+        [icon_name]="entry.icon_name"
+      ></app-menu-entry>
+    </div>
+  </div>
+  <div class="backdrop" *ngIf="menuActive" [ngClass]="{ backdropActive: menuActive }" (click)="onToggleMenu()"></div>
 </div>

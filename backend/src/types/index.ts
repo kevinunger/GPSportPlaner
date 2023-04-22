@@ -9,3 +9,7 @@ export interface IResponse<T> {
   currentTime: number;
   currentTimeZoneOffset: number;
 }
+
+export interface IErrorResponse {
+  error: string;
+}

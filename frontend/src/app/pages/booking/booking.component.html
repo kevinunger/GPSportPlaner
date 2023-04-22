@@ -12,5 +12,14 @@
     </ng-container>
   </div>
 
-  <div></div>
+  <div>
+    <pre>
+      {{ selectedTimeSlots | json }}
+    </pre>
+  </div>
+
+  <app-text-input [placeholder]="'Vorname'" [value]="userName" (input)="onNameInput($event)"></app-text-input>
+  <app-button (click)="onSubmit()">Eintragen!</app-button>
+
+  <app-booking-confirmation></app-booking-confirmation>
 </div>
