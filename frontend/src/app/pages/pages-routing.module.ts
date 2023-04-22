@@ -7,6 +7,11 @@ import { AdminsEditComponent } from './admins-edit/admins-edit.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'booking',
+    pathMatch: 'full',
+  },
+  {
     path: 'booking',
     component: BookingComponent,
   },
