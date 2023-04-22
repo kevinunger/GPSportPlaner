@@ -1,5 +1,4 @@
 import { connectMongoTest, closeMongoTest, clearMongoTest } from '../db/index';
-import { Booking } from '../models/booking';
 import { getGermanLocalTime, addBooking, getCurrentBookings, getBookingsOfDay } from '../controllers/bookings';
 import moment from 'moment';
 
