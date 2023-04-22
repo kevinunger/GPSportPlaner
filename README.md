@@ -1,27 +1,71 @@
 # GPSportPlaner
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+
+
+
+
+
+
+
+## Backend
+
+
+
+
+### Deployment to VPS
+adduser username
+usermod -aG sudo username
+sudo su - username
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+Enter your key: nano ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+sudo service ssh restart
+try to login as the user
+sudo nano /etc/ssh/sshd_config
+change PermitRootLogin no
+PasswordAuthentication no if it is yes
+
+sudo systemctl reload sshd
+sudo apt install nginx ufw
+sudo ufw enable
+
+sudo ufw allow ssh
+sudo ufw allow 'Nginx Full'
+
+
+Optional (new repo)
+Goto Github Actions and use the deploy-backend.yml
+Goto settings -> actions -> add runner
+Enter each command on the server
+then
+sudo ./svc.sh install
+sudo ./svc.sh start
+
+install NodeJs
+curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt-get install -y nodejs
+
+setup pm2
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+nano ~/.profile
+add "export PATH=~/.npm-global/bin:$PATH"
+
+npm install -g pm2
