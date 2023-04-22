@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IResponse, IBooking } from '../../../../../backend/src/types/index';
+import { IResponse, IBooking, IErrorResponse } from '../../types/index';
 import { BookingService } from '../../services/booking.service';
 import * as moment from 'moment';
 @Component({

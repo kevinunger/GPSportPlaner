@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingService } from 'src/app/services/booking.service';
-import { IResponse, IBooking } from '../../../../../backend/src/types/index';
+import { IResponse, IBooking, IErrorResponse } from '../../types/index';
 import * as moment from 'moment';
 // import Moment
 

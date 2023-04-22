@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { IResponse, IBooking, IErrorResponse } from '../../../../backend/src/types/index';
+import { IResponse, IBooking, IErrorResponse } from '../types/index';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
