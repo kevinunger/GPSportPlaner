@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuEntryComponent } from './header/menu-entry/menu-entry.component';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
+import { ServerUnreachableComponent } from './server-unreachable/server-unreachable.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,16 @@ import { FooterComponent } from './footer/footer.component';
     AdminslotEditComponent,
     MenuEntryComponent,
     FooterComponent,
+    ServerUnreachableComponent,
   ],
   imports: [CommonModule, SharedModule, FontAwesomeModule, RouterModule],
-  exports: [FooterComponent, HeaderComponent, TimeslotComponent, AdminslotComponent, AdminslotEditComponent],
+  exports: [
+    FooterComponent,
+    HeaderComponent,
+    TimeslotComponent,
+    AdminslotComponent,
+    AdminslotEditComponent,
+    ServerUnreachableComponent,
+  ],
 })
 export class CoreModule {}

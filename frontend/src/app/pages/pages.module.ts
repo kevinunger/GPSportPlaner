@@ -9,6 +9,7 @@ import { AdminsEditComponent } from './admins-edit/admins-edit.component';
 import { PopupComponent } from './admins-edit/popup/popup.component';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,6 @@ import { SharedModule } from '../shared/shared.module';
     AdminsEditComponent,
     PopupComponent,
   ],
-  imports: [CommonModule, PagesRoutingModule, CoreModule, SharedModule],
+  imports: [FontAwesomeModule, CommonModule, PagesRoutingModule, CoreModule, SharedModule],
 })
 export class PagesModule {}

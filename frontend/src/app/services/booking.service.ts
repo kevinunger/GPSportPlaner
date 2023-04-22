@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { IResponse, IBooking, IErrorResponse } from '../../../../backend/src/types/index';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,7 @@ export class BookingService {
   private readonly API_URL = environment.apiUrl;
   private bookings: BehaviorSubject<IResponse<IBooking[]>> = new BehaviorSubject<IResponse<IBooking[]>>({
     data: [],
-    currentTime: 0,
-    currentTimeZoneOffset: 0,
+    currentTime: moment(0),
   });
 
   private selectedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
@@ -29,7 +29,7 @@ export class BookingService {
 
   private orderBookingsByStartTime(): void {
     const bookings = this.selectedBookingsByUser.getValue();
-    bookings.sort((a, b) => a.start - b.start);
+    bookings.sort((a, b) => a.start.valueOf() - b.start.valueOf());
     this.selectedBookingsByUser.next(bookings);
   }
 
@@ -62,13 +62,34 @@ export class BookingService {
     this.selectedBookingsByUser.next(bookings);
   }
 
+  // get current bookings ( bookings that are not in the past)
   public fetchAndUpdateBookings() {
     console.log('fetchAndUpdateBookings');
-    console.log(this.API_URL);
     this.http.get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`).subscribe(response => {
+      // convert string to moment
+      response.data.forEach(booking => {
+        booking.start = moment(booking.start);
+        booking.end = moment(booking.end);
+      });
+      response.currentTime = moment(response.currentTime);
       this.bookings.next(response);
-      console.log(response.data);
     });
+  }
+
+  public fetchAndUpdateBookingsByDate(date: moment.Moment) {
+    console.log('fetchAndUpdateBookingsByDate');
+    this.http
+      .get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getBookingsByDate/?day=${date.toString()}`)
+      .subscribe(response => {
+        // convert string to moment
+        response.data.forEach(booking => {
+          booking.start = moment(booking.start);
+          booking.end = moment(booking.end);
+        });
+        response.currentTime = moment(response.currentTime);
+        this.bookings.next(response);
+        console.log('found ', this.bookings.getValue().data.length, ' bookings for ', date.toString());
+      });
   }
 
   public async submitBookings(bookings: IBooking[]): Promise<Observable<IResponse<IBooking[]> | IErrorResponse>> {
@@ -76,9 +97,7 @@ export class BookingService {
     console.log(bookings);
     var subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
     await this.http.post<IResponse<IBooking[]>>(`${this.API_URL}/bookings/addBooking`, bookings).subscribe(response => {
-      console.log(response);
-      this.bookings.next(response);
-      subject.next(response);
+      this.fetchAndUpdateBookings();
       return response;
     });
     return subject.asObservable();

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IResponse, IBooking } from '../../../../../backend/src/types/index';
 import { BookingService } from '../../services/booking.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-timeslot',
   templateUrl: './timeslot.component.html',
@@ -9,8 +9,8 @@ import { BookingService } from '../../services/booking.service';
 })
 export class TimeslotComponent implements OnInit {
   @Input() timeslot: IBooking = {
-    start: 0,
-    end: 0,
+    start: moment(0),
+    end: moment(0),
     bookedBy: '',
   };
   start_formatted: string = ''; // HH:MM
@@ -36,35 +36,20 @@ export class TimeslotComponent implements OnInit {
 
   onCheck(): void {
     console.log('checked checkbox');
-    console.log(new Date(this.timeslot.start), new Date(this.timeslot.end), this.timeslot.bookedBy);
+    console.log(this.timeslot.start, this.timeslot.end, this.timeslot.bookedBy);
     this.bookingService.addBooking(this.timeslot);
     this.checked = true;
   }
   onUncheck(): void {
     console.log('unchecked checkbox');
-    console.log(new Date(this.timeslot.start), new Date(this.timeslot.end), this.timeslot.bookedBy);
+    console.log(this.timeslot.start, this.timeslot.end, this.timeslot.bookedBy);
     this.bookingService.removeBooking(this.timeslot);
     this.checked = false;
   }
 
   private formatInputs(): void {
-    this.start_formatted = this.formatTime(this.timeslot.start);
-    this.end_formatted = this.formatTime(this.timeslot.end);
-    this.day_formatted = this.formatDay(this.timeslot.start);
-  }
-
-  private formatTime(time: number): string {
-    const date = new Date(time);
-    const hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-  }
-
-  private formatDay(time: number): string {
-    const date = new Date(time);
-    const day = date.getDate();
-    const month = date.getMonth();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${day} ${months[month]}`;
+    this.start_formatted = this.timeslot.start.format('HH:mm');
+    this.end_formatted = this.timeslot.end.format('HH:mm');
+    this.day_formatted = this.timeslot.start.format('DD MMM');
   }
 }

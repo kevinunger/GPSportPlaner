@@ -1,7 +1,13 @@
-<app-header></app-header>
+<ng-container *ngIf="backendIsAlive">
+  <app-header></app-header>
 
-<div class="pageWrapper">
-  <router-outlet></router-outlet>
-</div>
+  <div class="pageWrapper">
+    <router-outlet></router-outlet>
+  </div>
 
-<app-footer></app-footer>
+  <app-footer></app-footer>
+</ng-container>
+
+<ng-container *ngIf="!backendIsAlive">
+  <app-server-unreachable></app-server-unreachable>
+</ng-container>

@@ -11,4 +11,7 @@
       ></app-checkbox>
     </div>
   </div>
+  <div *ngIf="isReadOnly" class="nameContainer">
+    <span class="name">{{ timeslot.bookedBy }}</span>
+  </div>
 </div>

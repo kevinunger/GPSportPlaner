@@ -1,13 +1,14 @@
+import { Moment } from 'moment';
+
 export interface IBooking {
-  start: number;
-  end: number;
+  start: Moment;
+  end: Moment;
   bookedBy: string;
 }
 
 export interface IResponse<T> {
   data: T | [];
-  currentTime: number;
-  currentTimeZoneOffset: number;
+  currentTime: Moment;
 }
 
 export interface IErrorResponse {

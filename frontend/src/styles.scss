@@ -22,7 +22,8 @@ h1 {
 .label {
 }
 
-.pageWrapper {
+.pageWrapper,
+.pageWrapper > * {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,8 +31,6 @@ h1 {
   height: 100%;
   width: 100%;
   background-color: hsl(0, 0%, 98%);
-  margin-top: 70px;
-  padding-bottom: 100px;
 }
 
 .pageContainer {
@@ -43,4 +42,6 @@ h1 {
   width: 100%;
   margin: 0 auto;
   width: clamp(250px, 100%, 600px);
+  margin-top: 70px;
+  padding-bottom: 100px;
 }

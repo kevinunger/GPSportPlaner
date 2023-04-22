@@ -8,7 +8,7 @@
 
   <div class="timeslotsContainer">
     <ng-container *ngFor="let timeSlot of timeSlots">
-      <app-timeslot *ngIf="timeSlot.start !== 0" [timeslot]="timeSlot"> </app-timeslot>
+      <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"> </app-timeslot>
     </ng-container>
   </div>
 
@@ -19,7 +19,7 @@
   </div>
 
   <app-text-input [placeholder]="'Vorname'" [value]="userName" (input)="onNameInput($event)"></app-text-input>
-  <app-button (click)="onSubmit()">Eintragen!</app-button>
+  <app-button [text]="'Eintragen!'" (click)="onSubmit()"></app-button>
 
   <app-booking-confirmation></app-booking-confirmation>
 </div>
