@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IResponse, IBooking } from '../../../../../backend/src/types/index';
+import { BookingService } from '../../services/booking.service';
 
 @Component({
   selector: 'app-timeslot',
@@ -15,14 +16,35 @@ export class TimeslotComponent implements OnInit {
   start_formatted: string = ''; // HH:MM
   end_formatted: string = ''; // HH:MM
   day_formatted: string = ''; // DD MMM e.g. 14 Apr
-  constructor() {}
+  // event to parent component
+
+  checked: boolean = false;
+  disabled: boolean = false;
+
+  @Input() isReadOnly: boolean = false;
+
+  constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
-    this.formatInputs();
+    // this.formatInputs();
   }
 
   ngOnChanges(): void {
     this.formatInputs();
+    this.disabled = this.timeslot.bookedBy !== '';
+  }
+
+  onCheck(): void {
+    console.log('checked checkbox');
+    console.log(new Date(this.timeslot.start), new Date(this.timeslot.end), this.timeslot.bookedBy);
+    this.bookingService.addBooking(this.timeslot);
+    this.checked = true;
+  }
+  onUncheck(): void {
+    console.log('unchecked checkbox');
+    console.log(new Date(this.timeslot.start), new Date(this.timeslot.end), this.timeslot.bookedBy);
+    this.bookingService.removeBooking(this.timeslot);
+    this.checked = false;
   }
 
   private formatInputs(): void {
