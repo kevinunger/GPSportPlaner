@@ -36,13 +36,13 @@ export class TimeslotComponent implements OnInit {
 
   onCheck(): void {
     console.log('checked checkbox');
-    console.log(this.timeslot.start, this.timeslot.end, this.timeslot.bookedBy);
+    console.log(this.timeslot.start.format('HH mm'), this.timeslot.end.format('HH mm'), this.timeslot.bookedBy);
     this.bookingService.addBooking(this.timeslot);
     this.checked = true;
   }
   onUncheck(): void {
     console.log('unchecked checkbox');
-    console.log(this.timeslot.start, this.timeslot.end, this.timeslot.bookedBy);
+    console.log(this.timeslot.start.format('HH mm'), this.timeslot.end.format('HH mm'), this.timeslot.bookedBy);
     this.bookingService.removeBooking(this.timeslot);
     this.checked = false;
   }
