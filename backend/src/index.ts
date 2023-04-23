@@ -27,7 +27,7 @@ console.log(port);
 // setup express middleware
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: '*', // allow requests from any other server // TODO: CORS_OPTIONS
     credentials: true,
   })
 );
