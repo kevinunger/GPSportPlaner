@@ -28,6 +28,10 @@
 
 
 ### Deployment to VPS
+
+
+Point A-Record to VPS-IP
+
 adduser username
 usermod -aG sudo username
 sudo su - username

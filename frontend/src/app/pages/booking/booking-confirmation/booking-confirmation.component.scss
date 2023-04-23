@@ -29,10 +29,10 @@ p {
   border-radius: 50%;
   display: block;
   stroke-width: 2;
-  stroke: #4bb71b;
+  stroke: #3c3c3c;
   stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px #4bb71b;
-  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+  box-shadow: inset 0px 0px 0px #3c3c3c;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.25s ease-in-out 0.9s both;
   position: relative;
   top: 5px;
   right: 5px;
@@ -43,7 +43,7 @@ p {
   stroke-dashoffset: 166;
   stroke-width: 2;
   stroke-miterlimit: 10;
-  stroke: #4bb71b;
+  stroke: #3c3c3c;
   fill: #fff;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
@@ -68,12 +68,12 @@ p {
   }
 
   50% {
-    transform: scale3d(1.1, 1.1, 1);
+    transform: scale3d(1.2, 1.2, 1);
   }
 }
 
 @keyframes fill {
   100% {
-    box-shadow: inset 0px 0px 0px 30px #4bb71b;
+    box-shadow: inset 0px 0px 0px 30px #3c3c3c;
   }
 }
