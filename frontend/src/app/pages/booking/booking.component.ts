@@ -2,8 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingService } from 'src/app/services/booking.service';
 import { IResponse, IBooking, IErrorResponse } from '../../types/index';
-import * as moment from 'moment-timezone';
 // import Moment
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-booking',
@@ -44,11 +44,17 @@ export class BookingComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.selectedTimeSlots);
-    this.bookingService.submitBookings(this.selectedTimeSlots).then(response => {
+    const timeSlots = this.selectedTimeSlots;
+    this.bookingService.submitBookings(timeSlots).subscribe(response => {
       console.log(response);
-      this.successFullSumbission = true;
+      console.log(timeSlots);
+
       this.bookingService.setSelectedBookingsByUser([]);
+      this.bookingService.setConfirmedBookingsByUser(timeSlots);
+      this.bookingService.getConfirmedBookingsByUser().subscribe(bookings => {
+        console.log(bookings);
+      });
+      this.successFullSumbission = true;
     });
   }
 
@@ -75,9 +81,9 @@ export class BookingComponent implements OnInit {
 
     let timeToStartFirstSlot: moment.Moment;
     if (currentTime.minute() < 30) {
-      timeToStartFirstSlot = moment(currentTime).startOf('hour').tz('Europe/Berlin');
+      timeToStartFirstSlot = moment(currentTime).startOf('hour');
     } else {
-      timeToStartFirstSlot = moment(currentTime).startOf('hour').add(30, 'minutes').tz('Europe/Berlin');
+      timeToStartFirstSlot = moment(currentTime).startOf('hour').add(30, 'minutes');
     }
 
     const timeSlots: IBooking[] = [];

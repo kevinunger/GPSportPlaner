@@ -1,10 +1,11 @@
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IResponse, IBooking, IErrorResponse } from '../types/index';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import * as moment from 'moment-timezone';
-
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,6 +17,7 @@ export class BookingService {
   });
 
   private selectedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
+  private confirmedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +27,16 @@ export class BookingService {
 
   public getSelectedBookingsByUser(): Observable<IBooking[]> {
     return this.selectedBookingsByUser.asObservable();
+  }
+
+  public getConfirmedBookingsByUser(): Observable<IBooking[]> {
+    return this.confirmedBookingsByUser.asObservable();
+  }
+
+  public setConfirmedBookingsByUser(bookings: IBooking[]): void {
+    console.log('setConfirmedBookingsByUser');
+    console.log(bookings);
+    this.confirmedBookingsByUser.next(bookings);
   }
 
   private orderBookingsByStartTime(): void {
@@ -79,10 +91,10 @@ export class BookingService {
     this.http.get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`).subscribe(response => {
       // convert string to moment
       response.data.forEach(booking => {
-        booking.start = moment(booking.start).tz('Europe/Berlin');
-        booking.end = moment(booking.end).tz('Europe/Berlin');
+        booking.start = moment(booking.start);
+        booking.end = moment(booking.end);
       });
-      response.currentTime = moment(response.currentTime).tz('Europe/Berlin');
+      response.currentTime = moment(response.currentTime);
       this.bookings.next(response);
       console.log('found ', this.bookings.getValue().data.length, ' bookings');
     });
@@ -95,23 +107,36 @@ export class BookingService {
       .subscribe(response => {
         // convert string to moment
         response.data.forEach(booking => {
-          booking.start = moment(booking.start).tz('Europe/Berlin');
-          booking.end = moment(booking.end).tz('Europe/Berlin');
+          booking.start = moment(booking.start);
+          booking.end = moment(booking.end);
         });
-        response.currentTime = moment(response.currentTime).tz('Europe/Berlin');
+        response.currentTime = moment(response.currentTime);
         this.bookings.next(response);
         console.log('found ', this.bookings.getValue().data.length, ' bookings for ', date.toString());
       });
   }
 
-  public async submitBookings(bookings: IBooking[]): Promise<Observable<IResponse<IBooking[]> | IErrorResponse>> {
+  public submitBookings(bookings: IBooking[]): Observable<IResponse<IBooking[]> | IErrorResponse> {
     console.log('submitBookings');
     console.log(bookings);
-    var subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
-    await this.http.post<IResponse<IBooking[]>>(`${this.API_URL}/bookings/addBooking`, bookings).subscribe(response => {
-      this.fetchAndUpdateBookings();
-      return response;
-    });
+
+    const subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
+
+    this.http
+      .post<IResponse<IBooking[]>>(`${this.API_URL}/bookings/addBooking`, bookings)
+      .pipe(
+        catchError(error => {
+          console.error('Error submitting bookings:', error);
+          subject.error(error);
+          return throwError(error);
+        })
+      )
+      .subscribe(response => {
+        this.fetchAndUpdateBookings();
+        subject.next(response);
+        subject.complete();
+      });
+
     return subject.asObservable();
   }
 }
