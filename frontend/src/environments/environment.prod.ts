@@ -7,6 +7,6 @@ export const environment = {
     authDomain: 'gpsportplaner.firebaseapp.com',
     messagingSenderId: '555972866190',
   },
-  apiUrl: 'http://116.202.98.88',
+  apiUrl: 'https://116.202.98.88',
   production: true,
 };
