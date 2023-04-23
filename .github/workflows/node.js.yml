@@ -31,4 +31,4 @@ jobs:
       working-directory: ./backend
     - name: executing deploy script
       working-directory: ./backend
-      run: sh deploy.sh
+      run: bash deploy.sh
