@@ -1,4 +1,4 @@
-<div class="pageContainer">
+<div class="pageContainer" *ngIf="!successFullSumbission">
   <div class="topRulesContainer">
     <ul>
       <li>Eine Eintragung ist erst 24h im vorraus möglich</li>
@@ -6,20 +6,19 @@
     </ul>
   </div>
 
-  <div class="timeslotsContainer">
-    <ng-container *ngFor="let timeSlot of timeSlots">
-      <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"> </app-timeslot>
-    </ng-container>
+  <div class="timeslotsContainer" *ngFor="let timeSlot of timeSlots">
+    <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"> </app-timeslot>
   </div>
+
+  <pre>
+      {{ selectedTimeSlots | json }}
+    </pre
+  >
 
   <div>
-    <pre>
-      {{ selectedTimeSlots | json }}
-    </pre>
+    <app-text-input [placeholder]="'Vorname'" [value]="userName" (input)="onNameInput($event)"></app-text-input>
   </div>
-
-  <app-text-input [placeholder]="'Vorname'" [value]="userName" (input)="onNameInput($event)"></app-text-input>
   <app-button [text]="'Eintragen!'" (click)="onSubmit()"></app-button>
-
-  <app-booking-confirmation></app-booking-confirmation>
 </div>
+
+<app-booking-confirmation *ngIf="successFullSumbission"></app-booking-confirmation>

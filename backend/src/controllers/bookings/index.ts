@@ -12,9 +12,23 @@ export function getGermanLocalTime(): Moment {
 // start > current time - 30min && end > current time
 export async function getCurrentBookings(currentTime: Moment) {
   const bookings = await Booking.find({
-    start: { $gt: currentTime.clone().subtract(30, 'minutes').toDate() },
-    end: { $gt: currentTime.toDate() },
+    start: { $gte: currentTime.clone().subtract(30, 'minutes').format('YYYY-MM-DD') },
   });
+  console.log(currentTime.clone().add(30, 'minutes').add(24, 'hours').toDate());
+
+  // SORT BY START TIME DESCENDING
+  bookings.sort((a, b) => {
+    const starta = moment(a.start);
+    const startb = moment(b.start);
+    if (starta.isBefore(startb)) {
+      return -1;
+    }
+    if (starta.isAfter(startb)) {
+      return 1;
+    }
+    return 0;
+  });
+
   return bookings;
 }
 
@@ -69,10 +83,9 @@ export async function addBooking(bookings: IBooking[], currentTime: Moment) {
     const booking = await Booking.findOne({
       start: bookings[i].start,
       end: bookings[i].end,
-      bookedBy: bookings[i].bookedBy,
     });
     if (booking) {
-      throw new Error(`Booking already exists ${bookings[i].start} - ${bookings[i].end} by ${bookings[i].bookedBy}`);
+      throw new Error(`Booking already exists ${booking.start} - ${booking.end} by ${booking.bookedBy}`);
     }
 
     // check if booking start and end is exactly 30 mins apart
@@ -91,8 +104,13 @@ export async function addBooking(bookings: IBooking[], currentTime: Moment) {
     //   };
     // });
     const savedBookings = await Booking.insertMany(bookings);
+    console.log(savedBookings);
     return savedBookings;
   } catch (err) {
     throw new Error(err);
   }
+}
+// delete all bookings from db
+export async function deleteAllBookings() {
+  await Booking.deleteMany({});
 }

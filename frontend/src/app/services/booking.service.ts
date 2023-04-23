@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { IResponse, IBooking, IErrorResponse } from '../types/index';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,17 @@ export class BookingService {
 
   private orderBookingsByStartTime(): void {
     const bookings = this.selectedBookingsByUser.getValue();
-    bookings.sort((a, b) => a.start.valueOf() - b.start.valueOf());
+    // bookings are momentJS objects
+    // sort ascending
+    bookings.sort((a, b) => {
+      if (a.start.isBefore(b.start)) {
+        return -1;
+      }
+      if (a.start.isAfter(b.start)) {
+        return 1;
+      }
+      return 0;
+    });
     this.selectedBookingsByUser.next(bookings);
   }
 
@@ -49,8 +59,9 @@ export class BookingService {
   public addBooking(booking: IBooking): void {
     const bookings = this.selectedBookingsByUser.getValue();
     bookings.push(booking);
-    this.orderBookingsByStartTime();
     this.selectedBookingsByUser.next(bookings);
+    this.orderBookingsByStartTime();
+    console.log(bookings[0].start.format('DD.MM.YYYY HH:mm'));
   }
 
   public removeBooking(booking: IBooking): void {
@@ -68,11 +79,12 @@ export class BookingService {
     this.http.get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`).subscribe(response => {
       // convert string to moment
       response.data.forEach(booking => {
-        booking.start = moment(booking.start);
-        booking.end = moment(booking.end);
+        booking.start = moment(booking.start).tz('Europe/Berlin');
+        booking.end = moment(booking.end).tz('Europe/Berlin');
       });
-      response.currentTime = moment(response.currentTime);
+      response.currentTime = moment(response.currentTime).tz('Europe/Berlin');
       this.bookings.next(response);
+      console.log('found ', this.bookings.getValue().data.length, ' bookings');
     });
   }
 
@@ -83,10 +95,10 @@ export class BookingService {
       .subscribe(response => {
         // convert string to moment
         response.data.forEach(booking => {
-          booking.start = moment(booking.start);
-          booking.end = moment(booking.end);
+          booking.start = moment(booking.start).tz('Europe/Berlin');
+          booking.end = moment(booking.end).tz('Europe/Berlin');
         });
-        response.currentTime = moment(response.currentTime);
+        response.currentTime = moment(response.currentTime).tz('Europe/Berlin');
         this.bookings.next(response);
         console.log('found ', this.bookings.getValue().data.length, ' bookings for ', date.toString());
       });

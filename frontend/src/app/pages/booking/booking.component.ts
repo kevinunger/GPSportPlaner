@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingService } from 'src/app/services/booking.service';
 import { IResponse, IBooking, IErrorResponse } from '../../types/index';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 // import Moment
 
 @Component({
@@ -28,7 +28,7 @@ export class BookingComponent implements OnInit {
     this.bookingService.getBookings().subscribe(bookings => {
       console.log(bookings);
       this.bookings = bookings;
-      this.timeSlots = this.createTimeSlots(bookings.currentTime);
+      this.timeSlots = this.createTimeSlots();
       console.log(bookings.currentTime);
     });
 
@@ -40,13 +40,10 @@ export class BookingComponent implements OnInit {
   }
 
   public onNameInput(event: any): void {
-    console.log(event.target.value);
-
     this.bookingService.changeNameOfBookings(event.target.value);
   }
 
   public onSubmit(): void {
-    console.log('onSubmit');
     console.log(this.selectedTimeSlots);
     this.bookingService.submitBookings(this.selectedTimeSlots).then(response => {
       console.log(response);
@@ -64,17 +61,11 @@ export class BookingComponent implements OnInit {
   // if it's 16:35 the timeToStartFirstSlot is 16:30
   // if it's 16:49 the timeToStartFirstSlot is 16:30
   // if it's 17:01 the timeToStartFirstSlot is 17:00
-  private createTimeSlots(currentTime: moment.Moment): IBooking[] {
+  private createTimeSlots(): IBooking[] {
+    const currentTime = this.bookings.currentTime;
     if (currentTime.valueOf() === 0) {
       return [];
     }
-    console.log('currentTime object:', currentTime);
-
-    console.log(currentTime.valueOf());
-    console.log(currentTime.minutes());
-
-    const MILLISECONDS_IN_MINUTE = 60 * 1000;
-    const MILLISECONDS_IN_HALF_HOUR = 30 * MILLISECONDS_IN_MINUTE;
 
     // get the start of the current half hour
     // if it's 16:05 the timeToStartFirstSlot is 16:00
@@ -84,22 +75,23 @@ export class BookingComponent implements OnInit {
 
     let timeToStartFirstSlot: moment.Moment;
     if (currentTime.minute() < 30) {
-      timeToStartFirstSlot = moment(currentTime).startOf('hour');
+      timeToStartFirstSlot = moment(currentTime).startOf('hour').tz('Europe/Berlin');
     } else {
-      timeToStartFirstSlot = moment(currentTime).startOf('hour').add(30, 'minutes');
+      timeToStartFirstSlot = moment(currentTime).startOf('hour').add(30, 'minutes').tz('Europe/Berlin');
     }
 
     const timeSlots: IBooking[] = [];
     for (let i = 0; i < 48; i++) {
-      const start = timeToStartFirstSlot.valueOf() + i * MILLISECONDS_IN_HALF_HOUR;
-      const end = start + MILLISECONDS_IN_HALF_HOUR;
+      const start = timeToStartFirstSlot.clone().add(i * 30, 'minutes');
+      const end = start.clone().add(30, 'minutes');
+      // console.log(start.format('HH:mm'), end.format('HH:mm'));
 
       // check if timeSlot is alrady booked by someone
       // check if there is a booking with the same start time
       const booking = this.bookings.data.find(booking => booking.start.isSame(start));
       timeSlots.push({
-        start: moment(start),
-        end: moment(end),
+        start: start,
+        end: end,
         bookedBy: booking?.bookedBy || '',
       });
     }
