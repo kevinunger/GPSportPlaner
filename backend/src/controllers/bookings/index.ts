@@ -104,7 +104,7 @@ export async function addBooking(bookings: IBooking[], currentTime: Moment) {
     //   };
     // });
     const savedBookings = await Booking.insertMany(bookings);
-    console.log(savedBookings);
+    // save to db
     return savedBookings;
   } catch (err) {
     throw new Error(err);

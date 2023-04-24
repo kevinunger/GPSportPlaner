@@ -1,3 +1,9 @@
-<button class="btn">
-  {{ text }}
-</button>
+<!-- set disabled-->
+
+<div class="btnContainer">
+  <span [ngClass]="{ hidden: !disabled }">{{ errorLabelText }}</span>
+
+  <button class="btn" [disabled]="disabled">
+    {{ text }}
+  </button>
+</div>

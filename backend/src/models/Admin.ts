@@ -1,12 +1,15 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+
+import { IAdmin } from '../types/index';
 
 const adminSchema = new mongoose.Schema({
   name: String,
   phone: String,
   isAvailable: Boolean,
+  assignedDay: String,
 });
 
 // compile to model
-const Admin = mongoose.model("Booking", adminSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
-export default Admin;
+export { Admin, IAdmin };

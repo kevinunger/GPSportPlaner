@@ -1,4 +1,4 @@
-import { throwError } from 'rxjs';
+import { throwError, tap, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -18,6 +18,7 @@ export class BookingService {
 
   private selectedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
   private confirmedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
+  private enteredName: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {}
 
@@ -37,6 +38,14 @@ export class BookingService {
     console.log('setConfirmedBookingsByUser');
     console.log(bookings);
     this.confirmedBookingsByUser.next(bookings);
+  }
+
+  public getEnteredName(): Observable<string> {
+    return this.enteredName.asObservable();
+  }
+
+  public setEnteredName(name: string): void {
+    this.enteredName.next(name);
   }
 
   private orderBookingsByStartTime(): void {
@@ -59,6 +68,17 @@ export class BookingService {
     // order bookings by start time (ascending)
     this.orderBookingsByStartTime();
     this.selectedBookingsByUser.next(bookings);
+  }
+
+  public getNameOfBookings(): Observable<string> {
+    return this.selectedBookingsByUser.asObservable().pipe(
+      map(bookings => {
+        if (bookings.length > 0) {
+          return bookings[0].bookedBy;
+        }
+        return '';
+      })
+    );
   }
 
   public changeNameOfBookings(name: string): void {
@@ -86,45 +106,44 @@ export class BookingService {
   }
 
   // get current bookings ( bookings that are not in the past)
-  public fetchAndUpdateBookings() {
+  public fetchAndUpdateBookings(): Observable<IResponse<IBooking[]>> {
     console.log('fetchAndUpdateBookings');
-    this.http
-      .get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`)
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching current bookings:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe(
-        response => {
-          // ... (same as before)
-        },
-        error => {
-          // Handle the error as needed, e.g. show an error message.
-          // ...
-        }
-      );
+    return this.http.get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`).pipe(
+      catchError(error => {
+        console.error('Error fetching current bookings:', error);
+        return throwError(error);
+      }),
+      tap(response => {
+        // Convert string to moment
+        response.data.forEach(booking => {
+          booking.start = moment(booking.start);
+          booking.end = moment(booking.end);
+        });
+        response.currentTime = moment(response.currentTime);
+        this.bookings.next(response);
+        console.log('found ', this.bookings.getValue().data.length, ' bookings');
+      })
+    );
   }
-
-  public fetchAndUpdateBookingsByDate(date: moment.Moment) {
+  public fetchAndUpdateBookingsByDate(date: moment.Moment): Observable<IResponse<IBooking[]>> {
     console.log('fetchAndUpdateBookingsByDate');
-    this.http
+    return this.http
       .get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getBookingsByDate/?day=${date.toString()}`)
       .pipe(
         catchError(error => {
           console.error('Error fetching bookings by date:', error);
           return throwError(error);
+        }),
+        tap(response => {
+          // Convert string to moment
+          response.data.forEach(booking => {
+            booking.start = moment(booking.start);
+            booking.end = moment(booking.end);
+          });
+          response.currentTime = moment(response.currentTime);
+          this.bookings.next(response);
+          console.log('found ', this.bookings.getValue().data.length, ' bookings for ', date.toString());
         })
-      )
-      .subscribe(
-        response => {
-          // ... (same as before)
-        },
-        error => {
-          // Handle the error as needed, e.g. show an error message.
-          // ...
-        }
       );
   }
 

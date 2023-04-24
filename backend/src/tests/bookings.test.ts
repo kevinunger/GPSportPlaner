@@ -2,6 +2,11 @@ import { connectMongoTest, closeMongoTest, clearMongoTest } from '../db/index';
 import { Booking } from '../models/Booking';
 import { getGermanLocalTime, addBooking, getCurrentBookings, getBookingsOfDay } from '../controllers/bookings';
 import moment from 'moment';
+const request = require('supertest');
+const express = require('express');
+const assert = require('assert');
+
+import { app } from '../index';
 
 beforeAll(async () => {
   await connectMongoTest();
@@ -225,9 +230,6 @@ describe('Add Bookings Tests', () => {
       `Booking already exists Sun Apr 23 2023 23:30:00 GMT+0200 - Mon Apr 24 2023 00:00:00 GMT+0200 by ${randomName1}`
     );
   });
-});
-
-describe('Get Bookings Test', () => {
   it('Check if bookings are retrieved correctly', async () => {
     // create multiple bookings
 
@@ -286,6 +288,8 @@ describe('Get Bookings Test', () => {
     // check if bookings are retrieved correctly
     const bookings = await getCurrentBookings(currentTime);
     // this should return all of them
-    console.log(bookings);
+    expect(bookings.length).toEqual(6);
   });
 });
+
+describe('Get Bookings Test', () => {});

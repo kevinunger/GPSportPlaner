@@ -5,6 +5,8 @@ import connectMongo from './db/index';
 
 import bookingsRouter from './routes/bookings/index';
 import infoRouter from './routes/info/index';
+import adminsRouter from './routes/admins/index';
+
 const path = require('path');
 
 const env = process.env.NODE_ENV || 'development';
@@ -36,6 +38,7 @@ app.use(express.json());
 // setup routes
 app.use('/bookings', bookingsRouter);
 app.use('/info', infoRouter);
+app.use('/admins', adminsRouter);
 
 app.get('/', (req: any, res: any) => {
   res.send('Express + TypeScript Server');

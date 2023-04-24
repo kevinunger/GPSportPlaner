@@ -15,7 +15,12 @@
   </pre> -->
 
   <app-text-input [placeholder]="'Name eintragen'" [value]="userName" (input)="onNameInput($event)"></app-text-input>
-  <app-button [text]="'Eintragen!'" (click)="$event.preventDefault(); onSubmit()"></app-button>
+  <app-button
+    [errorLabelText]="errorLabelText"
+    [disabled]="!userCanSubmit"
+    [text]="'Eintragen!'"
+    (click)="$event.preventDefault(); onSubmit()"
+  ></app-button>
 </div>
 
 <app-booking-confirmation *ngIf="successFullSumbission"></app-booking-confirmation>
