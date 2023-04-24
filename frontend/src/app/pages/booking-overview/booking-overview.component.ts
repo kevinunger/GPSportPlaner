@@ -42,7 +42,7 @@ export class BookingOverviewComponent implements OnInit {
     // to string
     this.selectedDate.toString();
     console.log(this.selectedDate.toString());
-    this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate);
+    this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate).subscribe();
   }
 
   //first time slot starts at 0:00
