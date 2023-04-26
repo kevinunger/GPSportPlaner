@@ -4,9 +4,11 @@ import { IAdmin } from '../types/index';
 
 const adminSchema = new mongoose.Schema({
   name: String,
-  phone: String,
+  phoneNumber: String,
   isAvailable: Boolean,
   assignedDay: String,
+  roomNumber: String,
+  houseNumber: String,
 });
 
 // compile to model

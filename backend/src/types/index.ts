@@ -9,8 +9,10 @@ export interface IBooking {
 
 export interface IAdmin {
   name: string;
-  phone: string;
+  phoneNumber: string;
   assignedDay: string;
+  roomNumber: string;
+  houseNumber: string;
   isAvailable: boolean;
 }
 

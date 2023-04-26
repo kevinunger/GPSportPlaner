@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     {
       headerTitle: 'Schlüsselverantwortliche',
       title: 'Schlüssel',
-      link: '/adminslist',
+      link: '/admins',
       icon_name: 'faKey',
     },
   ];

@@ -23,27 +23,34 @@ afterAll(async () => {
 describe('Admin Controller Tests', () => {
   const testAdmin: IAdmin = {
     name: 'Test Admin',
-    phone: '1234567890',
+    phoneNumber: '1234567890',
     assignedDay: 'Monday',
     isAvailable: true,
+    roomNumber: '789',
+    houseNumber: '123',
   };
   const testAdmin2: IAdmin = {
     name: 'Test Admin2',
-    phone: '1314567890',
+    phoneNumber: '1314567890',
     assignedDay: 'Tuesday',
     isAvailable: true,
+    roomNumber: '123',
+    houseNumber: '456',
   };
   const testAdmin3: IAdmin = {
     name: 'Test Admin3',
-    phone: '1334567890',
+    phoneNumber: '1334567890',
     assignedDay: 'Tuesday',
     isAvailable: false,
+    roomNumber: '8888',
+    houseNumber: '456',
   };
 
   test('addAdmin should create a new admin', async () => {
     const createdAdmin = await adminController.addAdmin(testAdmin);
+
     expect(createdAdmin.name).toEqual(testAdmin.name);
-    expect(createdAdmin.phone).toEqual(testAdmin.phone);
+    expect(createdAdmin.phoneNumber).toEqual(testAdmin.phoneNumber);
     expect(createdAdmin.assignedDay).toEqual(testAdmin.assignedDay);
     expect(createdAdmin.isAvailable).toEqual(testAdmin.isAvailable);
   });
@@ -72,9 +79,11 @@ describe('Admin Controller Tests', () => {
     await adminController.addAdmin(testAdmin);
     const newAdmin = {
       name: 'Updated Admin',
-      phone: '0987654321',
+      phoneNumber: '0987654321',
       assignedDay: 'Tuesday',
       isAvailable: false,
+      roomNumber: '123',
+      houseNumber: '456',
     };
     await adminController.editAdmin(testAdmin, newAdmin);
     const updatedAdmin = await adminController.getAdmin(newAdmin);
@@ -82,7 +91,7 @@ describe('Admin Controller Tests', () => {
     const admins = await adminController.getAllAdmins();
     expect(admins.length).toEqual(1);
     expect(updatedAdmin.name).toEqual(newAdmin.name);
-    expect(updatedAdmin.phone).toEqual(newAdmin.phone);
+    expect(updatedAdmin.phoneNumber).toEqual(newAdmin.phoneNumber);
     expect(updatedAdmin.assignedDay).toEqual(newAdmin.assignedDay);
     expect(updatedAdmin.isAvailable).toEqual(newAdmin.isAvailable);
   });
@@ -108,9 +117,11 @@ describe('Admin Controller Tests', () => {
     const nonExistentAdmin = {
       _id: new mongoose.Types.ObjectId(),
       name: 'Test Admin',
-      phone: '1234567890',
+      phoneNumber: '1234567890',
       assignedDay: 'Monday',
       isAvailable: true,
+      roomNumber: '789',
+      houseNumber: '123',
     };
     await expect(adminController.deleteAdmin(nonExistentAdmin)).rejects.toThrow('Admin does not exist');
   });
@@ -157,7 +168,7 @@ describe('Admin Controller Tests', () => {
       const response = await request(app).post('/admins/addAdmin').send(testAdmin);
       expect(response.status).toEqual(200);
       expect(response.body.name).toEqual(testAdmin.name);
-      expect(response.body.phone).toEqual(testAdmin.phone);
+      expect(response.body.phoneNumber).toEqual(testAdmin.phoneNumber);
       expect(response.body.assignedDay).toEqual(testAdmin.assignedDay);
       expect(response.body.isAvailable).toEqual(testAdmin.isAvailable);
     });

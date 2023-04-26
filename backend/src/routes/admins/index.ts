@@ -18,7 +18,10 @@ import * as adminController from '../../controllers/admins/index';
 router.get('/', async (req, res) => {
   try {
     const admins = await adminController.getAllAdmins();
-    res.json(admins);
+    const response = {
+      data: admins,
+    };
+    res.json(response);
   } catch (err) {
     res.status(400).json({ message: 'Error getting admins' });
   }
@@ -54,7 +57,7 @@ router.post('/addAdmin', async (req, res) => {
 
   const admin: IAdmin = req.body;
   // check if valid admin
-  if (!admin.name || !admin.phone || !admin.assignedDay) {
+  if (!admin.name || !admin.phoneNumber || !admin.assignedDay || !admin.roomNumber || !admin.houseNumber) {
     res.status(400).json({ message: 'Admin Values missing' });
   } else {
     try {

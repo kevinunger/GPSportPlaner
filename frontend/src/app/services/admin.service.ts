@@ -4,6 +4,7 @@ import { IResponse, IBooking, IErrorResponse, IAdmin } from '../types/index';
 import { Observable, BehaviorSubject, Subject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Injectable({
@@ -23,25 +24,17 @@ export class AdminService {
     this.admins.next(admins);
   }
 
-  public fetchAndSetAdmins(): void {
-    this.http
-      .get<IResponse<IAdmin[]>>(`${this.API_URL}/admins`)
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching admins:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe(
-        res => {
-          this.setAdmins(res.data);
-        },
-        error => {
-          console.error('Error fetching admins:', error);
-          // Handle the error as needed, e.g. show an error message.
-          // ...
-        }
-      );
+  public fetchAndSetAdmins(): Observable<IResponse<IAdmin[]>> {
+    return this.http.get<IResponse<IAdmin[]>>(`${this.API_URL}/admins`).pipe(
+      catchError(error => {
+        console.error('Error fetching admins:', error);
+        return throwError(error);
+      }),
+      tap(res => {
+        console.log('AdminsR:', res.data);
+        this.setAdmins(res.data);
+      })
+    );
   }
 
   public getAllAdmins() {}

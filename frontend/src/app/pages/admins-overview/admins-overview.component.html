@@ -1,1 +1,20 @@
-<p>admins-overview works!</p>
+<div class="pageContainer">
+  <div class="pageContent">
+    <div class="admins">
+      <div class="admin" *ngFor="let day of sortedAdminsPerDay">
+        <ng-container *ngIf="day.admins.length !== 0">
+          <h2>{{ day.day }}</h2>
+          <div class="adminslot" *ngFor="let admin of day.admins">
+            <app-adminslot
+              [name]="admin.name"
+              [isAvailable]="admin.isAvailable"
+              [phoneNumber]="admin.phoneNumber"
+              [roomNumber]="admin.roomNumber"
+              [houseNumber]="admin.houseNumber"
+            ></app-adminslot>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

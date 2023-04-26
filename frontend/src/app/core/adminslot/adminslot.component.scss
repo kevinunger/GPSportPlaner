@@ -1,0 +1,60 @@
+.adminslot {
+  width: clamp(250px, 80%, 300px);
+  height: 60px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(3, 3, 3, 0.1);
+  margin: 0 auto;
+  margin-bottom: 15px;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+}
+
+.text {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000;
+}
+
+.numbers {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.dot {
+  width: 10px;
+  height: 8px;
+  border-radius: 50%;
+
+  background: red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+.available {
+  background: greenyellow;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+// flat button
+.whatsAppBtn {
+  border: none;
+  background: none;
+  color: #fff;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}

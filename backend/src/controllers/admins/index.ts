@@ -5,14 +5,16 @@ import moment, { Moment } from 'moment-timezone';
 // get admin by providing IAdmin
 export async function getAdmin(admin: IAdmin): Promise<IAdmin> {
   //check for missign fields
-  if (!admin.name || !admin.phone || !admin.assignedDay) {
+  if (!admin.name || !admin.phoneNumber || !admin.assignedDay || !admin.roomNumber || !admin.houseNumber) {
     throw new Error('Please fill all fields');
   }
 
   const foundAdmin = await Admin.find({
     name: admin.name,
-    phone: admin.phone,
+    phoneNumber: admin.phoneNumber,
     assignedDay: admin.assignedDay,
+    roomNumber: admin.roomNumber,
+    houseNumber: admin.houseNumber,
   });
   if (!foundAdmin) {
     throw new Error('Admin not found');
@@ -23,7 +25,7 @@ export async function getAdmin(admin: IAdmin): Promise<IAdmin> {
 // add an admin
 export async function addAdmin(admin: IAdmin): Promise<IAdmin> {
   // check if all fields are filled
-  if (!admin.name || !admin.phone || !admin.assignedDay) {
+  if (!admin.name || !admin.phoneNumber || !admin.assignedDay || !admin.roomNumber || !admin.houseNumber) {
     throw new Error('Please fill all fields');
   }
 
@@ -36,8 +38,10 @@ export async function addAdmin(admin: IAdmin): Promise<IAdmin> {
   // check if admin already exists
   const existingAdmin = await Admin.findOne({
     name: admin.name,
-    phone: admin.phone,
+    phoneNumber: admin.phoneNumber,
     assignedDay: admin.assignedDay,
+    roomNumber: admin.roomNumber,
+    houseNumber: admin.houseNumber,
   });
 
   if (existingAdmin) {
@@ -101,7 +105,7 @@ export async function getAdminByAssignedDay(assignedDay: string): Promise<IAdmin
 
 // Returns an array containing the names of any missing required fields.
 function findMissingFields(admin: IAdmin): string[] {
-  const requiredFields = ['name', 'phone', 'assignedDay', 'isAvailable'];
+  const requiredFields = ['name', 'phoneNumber', 'assignedDay', 'roomNumber', 'houseNumber'];
   const missingFields = requiredFields.filter(field => admin[field] === null || admin[field] === undefined);
   return missingFields;
 }
@@ -127,8 +131,10 @@ export async function editAdmin(oldAdmin: IAdmin, newAdmin: IAdmin): Promise<IAd
   // check if admin already exists
   const existingAdmin = await Admin.findOne({
     name: newAdmin.name,
-    phone: newAdmin.phone,
+    phoneNumber: newAdmin.phoneNumber,
     assignedDay: newAdmin.assignedDay,
+    roomNumber: newAdmin.roomNumber,
+    houseNumber: newAdmin.houseNumber,
   });
 
   if (existingAdmin) {
@@ -140,8 +146,10 @@ export async function editAdmin(oldAdmin: IAdmin, newAdmin: IAdmin): Promise<IAd
     const updatedAdmin = await Admin.findOneAndUpdate(
       {
         name: oldAdmin.name,
-        phone: oldAdmin.phone,
+        phoneNumber: oldAdmin.phoneNumber,
         assignedDay: oldAdmin.assignedDay,
+        roomNumber: oldAdmin.roomNumber,
+        houseNumber: oldAdmin.houseNumber,
       },
       newAdmin,
       { new: true }

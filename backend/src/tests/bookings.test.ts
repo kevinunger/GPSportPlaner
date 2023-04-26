@@ -277,6 +277,8 @@ describe('Add Bookings Tests', () => {
     ];
 
     const currentTime = moment('Sun Apr 23 2023 16:00:00 GMT+0200');
+    //to RFC2822
+    const currentTimeFormatted = moment();
 
     const res1 = await addBooking(sampleBooking1, currentTime);
     const res2 = await addBooking(sampleBooking2, currentTime);
