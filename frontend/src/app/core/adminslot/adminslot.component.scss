@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 20px;
+  padding: 0 25px;
 }
 
 .text {
@@ -49,12 +49,15 @@
 
 // flat button
 .whatsAppBtn {
+  margin-top: 3px;
   border: none;
   background: none;
   color: #fff;
 
+  margin-left: 20px;
+
   svg {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
 }

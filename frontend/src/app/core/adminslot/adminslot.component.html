@@ -5,7 +5,7 @@
     <div class="numbers">{{ houseNumber }}/{{ roomNumber }}</div>
   </div>
   <button (click)="onClickBtn()" class="whatsAppBtn">
-    <a href="{whatsAppLink}">
+    <a [href]="whatsAppLink">
       <svg
         fill="#000000"
         width="800px"
