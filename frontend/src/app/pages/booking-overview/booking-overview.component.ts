@@ -19,6 +19,7 @@ export class BookingOverviewComponent implements OnInit {
   };
   public selectedDate: moment.Moment = moment();
   public selectedDateFormatted: string = this.selectedDate.format('DD MMM');
+  public selectedDateIsCurrentDay: boolean = true;
 
   public timeSlots: IBooking[] = [];
   constructor(private bookingService: BookingService) {}
@@ -43,6 +44,9 @@ export class BookingOverviewComponent implements OnInit {
     this.selectedDate.toString();
     console.log(this.selectedDate.toString());
     this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate).subscribe();
+
+    // check if this.selectedDate is the current day
+    this.selectedDateIsCurrentDay = this.selectedDate.isSame(moment(), 'day');
   }
 
   //first time slot starts at 0:00
