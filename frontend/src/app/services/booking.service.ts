@@ -13,7 +13,7 @@ export class BookingService {
   private readonly API_URL = environment.apiUrl;
   private bookings: BehaviorSubject<IResponse<IBooking[]>> = new BehaviorSubject<IResponse<IBooking[]>>({
     data: [],
-    currentTime: moment(0),
+    currentTime: 0,
   });
 
   private selectedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
@@ -53,10 +53,10 @@ export class BookingService {
     // bookings are momentJS objects
     // sort ascending
     bookings.sort((a, b) => {
-      if (a.start.isBefore(b.start)) {
+      if (moment(a.start).isBefore(b.start)) {
         return -1;
       }
-      if (a.start.isAfter(b.start)) {
+      if (moment(a.start).isAfter(b.start)) {
         return 1;
       }
       return 0;
@@ -93,7 +93,6 @@ export class BookingService {
     bookings.push(booking);
     this.selectedBookingsByUser.next(bookings);
     this.orderBookingsByStartTime();
-    console.log(bookings[0].start.format('DD.MM.YYYY HH:mm'));
   }
 
   public removeBooking(booking: IBooking): void {
@@ -116,10 +115,10 @@ export class BookingService {
       tap(response => {
         // Convert string to moment
         response.data.forEach(booking => {
-          booking.start = moment(booking.start);
-          booking.end = moment(booking.end);
+          booking.start = booking.start;
+          booking.end = booking.end;
         });
-        response.currentTime = moment(response.currentTime);
+
         this.bookings.next(response);
         console.log('found ', this.bookings.getValue().data.length, ' bookings');
       })
@@ -137,10 +136,10 @@ export class BookingService {
         tap(response => {
           // Convert string to moment
           response.data.forEach(booking => {
-            booking.start = moment(booking.start);
-            booking.end = moment(booking.end);
+            booking.start = booking.start;
+            booking.end = booking.end;
           });
-          response.currentTime = moment(response.currentTime);
+
           this.bookings.next(response);
           console.log('found ', this.bookings.getValue().data.length, ' bookings for ', date.toString());
         })

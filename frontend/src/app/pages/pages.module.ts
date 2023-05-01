@@ -10,6 +10,11 @@ import { PopupComponent } from './admins-edit/popup/popup.component';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HomeComponent } from './home/home.component';
+import { AdminsSettingsComponent } from './admins-settings/admins-settings.component';
+import { MasterSettingsComponent } from './master-settings/master-settings.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { InfoComponent } from './info/info.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +24,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AdminsOverviewComponent,
     AdminsEditComponent,
     PopupComponent,
+    HomeComponent,
+    AdminsSettingsComponent,
+    MasterSettingsComponent,
+    UserSettingsComponent,
+    InfoComponent,
   ],
   imports: [FontAwesomeModule, CommonModule, PagesRoutingModule, CoreModule, SharedModule],
 })

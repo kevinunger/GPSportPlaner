@@ -1,7 +1,7 @@
 import express from 'express';
 import { IBooking, Booking } from '../../models/Booking';
 import { IAdmin, Admin } from '../../models/Admin';
-import { IResponse } from '../../types/index';
+import { IResponse, IErrorResponse } from '../../../../frontend/src/app/types/index';
 import {
   getCurrentBookings,
   getBookingsOfDay,
@@ -12,10 +12,12 @@ import {
 const router = express.Router();
 const moment = require('moment-timezone');
 
+import { authUser, authAdmin, authMaster } from '../../controllers/auth/index';
+
 import * as adminController from '../../controllers/admins/index';
 
 // get all admins
-router.get('/', async (req, res) => {
+router.get('/', authUser, async (req, res) => {
   try {
     const admins = await adminController.getAllAdmins();
     const response = {
@@ -28,7 +30,7 @@ router.get('/', async (req, res) => {
 });
 
 // get all admins assigned to a day
-router.get('/day/:day', async (req, res) => {
+router.get('/day/:day', authUser, async (req, res) => {
   //parse day to Day type
   if (!req.params.day) {
     res.status(400).json({ message: 'Day is required' });
@@ -50,7 +52,7 @@ router.get('/day/:day', async (req, res) => {
 });
 
 // set admin
-router.post('/addAdmin', async (req, res) => {
+router.post('/addAdmin', authAdmin, async (req, res) => {
   if (!req.body) {
     res.status(400).json({ message: 'Admin is required' });
   }
@@ -70,7 +72,7 @@ router.post('/addAdmin', async (req, res) => {
 });
 
 //edit admin
-router.put('/editAdmin', async (req, res) => {
+router.put('/editAdmin', authAdmin, async (req, res) => {
   if (!req.body) {
     res.status(400).json({ message: 'Admin is required' });
   }

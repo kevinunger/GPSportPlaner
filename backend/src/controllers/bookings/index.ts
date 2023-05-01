@@ -1,5 +1,6 @@
 import { Booking } from '../../models/Booking';
-import { IBooking } from '../../types/index';
+import { IResponse, IErrorResponse, IBooking } from '../../../../frontend/src/app/types/index';
+
 import moment, { Moment } from 'moment-timezone';
 
 // always return the correct german local time and !!accounts for daylight saving time!!
@@ -10,20 +11,19 @@ export function getGermanLocalTime(): Moment {
 }
 
 // start > current time - 30min && end > current time
-export async function getCurrentBookings(currentTime: Moment) {
+export async function getCurrentBookings(currentTime: number) {
   const bookings = await Booking.find({
-    start: { $gte: currentTime.clone().subtract(30, 'minutes').format('YYYY-MM-DD') },
+    start: { $gte: moment(currentTime).clone().subtract(30, 'minutes').unix() },
   });
-  console.log(currentTime.clone().add(30, 'minutes').add(24, 'hours').toDate());
 
   // SORT BY START TIME DESCENDING
   bookings.sort((a, b) => {
-    const starta = moment(a.start);
-    const startb = moment(b.start);
-    if (starta.isBefore(startb)) {
+    const starta = a.start;
+    const startb = b.start;
+    if (moment(starta).isBefore(startb)) {
       return -1;
     }
-    if (starta.isAfter(startb)) {
+    if (moment(starta).isAfter(startb)) {
       return 1;
     }
     return 0;
@@ -33,20 +33,20 @@ export async function getCurrentBookings(currentTime: Moment) {
 }
 
 export async function getBookingsOfDay(day: Moment): Promise<IBooking[]> {
-  const startOfDayTime = day.clone().startOf('day');
-  const endOfDayTime = day.clone().endOf('day');
-  console.log(day);
+  const startOfDayTime = day.clone().startOf('day').unix();
+  const endOfDayTime = day.clone().endOf('day').unix();
   const bookings = await Booking.find({
-    start: { $gte: startOfDayTime.toDate(), $lte: endOfDayTime.toDate() },
-    end: { $gte: startOfDayTime.toDate(), $lte: endOfDayTime.toDate() },
+    start: { $gte: startOfDayTime, $lte: endOfDayTime },
+    end: { $gte: startOfDayTime, $lte: endOfDayTime },
   });
   return bookings;
 }
 
-export async function addBooking(bookings: IBooking[], currentTime: Moment) {
+export async function addBooking(bookings: IBooking[], currentTime: number) {
   // check if last booking is more than 24 hours from now
-  const lastBookingEnd = moment(bookings[bookings.length - 1].end);
-  const timeIn24Hours = currentTime.clone().add(24, 'hours');
+  const lastBookingEnd = moment.unix(bookings[bookings.length - 1].end);
+  const timeIn24Hours = moment.unix(currentTime + 86400);
+
   if (lastBookingEnd.isAfter(timeIn24Hours) || lastBookingEnd.isSame(timeIn24Hours)) {
     throw new Error('End of last booking is more than 24 hours from now');
   }
@@ -58,23 +58,25 @@ export async function addBooking(bookings: IBooking[], currentTime: Moment) {
 
   // check if bookings are in order and using correct types
   for (let i = 0; i < bookings.length; i++) {
+    const start = moment(bookings[i].start);
+    const end = moment(bookings[i].end);
     // check if the values are valid moment objects
-    if (!moment.isMoment(bookings[i].start) || !moment.isMoment(bookings[i].end)) {
+    if (!moment.isMoment(start) || !moment.isMoment(end)) {
       throw new Error('not a moment object');
     }
 
     // check if values are provided
-    if (!bookings[i].start || !bookings[i].end || !bookings[i].bookedBy) {
+    if (!start || !end || !bookings[i].bookedBy) {
       throw new Error('missing values');
     }
 
-    if (!bookings[i].start.isValid || !bookings[i].end.isValid || typeof bookings[i].bookedBy !== 'string') {
+    if (!start.isValid || !end.isValid || typeof bookings[i].bookedBy !== 'string') {
       throw new Error('wrong type');
     }
 
     // check if bookings are in order (start time of current booking is end of previous booking)
     if (i > 0) {
-      if (!bookings[i].start.isSame(bookings[i - 1].end)) {
+      if (!start.isSame(bookings[i - 1].end)) {
         throw new Error('Bookings not in order');
       }
     }

@@ -20,14 +20,13 @@ const MONGO_CONNECTION_STRING =
 
 // connect to mongodb
 export default async function connectMongo() {
-  console.log('MONGO_CONNECTION_STRING', MONGO_CONNECTION_STRING);
   await mongoose
     .connect(MONGO_CONNECTION_STRING)
     .then(() => {
       console.log('connected to mongo');
     })
     .catch((err: any) => {
-      console.log(err);
+      console.error(err);
     });
 }
 
@@ -42,7 +41,6 @@ export async function connectMongoTest() {
     useUnifiedTopology: true,
   } as mongoose.ConnectOptions;
   await mongoose.connect(uri, mongoOpts);
-  console.log('Connected to test db ', uri);
 }
 
 // disconnect and close test db
@@ -53,10 +51,12 @@ export async function closeMongoTest() {
 }
 
 // clear db, remove all data
-export async function clearMongoTest() {
+export async function clearMongoTest(excludeCollections = []) {
   const collections = mongoose.connection.collections;
   for (const key in collections) {
-    const collection = collections[key];
-    await collection.deleteMany();
+    if (!excludeCollections.includes(key)) {
+      const collection = collections[key];
+      await collection.deleteMany();
+    }
   }
 }

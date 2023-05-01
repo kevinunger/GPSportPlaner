@@ -1,10 +1,10 @@
 import { Schema, model, connect } from 'mongoose';
 
-import { IBooking } from '../types/index';
+import { IBooking } from '../../../frontend/src/app/types/index';
 
 const bookingsSchema = new Schema<IBooking>({
-  start: String,
-  end: String,
+  start: Number,
+  end: Number,
   bookedBy: String,
 });
 

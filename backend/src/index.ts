@@ -6,25 +6,21 @@ import connectMongo from './db/index';
 import bookingsRouter from './routes/bookings/index';
 import infoRouter from './routes/info/index';
 import adminsRouter from './routes/admins/index';
+import authRouter from './routes/auth/index';
+import { config } from 'dotenv';
 
+config();
 const path = require('path');
 
 const env = process.env.NODE_ENV || 'development';
-
-// path is ../ when running /dist/index.js
-const relativePath = env === 'development' ? '.' : '../';
 
 // load env variables from .env.development or .env.production
 dotenv.config({
   path: path.join(__dirname, `.env.${env}`),
 });
-console.log('-------');
-console.log(`${relativePath}env.${env}`);
-console.log('-------');
 
 const app = express();
 const port = process.env.PORT;
-console.log(port);
 
 // setup express middleware
 app.use(
@@ -39,6 +35,7 @@ app.use(express.json());
 app.use('/bookings', bookingsRouter);
 app.use('/info', infoRouter);
 app.use('/admins', adminsRouter);
+app.use('/auth', authRouter);
 
 app.get('/', (req: any, res: any) => {
   res.send('Express + TypeScript Server');
@@ -50,6 +47,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     console.log(`using env: ${env}`);
     console.log(`[server]: Server is running at http://localhost:${port}`);
+    console.log(process.env.JWT_SECRET);
   });
 }
 

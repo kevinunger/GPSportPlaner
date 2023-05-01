@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.infoService.checkIfBackendIsAlive();
     this.infoService.getBackendIsAlive().subscribe(backendIsAlive => {
-      console.log(backendIsAlive);
       this.backendIsAlive = backendIsAlive;
     });
   }

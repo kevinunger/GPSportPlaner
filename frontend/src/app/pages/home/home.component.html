@@ -1,0 +1,43 @@
+<div class="pageContainer">
+  <h1>Welcome to the home page!</h1>
+  <p>
+    This is the home page. It is the first page that the user sees when they visit the website. It is also the page that
+    the user is redirected to when they click on the logo in the top left corner of the screen.
+  </p>
+
+  <label for="name">Name</label>
+  <app-text-input
+    type="text"
+    [placeholder]="placeholderName"
+    [value]="name"
+    (input)="onInputName($event)"
+  ></app-text-input>
+
+  <app-text-input
+    type="text"
+    [placeholder]="placeholderHouse"
+    [value]="house"
+    (input)="onInputHouse($event)"
+  ></app-text-input>
+
+  <app-text-input
+    type="text"
+    [placeholder]="placeholderRoom"
+    [value]="room"
+    (input)="onInputRoom($event)"
+  ></app-text-input>
+
+  <app-text-input
+    type="password"
+    [placeholder]="placeholderPassword"
+    [value]="password"
+    (input)="onInputPassword($event)"
+  ></app-text-input>
+
+  <app-button
+    [errorLabelText]="errorLabelText"
+    [disabled]="!userCanSubmit"
+    [text]="'Login'"
+    (click)="$event.preventDefault(); onSubmit()"
+  ></app-button>
+</div>

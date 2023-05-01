@@ -9,6 +9,7 @@ import { MenuEntryComponent } from './header/menu-entry/menu-entry.component';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { ServerUnreachableComponent } from './server-unreachable/server-unreachable.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ServerUnreachableComponent } from './server-unreachable/server-unreacha
     MenuEntryComponent,
     FooterComponent,
     ServerUnreachableComponent,
+    RulesComponent,
   ],
   imports: [CommonModule, SharedModule, FontAwesomeModule, RouterModule],
   exports: [FooterComponent, HeaderComponent, TimeslotComponent, AdminslotComponent, ServerUnreachableComponent],

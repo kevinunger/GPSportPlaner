@@ -1,13 +1,12 @@
-import { Moment } from 'moment';
 export interface IBooking {
-  start: Moment;
-  end: Moment;
+  start: number;
+  end: number;
   bookedBy: string;
 }
 
 export interface IResponse<T> {
-  data: T | [];
-  currentTime: Moment;
+  data: T;
+  currentTime: number;
 }
 
 export interface IErrorResponse {
@@ -22,4 +21,31 @@ export interface IAdmin {
   roomNumber: string;
   houseNumber: string;
   isAvailable: boolean;
+}
+
+export interface ILoginData {
+  name: string;
+  house: string;
+  room: string;
+  password: string;
+}
+
+//enum roles
+export enum Role {
+  User = 'user',
+  Admin = 'admin',
+  Master = 'master',
+}
+
+export interface ILoginData {
+  name: string;
+  house: string;
+  room: string;
+  password: string;
+  role?: Role;
+}
+
+export interface IUserData {
+  role: string;
+  expDate: number;
 }
