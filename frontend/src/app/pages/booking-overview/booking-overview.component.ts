@@ -15,7 +15,7 @@ export class BookingOverviewComponent implements OnInit {
   faAngleLeft = faAngleLeft;
   private bookings: IResponse<IBooking[]> = {
     data: [],
-    currentTime: moment(0),
+    currentTime: 0,
   };
   public selectedDate: moment.Moment = moment();
   public selectedDateFormatted: string = this.selectedDate.format('DD MMM');
@@ -73,10 +73,10 @@ export class BookingOverviewComponent implements OnInit {
 
       // check if timeSlot is alrady booked by someone
       // check if there is a booking with the same start time
-      const booking = this.bookings.data.find(booking => booking.start.isSame(start));
+      const booking = this.bookings.data.find(booking => moment.unix(booking.start).isSame(start));
       this.timeSlots.push({
-        start: moment(start),
-        end: moment(end),
+        start: start,
+        end: end,
         bookedBy: booking?.bookedBy || '',
       });
     }

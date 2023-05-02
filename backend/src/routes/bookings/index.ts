@@ -1,23 +1,17 @@
 import express from 'express';
-import { IBooking, Booking } from '../../models/Booking';
 import { IResponse } from '../../../../frontend/src/app/types/index';
+import { Booking, IBooking } from '../../models/Booking';
 
-import {
-  getCurrentBookings,
-  getBookingsOfDay,
-  addBooking,
-  getGermanLocalTime,
-  deleteAllBookings,
-} from '../../controllers/bookings/index';
+import { addBooking, deleteAllBookings, getBookingsOfDay, getCurrentBookings } from '../../controllers/bookings/index';
 const router = express.Router();
 const moment = require('moment-timezone');
 
-import { authUser, authAdmin, authMaster } from '../../controllers/auth/index';
+import { authAdmin, authUser } from '../../controllers/auth/index';
 
 // just return all bookings
 router.get('/', authUser, async function (req, res) {
   const bookings = await Booking.find();
-  const currentTime = moment();
+  const currentTime = moment().unix();
 
   const response: IResponse<IBooking[]> = {
     data: bookings,
@@ -27,7 +21,7 @@ router.get('/', authUser, async function (req, res) {
 
   res.send({
     data: bookings,
-    currentTime: moment(),
+    currentTime: currentTime,
   });
 });
 
@@ -35,7 +29,7 @@ router.get('/', authUser, async function (req, res) {
 // start > current time - 30min && end > current time
 // start and end are timestamps
 router.get('/getCurrentBookings', authUser, async function (req, res) {
-  const currentTime = moment();
+  const currentTime = moment().unix();
   const bookings = await getCurrentBookings(currentTime);
 
   const response: IResponse<IBooking[]> = {
@@ -56,7 +50,7 @@ router.get('/getBookingsByDate', authUser, async function (req, res) {
   const day = moment(req.query.day);
   const bookingsOfDay = await getBookingsOfDay(day);
 
-  const currentTime = moment();
+  const currentTime = moment().unix();
 
   const response: IResponse<IBooking[]> = {
     data: bookingsOfDay,
@@ -74,9 +68,7 @@ router.post('/addBooking', authUser, async function (req, res) {
     bookings[i].end = moment(bookings[i].end);
   }
 
-  const currentTime = moment();
-
-  // check if bookings
+  const currentTime = moment().unix();
 
   try {
     const savedBookings = await addBooking(bookings, currentTime);
@@ -94,7 +86,7 @@ router.post('/addBooking', authUser, async function (req, res) {
 
 // delete all bookings
 router.delete('/deleteAll', authAdmin, async function (req, res) {
-  const currentTime = moment();
+  const currentTime = moment().unix();
   deleteAllBookings();
   res.send({
     data: 'all bookings deleted',

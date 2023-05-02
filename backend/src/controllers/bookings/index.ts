@@ -1,5 +1,5 @@
+import { IBooking } from '../../../../frontend/src/app/types/index';
 import { Booking } from '../../models/Booking';
-import { IResponse, IErrorResponse, IBooking } from '../../../../frontend/src/app/types/index';
 
 import moment, { Moment } from 'moment-timezone';
 

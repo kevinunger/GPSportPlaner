@@ -9,8 +9,8 @@ import * as moment from 'moment';
 })
 export class TimeslotComponent implements OnInit {
   @Input() timeslot: IBooking = {
-    start: moment(0),
-    end: moment(0),
+    start: 0,
+    end: 0,
     bookedBy: '',
   };
   start_formatted: string = ''; // HH:MM
@@ -36,20 +36,20 @@ export class TimeslotComponent implements OnInit {
 
   onCheck(): void {
     console.log('checked checkbox');
-    console.log(this.timeslot.start.format('HH mm'), this.timeslot.end.format('HH mm'), this.timeslot.bookedBy);
     this.bookingService.addBooking(this.timeslot);
     this.checked = true;
   }
+
   onUncheck(): void {
     console.log('unchecked checkbox');
-    console.log(this.timeslot.start.format('HH mm'), this.timeslot.end.format('HH mm'), this.timeslot.bookedBy);
     this.bookingService.removeBooking(this.timeslot);
     this.checked = false;
   }
 
   private formatInputs(): void {
-    this.start_formatted = this.timeslot.start.format('HH:mm');
-    this.end_formatted = this.timeslot.end.format('HH:mm');
-    this.day_formatted = this.timeslot.start.format('DD MMM');
+    console.log(this.timeslot.start);
+    this.start_formatted = moment.unix(this.timeslot.start).format('HH:mm');
+    this.end_formatted = moment.unix(this.timeslot.end).format('HH:mm');
+    this.day_formatted = moment.unix(this.timeslot.start).format('DD MMM');
   }
 }

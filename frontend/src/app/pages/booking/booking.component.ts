@@ -13,7 +13,7 @@ import * as moment from 'moment';
 export class BookingComponent implements OnInit {
   private bookings: IResponse<IBooking[]> = {
     data: [],
-    currentTime: moment(0),
+    currentTime: 0,
   };
 
   public timeSlots: IBooking[] = [];
@@ -99,10 +99,12 @@ export class BookingComponent implements OnInit {
   // if it's 16:49 the timeToStartFirstSlot is 16:30
   // if it's 17:01 the timeToStartFirstSlot is 17:00
   private createTimeSlots(): IBooking[] {
-    const currentTime = this.bookings.currentTime;
-    if (currentTime.valueOf() === 0) {
+    const currentTime = moment.unix(this.bookings.currentTime);
+    if (currentTime.unix() === 0) {
       return [];
     }
+
+    console.log(this.bookings.currentTime);
 
     // get the start of the current half hour
     // if it's 16:05 the timeToStartFirstSlot is 16:00
@@ -112,10 +114,12 @@ export class BookingComponent implements OnInit {
 
     let timeToStartFirstSlot: moment.Moment;
     if (currentTime.minute() < 30) {
-      timeToStartFirstSlot = moment(currentTime).startOf('hour');
+      timeToStartFirstSlot = currentTime.startOf('hour');
     } else {
-      timeToStartFirstSlot = moment(currentTime).startOf('hour').add(30, 'minutes');
+      timeToStartFirstSlot = currentTime.startOf('hour').add(30, 'minutes');
     }
+
+    console.log(timeToStartFirstSlot.format('HH:mm'));
 
     const timeSlots: IBooking[] = [];
     for (let i = 0; i < 48; i++) {
@@ -125,10 +129,10 @@ export class BookingComponent implements OnInit {
 
       // check if timeSlot is alrady booked by someone
       // check if there is a booking with the same start time
-      const booking = this.bookings.data.find(booking => booking.start.isSame(start));
+      const booking = this.bookings.data.find(booking => moment.unix(booking.start).isSame(start));
       timeSlots.push({
-        start: start,
-        end: end,
+        start: start.unix(),
+        end: end.unix(),
         bookedBy: booking?.bookedBy || '',
       });
     }

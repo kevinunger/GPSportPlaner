@@ -1,19 +1,17 @@
-import { authenticate, getPasswordOfRole } from '../controllers/auth/index';
-import { ILoginData } from '../models/Auth';
-import { connectMongoTest, closeMongoTest, clearMongoTest } from '../db/index';
 import { Role } from '../../../frontend/src/app/types/index';
+import { authenticate, getPasswordOfRole } from '../controllers/auth/index';
+import { clearMongoTest, closeMongoTest, connectMongoTest } from '../db/index';
+import { ILoginData } from '../models/Auth';
 
-import { createUsers, user_password_hashed, admin_password_hashed, master_password_hashed } from './testHelpers';
-import { invalid_token, valid_token_admin, valid_token_master, valid_token_user } from './testHelpers';
+import bcrypt from 'bcrypt';
 import { changePw } from '../controllers/auth';
 import { app } from '../index';
-import bcrypt from 'bcrypt';
+import { createUsers } from './testHelpers';
 
-import { expressjwt, ExpressJwtRequest } from 'express-jwt';
-import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Auth } from '../models/Auth';
 
 const request = require('supertest');
-import { Auth } from '../models/Auth';
 
 beforeAll(async () => {
   await connectMongoTest();

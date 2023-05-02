@@ -105,7 +105,7 @@ describe('Add Bookings Tests', () => {
 
   it('add a more than 4 bookings', async () => {
     let currentTime = moment('Sat 04 23 2023 16:00:00', 'MM DD YYYY HH:mm:ss').unix();
-    const startTime = moment('Sat 04 22 2023 15:30:00');
+    const startTime = moment('Sat 04 22 2023 15:30:00', 'MM DD YYYY HH:mm:ss');
     const sampleBookings = [
       {
         start: startTime.clone().unix(),
@@ -287,7 +287,7 @@ describe('Add Bookings Tests', () => {
         bookedBy: randomName1,
       },
     ];
-    const startTime2 = moment('Sun 04 23 2023 23:30:00');
+    const startTime2 = moment('Sun 04 23 2023 23:30:00', 'MM DD YYYY HH:mm:ss');
     const sampleBooking2 = [
       {
         start: startTime2.clone().unix(), // 23:30
@@ -330,4 +330,29 @@ describe('Add Bookings Tests', () => {
   });
 });
 
-describe('Get Bookings Test', () => {});
+describe('Get Bookings Test', () => {
+  it('GET /getCurrentBookings', async () => {
+    const res = await request(app)
+      .get('/bookings/getCurrentBookings')
+      .set('Authorization', `Bearer ${await valid_token_user()}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('currentTime');
+    expect(res.body).toHaveProperty('data');
+  });
+  it('GET /getCurrentBookings AUTH ERROR', async () => {
+    const res = await request(app)
+      .get('/bookings/getCurrentBookings')
+      .set('Authorization', `Bearer ${await invalid_token()}`);
+    expect(res.statusCode).toEqual(401);
+  });
+  it('GET /getCurrentBookings should include correct currentTime', async () => {
+    const res = await request(app)
+      .get('/bookings/getCurrentBookings')
+      .set('Authorization', `Bearer ${await valid_token_user()}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('currentTime');
+    // check if unix time stamp
+    const unixCurrentTime = res.body.currentTime;
+    expect(moment.unix(unixCurrentTime).isValid()).toEqual(true);
+  });
+});

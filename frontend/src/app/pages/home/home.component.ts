@@ -104,8 +104,10 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/booking']); // Navigate to the booking page after successful authentication
       },
       error => {
-        console.error('Authentication error:', error);
-        this.errorLabelText = 'Authentication failed. Please check your credentials.';
+        console.log('Authentication error:', error);
+        // this.errorLabelText = 'Authentication failed. Please check your credentials.';
+        this.userCanSubmit = false;
+        this.errorLabelText = error.error.error;
       }
     );
   }

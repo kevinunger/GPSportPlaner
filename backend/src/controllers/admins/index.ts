@@ -1,6 +1,4 @@
-import { IAdmin, Admin } from '../../models/Admin';
-
-import moment, { Moment } from 'moment-timezone';
+import { Admin, IAdmin } from '../../models/Admin';
 
 // get admin by providing IAdmin
 export async function getAdmin(admin: IAdmin): Promise<IAdmin> {

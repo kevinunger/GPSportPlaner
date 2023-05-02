@@ -10,10 +10,10 @@
 
   <div class="timingContainer">
     <h3>Deine Trainingszeit</h3>
-    <div *ngFor="let booking of bookings">
+    <div *ngFor="let booking; in: formatBookings">
       <p>
-        {{ booking.start.format('HH:mm') }} - {{ booking.end.format('HH:mm') }}
-        {{ booking.start.format('MMM DD (dddd)') }}
+        {{ booking.start }} - {{ booking.end }}
+        {{ booking.startx }}
       </p>
     </div>
   </div>

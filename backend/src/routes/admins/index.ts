@@ -1,18 +1,9 @@
 import express from 'express';
-import { IBooking, Booking } from '../../models/Booking';
-import { IAdmin, Admin } from '../../models/Admin';
-import { IResponse, IErrorResponse } from '../../../../frontend/src/app/types/index';
-import {
-  getCurrentBookings,
-  getBookingsOfDay,
-  addBooking,
-  getGermanLocalTime,
-  deleteAllBookings,
-} from '../../controllers/bookings/index';
+import { IAdmin } from '../../models/Admin';
 const router = express.Router();
 const moment = require('moment-timezone');
 
-import { authUser, authAdmin, authMaster } from '../../controllers/auth/index';
+import { authAdmin, authUser } from '../../controllers/auth/index';
 
 import * as adminController from '../../controllers/admins/index';
 

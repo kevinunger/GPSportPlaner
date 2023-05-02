@@ -1,17 +1,16 @@
-import { connectMongoTest, closeMongoTest, clearMongoTest } from '../db/index';
+import { Day, IAdmin, IResponse } from '../../../frontend/src/app/types/index';
+import { clearMongoTest, closeMongoTest, connectMongoTest } from '../db/index';
 import { Admin } from '../models/Admin';
-import { Role, IAdmin, Day, IResponse } from '../../../frontend/src/app/types/index';
 
-import * as adminController from '../controllers/admins/index';
 import mongoose from 'mongoose';
+import * as adminController from '../controllers/admins/index';
+import { createUsers, valid_token_admin, valid_token_user } from './testHelpers';
 const request = require('supertest');
 const express = require('express');
 const assert = require('assert');
-import { createUsers, invalid_token, valid_token_admin, valid_token_master, valid_token_user } from './testHelpers';
 
-import { changePw } from '../controllers/auth';
-import { app } from '../index';
 import bcrypt from 'bcrypt';
+import { app } from '../index';
 
 const user_password_hashed = bcrypt.hashSync('user_password', 10);
 const admin_password_hashed = bcrypt.hashSync('admin_password', 10);

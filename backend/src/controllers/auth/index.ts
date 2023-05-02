@@ -1,12 +1,7 @@
-import { IAdmin, Admin } from '../../models/Admin';
-import { ILoginData, Auth, IUserData, Role } from '../../models/Auth';
-import { IResponse, IErrorResponse } from '../../../../frontend/src/app/types/index';
-import { Types } from 'mongoose';
-import moment, { Moment } from 'moment-timezone';
-import { expressjwt, ExpressJwtRequest } from 'express-jwt';
-import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
-import { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
+import { NextFunction, Response } from 'express';
+import { ExpressJwtRequest } from 'express-jwt';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Auth, ILoginData, Role } from '../../models/Auth';
 
 const bcrypt = require('bcrypt');
 
