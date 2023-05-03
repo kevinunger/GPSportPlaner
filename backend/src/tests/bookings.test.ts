@@ -1,6 +1,12 @@
 import { connectMongoTest, closeMongoTest, clearMongoTest } from '../db/index';
 import { Booking } from '../models/Booking';
-import { getGermanLocalTime, addBooking, getCurrentBookings, getBookingsOfDay } from '../controllers/bookings';
+import {
+  getGermanLocalTime,
+  deleteAllBookings,
+  addBooking,
+  getCurrentBookings,
+  getBookingsOfDay,
+} from '../controllers/bookings';
 import moment, { Moment } from 'moment-timezone';
 
 const request = require('supertest');
@@ -328,9 +334,34 @@ describe('Add Bookings Tests', () => {
     // this should return all of them
     expect(bookings.length).toEqual(6);
   });
+  it('Check if deleteAllBookings works', async () => {
+    const currentTime = moment('Sun 04 23 2023 16:00:00', 'MM DD YYYY HH:mm:ss').unix();
+    const startTime = moment('Sun 04 23 2023 14:00:00', 'MM DD YYYY HH:mm:ss');
+    const randomName1 = (Math.random() + 1).toString(36).substring(7);
+    const sampleBooking1 = [
+      {
+        start: startTime.clone().unix(), // 14:00
+        end: startTime.clone().add(30, 'minutes').unix(), // 14:30
+        bookedBy: randomName1,
+      },
+      {
+        start: startTime.clone().add(30, 'minutes').unix(), // 14:30
+        end: startTime.clone().add(60, 'minutes').unix(), // 15:00
+        bookedBy: randomName1,
+      },
+    ];
+
+    const res1 = await addBooking(sampleBooking1, currentTime);
+    expect(res1).not.toBeNull();
+
+    // delete all
+    await deleteAllBookings();
+    const bookings = await getCurrentBookings(currentTime);
+    expect(bookings.length).toEqual(0);
+  });
 });
 
-describe('Get Bookings Test', () => {
+describe('Router Bookings Test', () => {
   it('GET /getCurrentBookings', async () => {
     const res = await request(app)
       .get('/bookings/getCurrentBookings')
@@ -354,5 +385,19 @@ describe('Get Bookings Test', () => {
     // check if unix time stamp
     const unixCurrentTime = res.body.currentTime;
     expect(moment.unix(unixCurrentTime).isValid()).toEqual(true);
+  });
+  it('DELETE /deleteAll should delete all bookings', async () => {
+    const res = await request(app)
+      .delete('/bookings/deleteAll')
+      .set('Authorization', `Bearer ${await valid_token_admin()}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('data');
+    expect(res.body.data).toEqual('All bookings deleted');
+  });
+  it('DELETE /deleteAll AUTH ERROR', async () => {
+    const res = await request(app)
+      .delete('/bookings/deleteAll')
+      .set('Authorization', `Bearer ${await valid_token_user()}`);
+    expect(res.statusCode).toEqual(401);
   });
 });

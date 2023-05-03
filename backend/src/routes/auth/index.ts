@@ -6,7 +6,7 @@ const router = express.Router();
 const moment = require('moment-timezone');
 
 router.post('/login', async function (req, res) {
-  if (!req.body.name || !req.body.password || !req.body.house || !req.body.rooom) {
+  if (!req.body.name || !req.body.password || !req.body.house || !req.body.room) {
     res.status(400).send({ error: 'name, password, house and room are required' });
   }
   try {

@@ -43,6 +43,7 @@ export async function getBookingsOfDay(day: Moment): Promise<IBooking[]> {
 }
 
 export async function addBooking(bookings: IBooking[], currentTime: number) {
+  console.log(bookings[0].bookedBy);
   // check if last booking is more than 24 hours from now
   const lastBookingEnd = moment.unix(bookings[bookings.length - 1].end);
   const timeIn24Hours = moment.unix(currentTime + 86400);
@@ -60,14 +61,10 @@ export async function addBooking(bookings: IBooking[], currentTime: number) {
   for (let i = 0; i < bookings.length; i++) {
     const start = moment(bookings[i].start);
     const end = moment(bookings[i].end);
-    // check if the values are valid moment objects
-    if (!moment.isMoment(start) || !moment.isMoment(end)) {
-      throw new Error('not a moment object');
-    }
 
     // check if values are provided
-    if (!start || !end || !bookings[i].bookedBy) {
-      throw new Error('missing values');
+    if (!moment.isMoment(start) || !moment.isMoment(end) || !bookings[i].bookedBy) {
+      throw new Error(`missing values ${bookings[i].bookedBy}`);
     }
 
     if (!start.isValid || !end.isValid || typeof bookings[i].bookedBy !== 'string') {
@@ -114,5 +111,9 @@ export async function addBooking(bookings: IBooking[], currentTime: number) {
 }
 // delete all bookings from db
 export async function deleteAllBookings() {
-  await Booking.deleteMany({});
+  try {
+    await Booking.deleteMany({});
+  } catch (err) {
+    throw new Error(err);
+  }
 }

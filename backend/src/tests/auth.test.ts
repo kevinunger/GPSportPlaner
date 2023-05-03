@@ -202,6 +202,75 @@ describe('Login tests', () => {
 
   //   await expect(changePw(oldPassword, newPassword, role)).rejects.toThrow('Invalid oldPassword');
   // });
+});
 
-  // // Add more tests as needed
+describe('Auth routing tests', () => {
+  test('POST /auth/login should return a valid token', async () => {
+    const loginData: ILoginData = {
+      name: 'kevin',
+      house: '9',
+      room: '0607',
+      password: 'user_password',
+    };
+
+    const res = await request(app).post('/auth/login').send(loginData);
+    expect(res.status).toBe(200);
+    expect(res.body.data).toBeDefined();
+    // token should be a string
+    expect(typeof res.body.data).toBe('string');
+  });
+  test('POST /auth/login should return an error for invalid login data', async () => {
+    const loginData: ILoginData = {
+      name: 'Test User',
+      house: '9',
+      room: '123',
+      password: 'invalid_password',
+    };
+
+    const res = await request(app).post('/auth/login').send(loginData);
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe('Invalid password');
+  });
+  test('POST /auth/login should return an error if name, house or room are invalid', async () => {
+    const loginData: ILoginData = {
+      name: 'Test User',
+      house: '9000000', // should be 9 or 11
+      room: '123', // should be 3 or 4 digits
+      password: 'doesnt matter',
+    };
+
+    const res = await request(app).post('/auth/login').send(loginData);
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe('Invalid house number');
+  });
+
+  test('POST /auth/login should return an error if name, house or room are invalid', async () => {
+    const loginData: ILoginData = {
+      name: 'Test User',
+      house: '9000000', // should be 9 or 11
+      room: '123', // should be 3 or 4 digits
+      password: 'doesnt matter',
+    };
+
+    const res = await request(app).post('/auth/login').send(loginData);
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe('Invalid house number');
+  });
+
+  test('POST /auth/login should return an error if name, house or room are invalid', async () => {
+    const loginData: ILoginData = {
+      name: 'Test User',
+      house: '9000000', // should be 9 or 11
+      room: '123', // should be 3 or 4 digits
+      password: 'doesnt matter',
+    };
+
+    const res = await request(app).post('/auth/login').send(loginData);
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe('Invalid house number');
+  });
 });

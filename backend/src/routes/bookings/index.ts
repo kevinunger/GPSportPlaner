@@ -87,11 +87,18 @@ router.post('/addBooking', authUser, async function (req, res) {
 // delete all bookings
 router.delete('/deleteAll', authAdmin, async function (req, res) {
   const currentTime = moment().unix();
-  deleteAllBookings();
-  res.send({
-    data: 'all bookings deleted',
-    currentTime,
-  });
+  try {
+    await deleteAllBookings();
+    res.send({
+      data: 'All bookings deleted',
+      currentTime,
+    });
+  } catch (err) {
+    res.status(400).send({
+      error: err.message,
+      currentTime,
+    });
+  }
 });
 
 export default router;

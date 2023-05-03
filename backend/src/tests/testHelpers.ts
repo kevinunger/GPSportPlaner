@@ -24,13 +24,6 @@ export async function createUsers() {
   await changePw('oldPassword', 'master_password', Role.Master);
 }
 
-export async function loginUser() {
-  return await request(app).post('/api/login').send({
-    username: 'user',
-    password: 'user_password',
-  });
-}
-
 const valid_token_user = async () =>
   await jwt.sign(
     {
