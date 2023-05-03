@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IResponse, IBooking, IErrorResponse } from '../../../types/index';
+import { IResponse, IBooking, IErrorResponse, IAdmin } from '../../../types/index';
 import { BookingService } from '../../../services/booking.service';
+import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
 
 interface FormattedBookings {
@@ -16,18 +17,45 @@ interface FormattedBookings {
   styleUrls: ['./booking-confirmation.component.scss'],
 })
 export class BookingConfirmationComponent implements OnInit {
-  bookings: IBooking[] = [];
   formattedBookings: FormattedBookings[] = [];
-  constructor(private bookingService: BookingService) {}
+  bookings: IBooking[] = [];
+  adminsOfDays: IAdmin[][] = [];
+  constructor(private bookingService: BookingService, private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.bookingService.getConfirmedBookingsByUser().subscribe((response: IBooking[]) => {
+      this.formatBookings(response);
       this.bookings = response;
+    });
+
+    this.adminService.getAdmins().subscribe((admins: IAdmin[]) => {
+      // get the day of bookings (one day if bookings are on the same day)
+      let days: string[] = [];
+      this.bookings.map((booking: IBooking) => {
+        let day1 = moment.unix(booking.start).format('dddd');
+        let day2 = moment.unix(booking.end).format('dddd');
+        if (!days.includes(day1)) days.push(day1);
+        if (!days.includes(day2)) days.push(day2);
+      });
+      // get all admins of days
+      this.adminsOfDays = [];
+      days.map((day: string) => {
+        let adminsOfDay: IAdmin[] = [];
+        admins.map((admin: IAdmin) => {
+          if (admin.assignedDay.includes(day)) adminsOfDay.push(admin);
+        });
+        this.adminsOfDays.push(adminsOfDay);
+      });
+      let isEmpty: boolean = true;
+      this.adminsOfDays.forEach((admins: IAdmin[]) => {
+        if (admins.length !== 0) isEmpty = false;
+      });
+      if (isEmpty) this.adminsOfDays = [];
     });
   }
 
-  formatBookings(): void {
-    this.formattedBookings = this.bookings.map((booking: IBooking) => {
+  formatBookings(bookings: IBooking[]): void {
+    this.formattedBookings = bookings.map((booking: IBooking) => {
       return {
         start: moment.unix(booking.start).format('HH:mm').toString(),
         end: moment.unix(booking.end).format('HH:mm').toString(),

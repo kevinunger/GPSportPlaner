@@ -10,11 +10,27 @@
 
   <div class="timingContainer">
     <h3>Deine Trainingszeit</h3>
-    <div *ngFor="let booking; in: formatBookings">
+    <div *ngFor="let booking of formattedBookings">
       <p>
         {{ booking.start }} - {{ booking.end }}
         {{ booking.startx }}
       </p>
     </div>
+  </div>
+  <div *ngIf="adminsOfDays.length > 0" class="adminContainer">
+    <h4>Bei den folgenden Personen kannst du dir einen Schlüssel holen:</h4>
+    <ng-container *ngFor="let day of adminsOfDays">
+      <!-- <span class="adminDayText">{{ day[0].assignedDay }}</span> -->
+      <ng-container *ngFor="let admin of day">
+        <app-adminslot
+          [name]="admin.name"
+          [phoneNumber]="admin.phoneNumber"
+          [isAvailable]="admin.isAvailable"
+          [roomNumber]="admin.roomNumber"
+          [houseNumber]="admin.houseNumber"
+        >
+        </app-adminslot>
+      </ng-container>
+    </ng-container>
   </div>
 </div>

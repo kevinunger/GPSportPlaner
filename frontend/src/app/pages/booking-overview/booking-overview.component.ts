@@ -25,12 +25,17 @@ export class BookingOverviewComponent implements OnInit {
   constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
-    this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate);
-
-    this.bookingService.getBookings().subscribe(bookings => {
-      this.bookings = bookings;
-      this.createTimeSlots();
-    });
+    this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate).subscribe(
+      () => {
+        this.bookingService.getBookings().subscribe(bookings => {
+          this.bookings = bookings;
+          this.timeSlots = this.createTimeSlots();
+        });
+      },
+      (error: IErrorResponse) => {
+        console.error('Error fetching and updating bookings:', error);
+      }
+    );
   }
 
   public onDateChange(direction: 'next' | 'previous') {
@@ -42,7 +47,6 @@ export class BookingOverviewComponent implements OnInit {
     this.selectedDateFormatted = this.selectedDate.format('DD MMM');
     // to string
     this.selectedDate.toString();
-    console.log(this.selectedDate.toString());
     this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate).subscribe();
 
     // check if this.selectedDate is the current day
@@ -51,34 +55,31 @@ export class BookingOverviewComponent implements OnInit {
 
   //first time slot starts at 0:00
   // last ends at 24:00
-  private createTimeSlots(): void {
+  private createTimeSlots(): IBooking[] {
     const currentTime = this.selectedDate;
-    if (currentTime.valueOf() === 0) {
-      return;
+    if (currentTime.unix() === 0) {
+      return [];
     }
-    this.timeSlots = [];
-    console.log('currentTime object:', currentTime);
 
-    console.log(currentTime.valueOf());
-    console.log(currentTime.minutes());
+    let timeToStartFirstSlot: moment.Moment;
+    timeToStartFirstSlot = currentTime.startOf('day');
+    console.log(timeToStartFirstSlot.format('HH:mm'));
 
-    const MILLISECONDS_IN_MINUTE = 60 * 1000;
-    const MILLISECONDS_IN_HALF_HOUR = 30 * MILLISECONDS_IN_MINUTE;
-
-    const startTimeOfDay = currentTime.startOf('day');
-
+    const timeSlots: IBooking[] = [];
     for (let i = 0; i < 48; i++) {
-      const start = startTimeOfDay.valueOf() + i * MILLISECONDS_IN_HALF_HOUR;
-      const end = start + MILLISECONDS_IN_HALF_HOUR;
+      const start = timeToStartFirstSlot.clone().add(i * 30, 'minutes');
+      const end = start.clone().add(30, 'minutes');
+      // console.log(start.format('HH:mm'), end.format('HH:mm'));
 
       // check if timeSlot is alrady booked by someone
       // check if there is a booking with the same start time
       const booking = this.bookings.data.find(booking => moment.unix(booking.start).isSame(start));
-      this.timeSlots.push({
-        start: start,
-        end: end,
+      timeSlots.push({
+        start: start.unix(),
+        end: end.unix(),
         bookedBy: booking?.bookedBy || '',
       });
     }
+    return timeSlots;
   }
 }
