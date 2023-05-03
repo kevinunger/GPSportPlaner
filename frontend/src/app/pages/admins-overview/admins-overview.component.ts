@@ -34,11 +34,6 @@ export class AdminsOverviewComponent implements OnInit {
 
   sortedAdminsPerDay: { day: string; admins: IAdmin[] }[] = [];
 
-  sortDays(a: KeyValue<string, IAdmin[]>, b: KeyValue<string, IAdmin[]>): number {
-    const order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    return order.indexOf(a.key) - order.indexOf(b.key);
-  }
-
   ngOnInit(): void {
     this.adminService.fetchAndSetAdmins().subscribe(
       () => {

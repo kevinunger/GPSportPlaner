@@ -20,7 +20,6 @@ export class MenuEntryComponent implements OnInit {
   @Input() link: string = '';
   @Input() icon_name: string = '';
   icon: IconProp = faPencil;
-  // event
 
   constructor() {}
 

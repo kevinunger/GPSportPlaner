@@ -6,6 +6,8 @@ import { IResponse, IBooking, IErrorResponse } from '../types/index';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+
+import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,9 +20,8 @@ export class BookingService {
 
   private selectedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
   private confirmedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
-  private enteredName: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   public getBookings(): Observable<IResponse<IBooking[]>> {
     return this.bookings.asObservable();
@@ -35,17 +36,7 @@ export class BookingService {
   }
 
   public setConfirmedBookingsByUser(bookings: IBooking[]): void {
-    console.log('setConfirmedBookingsByUser');
-    console.log(bookings);
     this.confirmedBookingsByUser.next(bookings);
-  }
-
-  public getEnteredName(): Observable<string> {
-    return this.enteredName.asObservable();
-  }
-
-  public setEnteredName(name: string): void {
-    this.enteredName.next(name);
   }
 
   private orderBookingsByStartTime(): void {
@@ -149,6 +140,13 @@ export class BookingService {
   public submitBookings(bookings: IBooking[]): Observable<IResponse<IBooking[]> | IErrorResponse> {
     console.log('submitBookings');
     console.log(bookings);
+
+    const name = this.authService.getName();
+
+    // add name to bookings
+    bookings.forEach(booking => {
+      booking.bookedBy = name;
+    });
 
     const subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
 

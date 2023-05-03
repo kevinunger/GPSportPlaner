@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -31,15 +31,14 @@ export class HomeComponent implements OnInit {
   checkAndRedirect() {
     const expiresIn = this.authService.getTokenExpirationDate();
     if (expiresIn) {
-      console.log('expiresIn: ' + expiresIn + ' seconds');
-      // in days
-      console.log('expiresIn: ' + expiresIn / 60 / 60 / 24 + ' days');
-
       if (expiresIn >= 0) {
+        // 1.5 weeks
         if (expiresIn >= 1.5 * 7 * 24 * 60 * 60) {
-          // 1.5 weeks
+          this.authService.initToken();
           this.router.navigate(['/booking']);
-        } else {
+        }
+        // jwt expired
+        else {
           // Get a new token from the backend and then redirect
           this.authService.refreshToken().subscribe(
             () => {

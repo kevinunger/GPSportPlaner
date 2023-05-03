@@ -35,19 +35,16 @@ export class TimeslotComponent implements OnInit {
   }
 
   onCheck(): void {
-    console.log('checked checkbox');
     this.bookingService.addBooking(this.timeslot);
     this.checked = true;
   }
 
   onUncheck(): void {
-    console.log('unchecked checkbox');
     this.bookingService.removeBooking(this.timeslot);
     this.checked = false;
   }
 
   private formatInputs(): void {
-    console.log(this.timeslot.start);
     this.start_formatted = moment.unix(this.timeslot.start).format('HH:mm');
     this.end_formatted = moment.unix(this.timeslot.end).format('HH:mm');
     this.day_formatted = moment.unix(this.timeslot.start).format('DD MMM');
