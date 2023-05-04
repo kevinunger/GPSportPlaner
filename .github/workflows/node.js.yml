@@ -27,7 +27,7 @@ jobs:
       working-directory: ./backend
     - run: npm run build --if-present
       working-directory: ./backend
-    - run: npm run test
+    - run: export $NODE_ENV=test && npm run test
       working-directory: ./backend
     - name: source env vars
       working-directory: ./backend
