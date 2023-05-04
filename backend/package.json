@@ -7,7 +7,7 @@
     "test": "jest --clearCache && jest --detectOpenHandles",
     "testWatch": "jest --clearCache && jest --watchAll",
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/backend/src/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\""
   },
   "author": "kevin unger",
