@@ -28,8 +28,9 @@ jobs:
     - run: npm ci
       working-directory: ./backend
 
-    - run: export $NODE_ENV=test && npm run test
+    - run: export $NODE_ENV=test
       working-directory: ./backend
+    - run: npm run test
     - name: source env vars
       working-directory: ./backend
       run: source /home/gps/envs/envs.sh
