@@ -20,7 +20,7 @@ interface MenuEntry {
 })
 export class HeaderComponent implements OnInit {
   faBars = faBars;
-  menuActive = true;
+  menuActive = false;
   headerTitle = '';
 
   userRole: Role = Role.User;
