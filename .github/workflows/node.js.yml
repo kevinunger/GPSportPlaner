@@ -3,8 +3,10 @@ name: Build, Test and Deploy Backend
 on:
   push:
     branches: [ "main" ]
+    paths: backend/**
   pull_request:
     branches: [ "main" ]
+   
 
 jobs:
   build:
