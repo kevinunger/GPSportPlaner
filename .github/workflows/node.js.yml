@@ -30,6 +30,7 @@ jobs:
     - run: echo "{NODE_ENV}={test}" >> $GITHUB_ENV
       working-directory: ./backend
     - run: npm run test
+      working-directory: ./backend
     - name: source env vars
       working-directory: ./backend
       run: source /home/gps/envs/envs.sh
