@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { Role } from 'src/app/types';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface MenuEntry {
   title: string;
   link: string;
   icon_name: string;
   headerTitle: string;
+  onlyAdmin?: boolean;
+  onlyMaster?: boolean;
 }
 
 @Component({
@@ -16,8 +20,10 @@ interface MenuEntry {
 })
 export class HeaderComponent implements OnInit {
   faBars = faBars;
-  menuActive = false;
+  menuActive = true;
   headerTitle = '';
+
+  userRole: Role = Role.User;
 
   menuEntries: MenuEntry[] = [
     {
@@ -38,9 +44,23 @@ export class HeaderComponent implements OnInit {
       link: '/admins',
       icon_name: 'faKey',
     },
+    {
+      headerTitle: 'Regeln',
+      title: 'Regeln',
+      link: '/rules',
+      icon_name: 'faBook',
+    },
+    // Admins only
+    {
+      headerTitle: 'Adminbereich',
+      title: 'Adminbereich',
+      link: '/admins/edit',
+      icon_name: 'faUserShield',
+      onlyAdmin: true,
+    },
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     router.events.subscribe(val => {
       // see also
       // check which router is active
@@ -54,7 +74,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnChanges(): void {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userRole = this.authService.getRole();
+  }
 
   onToggleMenu() {
     console.log('toggle menu');

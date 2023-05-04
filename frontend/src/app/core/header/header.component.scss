@@ -5,13 +5,15 @@
   left: 0;
   width: 100%;
   height: 70px;
-  box-shadow: 0 2px 10px rgba(3, 3, 3, 0.1);
   background: #ffffff;
+  box-shadow: 0 2px 10px rgba(3, 3, 3, 0.1);
 }
+
 .headerText {
   color: #030303;
   position: relative;
   text-align: center;
+  font-size: 24px;
 }
 
 .menuBtn {
@@ -20,12 +22,11 @@
   right: 0;
   height: 100%;
   width: 50px;
-  cursor: pointer;
-  z-index: 3000;
   background: none;
   border: none;
+  cursor: pointer;
+  z-index: 3000;
 
-  // style svg
   fa-icon {
     font-size: 30px;
   }
@@ -34,23 +35,37 @@
 .menu {
   position: fixed;
   z-index: 2000;
-  padding-top: 100px;
   top: 0;
   right: 0;
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  padding-top: 100px;
   background: #ffffff;
+  border-radius: 10px;
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
+
   &.menuActive {
     transform: translateX(40%);
     box-shadow: 0px 33px 25px 0 #000, 0 99px 5px 0px #fff;
   }
-  // inner
-  .menuInner {
-    // transform: translateX(-30%);
-  }
+}
+
+.menuInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+}
+
+.divider {
+  display: block;
+  width: 50%;
+  height: 2px;
+  background: #030303;
+  margin: 15px auto;
+  transform: translateX(-40%);
 }
 
 .backdrop {
@@ -60,15 +75,11 @@
   left: 0;
   height: 100vh;
   width: 100%;
-  /* background gradient */
   background: none;
   transition: background 3s ease-in-out;
+
   &.backdropActive {
     background: linear-gradient(90deg, rgba(3, 3, 3, 0.1) 0%, rgba(3, 3, 3, 0.01) 100%);
     transition: background 3s ease-in-out;
   }
-}
-
-* {
-  // outline: 1px solid aquamarine;
 }

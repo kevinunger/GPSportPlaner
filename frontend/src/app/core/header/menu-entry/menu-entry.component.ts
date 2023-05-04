@@ -2,12 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 // load all icons
-import { faPencil, faClock, faKey, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faClock, faKey, IconDefinition, faUserShield } from '@fortawesome/free-solid-svg-icons';
 
 const iconMap: Record<string, IconDefinition> = {
   faPencil: faPencil,
   faClock: faClock,
   faKey: faKey,
+  faUserShield: faUserShield,
 };
 
 @Component({

@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { BookingService } from 'src/app/services/booking.service';
-import { IResponse, IBooking, IErrorResponse } from '../../types/index';
-import { combineLatest } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { BookingService } from 'src/app/services/booking.service';
+import { IBooking, IResponse } from '../../types/index';
 
 @Component({
   selector: 'app-booking',
@@ -24,54 +25,51 @@ export class BookingComponent implements OnInit {
   public userCanSubmit: boolean = false;
   public errorLabelText: string = 'Gib bitte deinen Namen ein!';
 
-  constructor(private bookingService: BookingService) {}
+  constructor(
+    private adminService: AdminService,
+    private bookingService: BookingService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.adminService.fetchAndSetAdmins().subscribe(
+      () => {
+        console.log('Admins fetched and updated successfully');
+      },
+      error => {
+        console.error('Error fetching and updating admins:', error);
+        this.error = error.message;
+      }
+    );
     this.bookingService.fetchAndUpdateBookings().subscribe(
       () => {
         console.log('Bookings fetched and updated successfully');
       },
       error => {
-        // Handle the error, e.g., show an error message to the user
         console.error('Error fetching and updating bookings:', error);
         this.error = error.message;
       }
     );
 
     this.bookingService.getBookings().subscribe(bookings => {
-      console.log(bookings);
       this.bookings = bookings;
       this.timeSlots = this.createTimeSlots();
-      console.log(bookings.currentTime);
     });
 
-    combineLatest([this.bookingService.getSelectedBookingsByUser(), this.bookingService.getEnteredName()]).subscribe(
-      ([timeslots, name]) => {
-        this.selectedTimeSlots = timeslots;
-        this.userName = name;
+    this.bookingService.getSelectedBookingsByUser().subscribe(timeslots => {
+      this.selectedTimeSlots = timeslots;
+      this.userName = this.authService.getName();
 
-        if (timeslots.length === 0) {
-          this.userCanSubmit = false;
-          this.errorLabelText = 'Du musst mindestens eine Buchung wählen!';
-        } else if (name.length === 0) {
-          this.userCanSubmit = false;
-          this.errorLabelText = 'Gib bitte deinen Namen ein!';
-        } else {
-          this.userCanSubmit = true;
-        }
+      if (timeslots.length === 0) {
+        this.userCanSubmit = false;
+        this.errorLabelText = 'Du musst mindestens eine Buchung wählen!';
+      } else if (this.userName.length === 0) {
+        this.userCanSubmit = false;
+        this.errorLabelText = 'Gib bitte deinen Namen ein!';
+      } else {
+        this.userCanSubmit = true;
       }
-    );
-  }
-
-  public onNameInput(event: any): void {
-    if (event.target.value.length > 0) {
-      this.userCanSubmit = true;
-    } else {
-      this.userCanSubmit = false;
-    }
-
-    this.bookingService.changeNameOfBookings(event.target.value);
-    this.bookingService.setEnteredName(event.target.value);
+    });
   }
 
   public onSubmit(): void {
@@ -82,9 +80,12 @@ export class BookingComponent implements OnInit {
         this.bookingService.setConfirmedBookingsByUser(timeSlots);
         this.successFullSumbission = true;
       },
-      (error: IErrorResponse) => {
+      (error: HttpErrorResponse) => {
         this.successFullSumbission = false;
         console.error(error);
+        console.log(error);
+        this.errorLabelText = error.error.error;
+        this.userCanSubmit = false;
       }
     );
   }

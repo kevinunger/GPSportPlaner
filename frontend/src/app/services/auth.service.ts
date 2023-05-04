@@ -23,16 +23,43 @@ export class AuthService {
     return localStorage.getItem('jwt');
   }
 
+  getName(): string {
+    return this.name;
+  }
+
+  getRole(): Role {
+    console.log('role:', this.role);
+    return this.role;
+  }
+
+  getRoomNumber(): string {
+    return this.roomNumber;
+  }
+
+  getHouseNumber(): string {
+    return this.houseNumber;
+  }
+
+  setLoginData(decodedTokenString: ILoginData): void {
+    this.name = decodedTokenString.name;
+    this.roomNumber = decodedTokenString.room;
+    this.houseNumber = decodedTokenString.house;
+    this.role = decodedTokenString.role!;
+  }
+
+  initToken(): void {
+    const token = this.getToken();
+    if (token) {
+      const decoded = jwt_decode(token) as ILoginData;
+      this.setLoginData(decoded);
+    }
+  }
+
   setToken(token: string): void {
     localStorage.setItem('jwt', token);
-    // const jwtPayload = JSON.parse(token.split('.')[1]);
-    //decode jwt and get the data
     const decoded = jwt_decode(token) as ILoginData;
-    console.log('jwtPayload:', decoded);
-    this.name = decoded.name;
-    this.roomNumber = decoded.room;
-    this.houseNumber = decoded.house;
-    this.role = decoded.role!;
+
+    this.setLoginData(decoded);
   }
 
   authenticate(loginData: ILoginData): Observable<IResponse<string>> {

@@ -19,6 +19,8 @@ export class AuthGuard implements CanActivate {
     const jwtPayload = JSON.parse(atob(token.split('.')[1]));
     const userRole = jwtPayload.role;
 
+    this.authService.setLoginData(jwtPayload);
+
     const expectedRole = route.data['expectedRole'];
 
     const roleHierarchy = ['user', 'admin', 'master'];

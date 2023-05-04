@@ -10,11 +10,7 @@
     <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"> </app-timeslot>
   </div>
 
-  <!-- <pre>
-      {{ selectedTimeSlots | json }}
-  </pre> -->
-
-  <app-text-input [placeholder]="'Name eintragen'" [value]="userName" (input)="onNameInput($event)"></app-text-input>
+  <!-- <app-text-input [placeholder]="'Name eintragen'" [value]="userName" (input)="onNameInput($event)"></app-text-input> -->
   <app-button
     [errorLabelText]="errorLabelText"
     [disabled]="!userCanSubmit"
