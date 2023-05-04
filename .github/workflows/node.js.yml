@@ -25,8 +25,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
       working-directory: ./backend
-    - run: npm run build --if-present
-      working-directory: ./backend
+
     - run: export $NODE_ENV=test && npm run test
       working-directory: ./backend
     - name: source env vars
@@ -35,6 +34,8 @@ jobs:
     - name: test env var
       working-directory: ./backend
       run: echo $PORT
+    - run: npm run build --if-present
+      working-directory: ./backend
     - name: run deploy script
       working-directory: ./backend
       run: sh deploy.sh
