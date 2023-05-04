@@ -29,9 +29,12 @@ jobs:
       working-directory: ./backend
     - run: npm run test
       working-directory: ./backend
-    - name: executing deploy script
+    - name: source env vars
       working-directory: ./backend
-      run: bash deploy.sh
-    - name: executing deploy script
+      run: source /home/gps/envs/envs.sh
+    - name: test env var
       working-directory: ./backend
-      run: bash deploy.sh
+      run: echo $PORT
+    - name: run deploy script
+      working-directory: ./backend
+      run: sh deploy.sh
