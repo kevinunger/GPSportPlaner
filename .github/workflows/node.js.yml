@@ -27,8 +27,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
       working-directory: ./backend
-
-    - run: export $NODE_ENV=test
+    - run: echo "{NODE_ENV}={test}" >> $GITHUB_ENV
       working-directory: ./backend
     - run: npm run test
     - name: source env vars
