@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --clearCache && jest --detectOpenHandles",
-    "testWatch": "jest --clearCache && jest --watchAll",
+    "test": "cross-env NODE_ENV=test && echo $NODE_ENV && jest --clearCache && jest --detectOpenHandles",
+    "testWatch": "cross-env NODE_ENV=test && echo $NODE_ENV && jest --clearCache && jest --watchAll",
     "build": "npx tsc",
     "start": "node dist/backend/src/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\""
@@ -23,7 +23,6 @@
     "jwks-rsa": "^3.0.1",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
-    "mongodb-memory-server": "^8.12.2",
     "mongoose": "^7.0.4"
   },
   "devDependencies": {
@@ -34,7 +33,9 @@
     "@types/node": "^18.15.11",
     "@types/supertest": "^2.0.12",
     "concurrently": "^8.0.1",
+    "cross-env": "^7.0.3",
     "jest": "^29.5.0",
+    "mongodb-memory-server": "^8.12.2",
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
