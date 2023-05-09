@@ -26,8 +26,14 @@ jobs:
     - name: source env vars
       working-directory: ./backend
       run: source /home/gps/envs/envs.sh
+    - name: Debug - Print environment variables
+      run: |
+        echo "PORT=$PORT"
     - run: echo "{NODE_ENV}={test}" >> $GITHUB_ENV
       working-directory: ./backend
+    - name: Debug - Print environment variables
+      run: |
+        echo "PORT=$PORT"
     - run: npm run test
       working-directory: ./backend
 
