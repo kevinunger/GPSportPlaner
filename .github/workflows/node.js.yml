@@ -1,4 +1,4 @@
-name: Build, Test and Deploy Backend
+name: Build, Test and Deploy Backend to vps
 
 on:
   push:
@@ -10,20 +10,14 @@ on:
 
 jobs:
   build:
-
     runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+   
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js 16.x
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16.x
         cache: 'npm'
     - run: npm ci
       working-directory: ./backend
@@ -42,3 +36,4 @@ jobs:
     - name: run deploy script
       working-directory: ./backend
       run: sh deploy.sh
+
