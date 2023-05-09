@@ -36,10 +36,10 @@ jobs:
         echo "PORT=$PORT"
     - run: npm run test
       working-directory: ./backend
-
     - name: test env var
       working-directory: ./backend
       run: echo $PORT
+    - run: echo "{NODE_ENV}={production}" >> $GITHUB_ENV
     - run: npm run build --if-present
       working-directory: ./backend
     - name: run deploy script
