@@ -23,13 +23,14 @@ jobs:
         cache: 'npm'
     - run: npm ci
       working-directory: ./backend
+    - name: source env vars
+      working-directory: ./backend
+      run: source /home/gps/envs/envs.sh
     - run: echo "{NODE_ENV}={test}" >> $GITHUB_ENV
       working-directory: ./backend
     - run: npm run test
       working-directory: ./backend
-    - name: source env vars
-      working-directory: ./backend
-      run: source /home/gps/envs/envs.sh
+
     - name: test env var
       working-directory: ./backend
       run: echo $PORT
