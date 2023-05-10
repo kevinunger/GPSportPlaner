@@ -21,6 +21,23 @@ jobs:
       with:
         node-version: 16.x
         cache: 'npm'
+    env:
+      PORT: ${{ vars.PORT }}}
+      MONGO_USER: ${{ secrets.MONGO_USER }}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      MONGO_HOST: ${{ secrets.MONGO_HOST }}
+      MONGO_DB: ${{ secrets.MONGO_DB }}
+      CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    run: |
+      echo "PORT=$PORT"
+      echo "MONGO_USER=$MONGO_USER"
+      echo "MONGO_PASSWORD=$MONGO_PASSWORD"
+      echo "MONGO_HOST=$MONGO_HOST"
+      echo "MONGO_DB=$MONGO_DB"
+      echo "CORS_ORIGIN=$CORS_ORIGIN"
+      echo "JWT_SECRET=$JWT_SECRET"
+
     - run: npm ci
       working-directory: ./backend
     - name: source env vars
