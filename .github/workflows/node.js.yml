@@ -20,14 +20,22 @@ jobs:
         with:
           node-version: 16.x
           cache: "npm"
+        env:
+          PORT: ${{ vars.PORT }}}
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+          MONGO_HOST: ${{ secrets.MONGO_HOST }}
+          MONGO_DB: ${{ secrets.MONGO_DB }}
+          CORS_ORIGIN: ${{ vars.CORS_ORIGIN }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: Set environment variables
         run: |
-          echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
+          echo "PORT=${{ vars.PORT }}" >> $GITHUB_ENV
           echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> $GITHUB_ENV
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> $GITHUB_ENV
           echo "MONGO_HOST=${{ secrets.MONGO_HOST }}" >> $GITHUB_ENV
           echo "MONGO_DB=${{ secrets.MONGO_DB }}" >> $GITHUB_ENV
-          echo "CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}" >> $GITHUB_ENV
+          echo "CORS_ORIGIN=${{ vars.CORS_ORIGIN }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
       - run: npm ci
         working-directory: ./backend
