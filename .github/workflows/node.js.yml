@@ -1,69 +1,55 @@
-name: Build, Test and Deploy Backend to VPS
+name: Build, Test and Deploy Backend to vps
 
 on:
   push:
-    branches: [main]
-    paths:
-      - "backend/**"
+    branches: ["main"]
+    paths: backend/**
   pull_request:
-    branches: [main]
-    paths:
-      - "backend/**"
+    branches: ["main"]
+    paths: backend/**
   workflow_dispatch:
-
-env:
-  PORT: ${{ secrets.PORT }}
-  MONGO_USER: ${{ secrets.MONGO_USER }}
-  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-  MONGO_HOST: ${{ secrets.MONGO_HOST }}
-  MONGO_DB: ${{ secrets.MONGO_DB }}
-  CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 jobs:
   build:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Node.js 16.x
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: Print environment variables
+          cache: "npm"
+      - name: Set environment variables
         run: |
-          echo "PORT=${PORT}"
-          echo "MONGO_USER=${MONGO_USER}"
-          echo "MONGO_PASSWORD=${MONGO_PASSWORD}"
-          echo "MONGO_HOST=${MONGO_HOST}"
-          echo "MONGO_DB=${MONGO_DB}"
-          echo "CORS_ORIGIN=${CORS_ORIGIN}"
-          echo "JWT_SECRET=${JWT_SECRET}"
-      - name: Install dependencies
-        run: npm ci
+          echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
+          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> $GITHUB_ENV
+          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> $GITHUB_ENV
+          echo "MONGO_HOST=${{ secrets.MONGO_HOST }}" >> $GITHUB_ENV
+          echo "MONGO_DB=${{ secrets.MONGO_DB }}" >> $GITHUB_ENV
+          echo "CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+      - run: npm ci
         working-directory: ./backend
-      - name: Source environment variables
+      - name: source env vars
+        working-directory: ./backend
         run: source /home/gps/envs/envs.sh
+      - name: Debug - Print environment variables
+        run: |
+          echo "PORT=$PORT"
+      - run: echo "NODE_ENV=test" >> $GITHUB_ENV
         working-directory: ./backend
-      - name: Print PORT environment variable
-        run: echo "PORT=${PORT}"
+      - name: Debug - Print environment variables
+        run: |
+          echo "PORT=$PORT"
+      - run: npm run test
         working-directory: ./backend
-      - name: Set NODE_ENV to 'test'
-        run: echo "NODE_ENV=test" >> $GITHUB_ENV
-      - name: Print PORT environment variable again
-        run: echo "PORT=${PORT}"
+      - name: test env var
         working-directory: ./backend
-      - name: Run tests
-        run: npm run test
-        working-directory: ./backend
-      - name: Test environment variable
         run: echo $PORT
+      - run: echo "NODE_ENV=production" >> $GITHUB_ENV
+      - run: npm run build --if-present
         working-directory: ./backend
-      - name: Set NODE_ENV to 'production'
-        run: echo "NODE_ENV=production" >> $GITHUB_ENV
-      - name: Build
-        run: npm run build --if-present
+      - name: run deploy script
         working-directory: ./backend
-      - name: Deploy
         run: sh deploy.sh
-        working-directory: ./backend
