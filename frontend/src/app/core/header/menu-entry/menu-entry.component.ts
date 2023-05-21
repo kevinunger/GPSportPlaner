@@ -2,7 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 // load all icons
-import { faPencil, faClock, faKey, IconDefinition, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPencil,
+  faClock,
+  faKey,
+  IconDefinition,
+  faUserShield,
+  faRightFromBracket,
+} from '@fortawesome/free-solid-svg-icons';
 
 const iconMap: Record<string, IconDefinition> = {
   faPencil: faPencil,
@@ -20,6 +27,7 @@ export class MenuEntryComponent implements OnInit {
   @Input() title: string = '';
   @Input() link: string = '';
   @Input() icon_name: string = '';
+  @Input() action: () => void = () => {};
   icon: IconProp = faPencil;
 
   constructor() {}
@@ -27,5 +35,6 @@ export class MenuEntryComponent implements OnInit {
   ngOnInit(): void {
     this.icon = iconMap[this.icon_name] || faPencil;
     console.log(this.icon);
+    this.action();
   }
 }

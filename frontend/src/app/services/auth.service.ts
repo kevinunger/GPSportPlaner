@@ -107,4 +107,9 @@ export class AuthService {
     this.houseNumber = '';
     this.role = Role.User;
   }
+
+  logout(): void {
+    this.clearToken();
+    localStorage.clear();
+  }
 }

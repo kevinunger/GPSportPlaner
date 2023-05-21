@@ -11,6 +11,7 @@ interface MenuEntry {
   headerTitle: string;
   onlyAdmin?: boolean;
   onlyMaster?: boolean;
+  action?: () => void;
 }
 
 @Component({
@@ -57,6 +58,15 @@ export class HeaderComponent implements OnInit {
       link: '/admins/edit',
       icon_name: 'faUserShield',
       onlyAdmin: true,
+    },
+    {
+      headerTitle: 'Ausloggen',
+      title: 'Ausloggen',
+      link: '/',
+      icon_name: 'faRightFromBracket',
+      action: () => {
+        this.authService.logout();
+      },
     },
   ];
 

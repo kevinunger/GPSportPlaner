@@ -14,13 +14,13 @@ export class HomeComponent implements OnInit {
   password: string = '';
 
   placeholderName: string = 'Name';
-  placeholderHouse: string = 'House';
-  placeholderRoom: string = 'Room';
-  placeholderPassword: string = 'Password';
+  placeholderHouse: string = 'Haus';
+  placeholderRoom: string = 'Zimmernummer';
+  placeholderPassword: string = 'Passwort';
 
   userCanSubmit: boolean = false;
 
-  errorLabelText: string = 'Please fill in all fields';
+  errorLabelText: string = 'Bitte fülle alles aus';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
       this.userCanSubmit = true;
     } else {
       this.userCanSubmit = false;
-      this.errorLabelText = 'Please fill in all fields';
+      this.errorLabelText = 'Bitte fülle alles aus';
     }
   }
 

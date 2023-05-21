@@ -1,11 +1,8 @@
 <div class="pageContainer">
-  <h1>Welcome to the home page!</h1>
-  <p>
-    This is the home page. It is the first page that the user sees when they visit the website. It is also the page that
-    the user is redirected to when they click on the logo in the top left corner of the screen.
-  </p>
+  <h1>Willkommen zum Sportplaner!</h1>
+  <!-- <p>Logg dich bitte</p> -->
 
-  <label for="name">Name</label>
+  <label for="name">Dein Name</label>
   <app-text-input
     type="text"
     [placeholder]="placeholderName"
@@ -13,6 +10,7 @@
     (input)="onInputName($event)"
   ></app-text-input>
 
+  <label for="name">Hausnummer</label>
   <app-text-input
     type="text"
     [placeholder]="placeholderHouse"
@@ -20,6 +18,7 @@
     (input)="onInputHouse($event)"
   ></app-text-input>
 
+  <label for="name">Zimmernummer</label>
   <app-text-input
     type="text"
     [placeholder]="placeholderRoom"
@@ -27,6 +26,7 @@
     (input)="onInputRoom($event)"
   ></app-text-input>
 
+  <label for="name">Passwort</label>
   <app-text-input
     type="password"
     [placeholder]="placeholderPassword"
