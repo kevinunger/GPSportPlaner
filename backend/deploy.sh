@@ -5,7 +5,7 @@ echo "Jump to app folder"
 cd ~/actions-runner/_work/GPSportPlaner/GPSportPlaner/backend
 
 echo "Sourcing Env Vars"
-source /home/gps/envs/envs.sh
+bash /home/gps/envs/envs.sh
 
 echo "Run new PM2 action"
 pm2 start "npm run start" --update-env
