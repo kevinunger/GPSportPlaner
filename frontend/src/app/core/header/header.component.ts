@@ -3,15 +3,16 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/types';
 import { AuthService } from 'src/app/services/auth.service';
+import { Subscription } from 'rxjs';
 
 interface MenuEntry {
   title: string;
-  link: string;
+  link?: string;
   icon_name: string;
   headerTitle: string;
   onlyAdmin?: boolean;
   onlyMaster?: boolean;
-  action?: () => void;
+  action: () => void;
 }
 
 @Component({
@@ -20,6 +21,7 @@ interface MenuEntry {
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  private roleSubscription?: Subscription;
   faBars = faBars;
   menuActive = false;
   headerTitle = '';
@@ -32,24 +34,28 @@ export class HeaderComponent implements OnInit {
       title: 'Eintragen',
       link: '/booking',
       icon_name: 'faPencil',
+      action: () => {},
     },
     {
       headerTitle: 'Übersicht',
       title: 'Übersicht',
       link: '/overview',
       icon_name: 'faClock',
+      action: () => {},
     },
     {
       headerTitle: 'Schlüsselverantwortliche',
       title: 'Schlüssel',
       link: '/admins',
       icon_name: 'faKey',
+      action: () => {},
     },
     {
       headerTitle: 'Regeln',
       title: 'Regeln',
       link: '/rules',
       icon_name: 'faBook',
+      action: () => {},
     },
     // Admins only
     {
@@ -58,14 +64,16 @@ export class HeaderComponent implements OnInit {
       link: '/admins/edit',
       icon_name: 'faUserShield',
       onlyAdmin: true,
+      action: () => {},
     },
     {
       headerTitle: 'Ausloggen',
       title: 'Ausloggen',
-      link: '/',
       icon_name: 'faRightFromBracket',
       action: () => {
+        console.log('logout');
         this.authService.logout();
+        window.location.reload();
       },
     },
   ];
@@ -85,7 +93,13 @@ export class HeaderComponent implements OnInit {
   ngOnChanges(): void {}
 
   ngOnInit(): void {
-    this.userRole = this.authService.getRole();
+    this.roleSubscription = this.authService.role.subscribe(role => {
+      this.userRole = role;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.roleSubscription?.unsubscribe();
   }
 
   onToggleMenu() {

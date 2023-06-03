@@ -16,6 +16,7 @@ const iconMap: Record<string, IconDefinition> = {
   faClock: faClock,
   faKey: faKey,
   faUserShield: faUserShield,
+  faRightFromBracket: faRightFromBracket,
 };
 
 @Component({
@@ -25,7 +26,7 @@ const iconMap: Record<string, IconDefinition> = {
 })
 export class MenuEntryComponent implements OnInit {
   @Input() title: string = '';
-  @Input() link: string = '';
+  @Input() link?: string = '';
   @Input() icon_name: string = '';
   @Input() action: () => void = () => {};
   icon: IconProp = faPencil;
@@ -35,6 +36,9 @@ export class MenuEntryComponent implements OnInit {
   ngOnInit(): void {
     this.icon = iconMap[this.icon_name] || faPencil;
     console.log(this.icon);
+  }
+
+  onClick(): void {
     this.action();
   }
 }

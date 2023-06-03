@@ -1,4 +1,4 @@
-<div class="timeslot">
+<div class="timeslot" [ngClass]="{ isBooked: timeslot.bookedBy }">
   <span class="day">{{ day_formatted }}</span>
   <span class="time">{{ start_formatted }} - {{ end_formatted }}</span>
   <div *ngIf="!isReadOnly" class="checkboxContainer">
@@ -12,6 +12,6 @@
     </div>
   </div>
   <div *ngIf="isReadOnly" class="nameContainer">
-    <span class="name">{{ timeslot.bookedBy }}</span>
+    <span *ngIf="timeslot.bookedBy" class="name">Gebucht von: {{ timeslot.bookedBy }}</span>
   </div>
 </div>

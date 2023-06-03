@@ -38,7 +38,6 @@ export class AdminsOverviewComponent implements OnInit {
     this.adminService.fetchAndSetAdmins().subscribe(
       () => {
         this.adminService.getAdmins().subscribe(admins => {
-          console.log('Admins:', admins);
           this.admins = admins;
           if (!this.admins) return;
           this.admins.forEach(admin => {

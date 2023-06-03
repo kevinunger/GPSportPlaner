@@ -81,7 +81,12 @@ export class HomeComponent implements OnInit {
   }
 
   checkValidity() {
-    if (this.name.length > 0 && this.house.length > 0 && this.room.length > 0 && this.password.length > 0) {
+    if (
+      this.name.length > 0 &&
+      this.house.length > 0 &&
+      this.room.length > 0 &&
+      this.password.length > 0
+    ) {
       this.userCanSubmit = true;
     } else {
       this.userCanSubmit = false;
@@ -101,6 +106,7 @@ export class HomeComponent implements OnInit {
       jwtToken => {
         console.log('Authenticated with token:', jwtToken);
         this.router.navigate(['/booking']); // Navigate to the booking page after successful authentication
+        console.log('pushed to booking');
       },
       error => {
         console.log('Authentication error:', error);

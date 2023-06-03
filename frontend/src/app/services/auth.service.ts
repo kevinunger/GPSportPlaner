@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 import { ILoginData, IResponse, Role } from '../types/index';
-import jwt_decode from 'jwt-decode';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,8 @@ export class AuthService {
   public name: string = '';
   public roomNumber: string = '';
   public houseNumber: string = '';
-  public role: Role = Role.User;
+  private _role: BehaviorSubject<Role> = new BehaviorSubject<Role>(Role.User);
+  role = this._role.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -27,8 +28,7 @@ export class AuthService {
     return this.name;
   }
 
-  getRole(): Role {
-    console.log('role:', this.role);
+  getRole(): Observable<Role> {
     return this.role;
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
     this.name = decodedTokenString.name;
     this.roomNumber = decodedTokenString.room;
     this.houseNumber = decodedTokenString.house;
-    this.role = decodedTokenString.role!;
+    this._role.next(decodedTokenString.role!);
   }
 
   initToken(): void {
@@ -77,14 +77,15 @@ export class AuthService {
   }
 
   getTokenExpirationDate(): number | null {
+    interface JWT extends JwtPayload {
+      exp: number;
+    }
     const token = this.getToken();
     if (!token) return null;
+    const decoded = jwt_decode(token) as JWT;
+    console.log(decoded);
 
-    const jwtPayload = JSON.parse(atob(token.split('.')[1]));
-    console.log('jwtDateEXP:');
-    console.log(new Date(jwtPayload.expDate));
-
-    return jwtPayload.expDate;
+    return decoded.exp;
   }
 
   refreshToken(): Observable<void> {
@@ -105,10 +106,11 @@ export class AuthService {
     this.name = '';
     this.roomNumber = '';
     this.houseNumber = '';
-    this.role = Role.User;
+    this._role.next(Role.User); // Set default role or whatever makes sense
   }
 
   logout(): void {
+    console.log('logout 1');
     this.clearToken();
     localStorage.clear();
   }
