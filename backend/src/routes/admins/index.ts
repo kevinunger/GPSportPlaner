@@ -81,4 +81,21 @@ router.put('/editAdmin', authAdmin, async (req, res) => {
   }
 });
 
+router.delete('/deleteAdmin', authAdmin, async (req, res) => {
+  if (!req.body) {
+    res.status(400).json({ message: 'Admin is required' });
+  }
+  const admin = req.body;
+  // check if admin is IAdmin
+  if (!admin.name || !admin.phoneNumber || !admin.assignedDay || !admin.roomNumber || !admin.houseNumber) {
+    res.status(400).json({ message: 'Admin Values missing' });
+  }
+  try {
+    const deletedAdmin = await adminController.deleteAdmin(admin);
+    res.json(deletedAdmin);
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+});
+
 export default router;
