@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 
 export async function authenticate(loginData: ILoginData): Promise<string> {
   //check fields
-  if (loginData.house !== '9' && loginData.house !== '11') {
+  if (loginData.house !== '9' && loginData.house !== '11' && loginData.house !== '09') {
     throw new Error('Invalid house number');
   }
 
