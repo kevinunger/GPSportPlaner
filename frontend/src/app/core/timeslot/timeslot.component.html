@@ -1,4 +1,11 @@
-<div class="timeslot" [ngClass]="{ isBooked: timeslot.bookedBy }">
+<div
+  class="timeslot"
+  [ngClass]="{
+    isBooked: timeslot.bookedBy?.name || timeslot.bookedBy,
+    isBookedByMe: isMyBooking && isReadOnly
+  }"
+>
+  <!--TODO: Remove || || timeslot.bookedBy after some time (this is just to support the old and new booking system)-->
   <span class="day">{{ day_formatted }}</span>
   <span class="time">{{ start_formatted }} - {{ end_formatted }}</span>
   <div *ngIf="!isReadOnly" class="checkboxContainer">
@@ -7,8 +14,7 @@
         [checked]="checked"
         [disabled]="disabledCheckbox"
         (click)="
-          $event.preventDefault();
-          disabledCheckbox ? null : checked ? onUncheck() : onCheck()
+          $event.preventDefault(); disabledCheckbox ? null : checked ? onUncheck() : onCheck()
         "
         [tooltipText]="timeslot.bookedBy?.name || ''"
       ></app-checkbox>

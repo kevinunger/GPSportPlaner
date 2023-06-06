@@ -28,10 +28,7 @@ export class TimeslotComponent implements OnInit {
 
   @Input() isReadOnly: boolean = false;
 
-  constructor(
-    private bookingService: BookingService,
-    private authService: AuthService
-  ) {}
+  constructor(private bookingService: BookingService, private authService: AuthService) {}
 
   ngOnInit(): void {}
 
@@ -73,7 +70,9 @@ export class TimeslotComponent implements OnInit {
     if (this.timeslot.bookedBy) {
       return this.isMyBooking
         ? 'Gebucht von: Dir'
-        : `Gebucht von: ${this.timeslot.bookedBy.name}`;
+        : // TODO: || this.timeslot.bookedBy can be removed in some time
+          // this has been added to support both the old format (string) and the new format (object)
+          `Gebucht von: ${this.timeslot.bookedBy.name || this.timeslot.bookedBy}`;
     }
     return '';
   }
