@@ -66,6 +66,9 @@ export class BookingConfirmationComponent implements OnInit {
       });
       if (isEmpty) this.adminsOfDays = [];
     });
+
+    // scroll to the top of the page
+    window.scrollTo(0, 0);
   }
 
   formatBookings(bookings: IBooking[]): void {
