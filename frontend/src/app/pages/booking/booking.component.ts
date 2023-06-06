@@ -95,7 +95,6 @@ export class BookingComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.successFullSumbission = false;
         console.error(error);
-        console.error(error);
         this.errorLabelText = error.error.error;
         this.userCanSubmit = false;
       }
@@ -140,9 +139,7 @@ export class BookingComponent implements OnInit {
 
       // check if timeSlot is already booked by someone
       // check if there is a booking with the same start time
-      const booking = this.bookings.data.find(booking =>
-        moment.unix(booking.start).isSame(start)
-      );
+      const booking = this.bookings.data.find(booking => moment.unix(booking.start).isSame(start));
       const bookedBy = booking ? booking.bookedBy : null;
       timeSlots.push({
         start: start.unix(),
