@@ -120,7 +120,7 @@ async function _checkIfBookingsAreValid(bookings: IBooking[], currentTime: numbe
     throw new Error('You can only book max. 4 bookings at a time');
   }
 
-  // check if bookings are in order and using correct types
+  // check if bookings are using correct types
   for (let i = 0; i < bookings.length; i++) {
     const start = moment(bookings[i].start);
     const end = moment(bookings[i].end);
@@ -144,13 +144,6 @@ async function _checkIfBookingsAreValid(bookings: IBooking[], currentTime: numbe
       typeof bookings[i].bookedBy.room != 'string'
     ) {
       throw new Error('wrong type(s)');
-    }
-
-    // check if bookings are in order (start time of current booking is end of previous booking)
-    if (i > 0) {
-      if (!start.isSame(bookings[i - 1].end)) {
-        throw new Error('Bookings not in order');
-      }
     }
 
     // check if booking already exists

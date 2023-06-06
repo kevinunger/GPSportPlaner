@@ -12,7 +12,13 @@ import moment, { Moment } from 'moment-timezone';
 const request = require('supertest');
 import { app } from '../index';
 import bcrypt from 'bcrypt';
-import { createUsers, invalid_token, valid_token_admin, valid_token_master, valid_token_user } from './testHelpers';
+import {
+  createUsers,
+  invalid_token,
+  valid_token_admin,
+  valid_token_master,
+  valid_token_user,
+} from './testHelpers';
 const user_password_hashed = bcrypt.hashSync('user_password', 10);
 const admin_password_hashed = bcrypt.hashSync('admin_password', 10);
 const master_password_hashed = bcrypt.hashSync('master_password', 10);
@@ -64,7 +70,11 @@ describe('Add Bookings Tests', () => {
       },
       {
         start: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
-        end: startTime.clone().add(moment.duration(30, 'minutes')).add(moment.duration(30, 'minutes')).unix(),
+        end: startTime
+          .clone()
+          .add(moment.duration(30, 'minutes'))
+          .add(moment.duration(30, 'minutes'))
+          .unix(),
         bookedBy: {
           name: 'Kevin',
           house: '9',
@@ -135,7 +145,10 @@ describe('Add Bookings Tests', () => {
         },
       },
       {
-        start: startTime.clone().add(moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds').unix(),
+        start: startTime
+          .clone()
+          .add(moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds')
+          .unix(),
         end: startTime
           .clone()
           .add(2 * moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds')
@@ -238,31 +251,6 @@ describe('Add Bookings Tests', () => {
         .add(moment.duration(30, 'minutes'))
         .unix()} by Kevin`
     );
-  });
-  it('add a booking that is not in order', async () => {
-    const currentTime = moment('Sat 04 23 2023 16:00:00', 'MM DD YYYY HH:mm:ss').unix();
-    const startTime = moment('Sat 04 22 2023 10:00:00', 'MM DD YYYY HH:mm:ss');
-    const sampleBookings = [
-      {
-        start: startTime.clone().unix(), // 10:00
-        end: startTime.clone().add(moment.duration(30, 'minutes')).unix(), // 10:30
-        bookedBy: {
-          name: 'Kevin',
-          house: '9',
-          room: '0607',
-        },
-      },
-      {
-        start: startTime.clone().add(moment.duration(90, 'minutes')).unix(), // 11:30
-        end: startTime.clone().add(moment.duration(120, 'minutes')).unix(), // 12:00
-        bookedBy: {
-          name: 'Kevin',
-          house: '9',
-          room: '0607',
-        },
-      },
-    ];
-    await expect(addBooking(sampleBookings, currentTime)).rejects.toThrow('Bookings not in order');
   });
   it('add bookings to different dates and check if they are retrieved correctly', async () => {
     const currentTime = moment('Sat 04 23 2023 16:00:00', 'MM DD YYYY HH:mm:ss').unix();
