@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { ILoginData, IUserData, Role } from '../../../frontend/src/app/types/index';
+import { ILoginData, Role } from '../../../frontend/src/app/types/index';
 
 const authSchema = new mongoose.Schema(
   {
@@ -15,4 +15,4 @@ const authSchema = new mongoose.Schema(
 // compile to model
 const Auth = mongoose.model('Auth', authSchema);
 
-export { Auth, ILoginData, IUserData, Role };
+export { Auth, ILoginData, Role };

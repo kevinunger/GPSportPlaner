@@ -77,7 +77,7 @@ export class BookingOverviewComponent implements OnInit {
       timeSlots.push({
         start: start.unix(),
         end: end.unix(),
-        bookedBy: booking?.bookedBy || '',
+        bookedBy: booking?.bookedBy || null,
       });
     }
     return timeSlots;

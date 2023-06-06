@@ -56,12 +56,20 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime.clone().unix(),
         end: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
         end: startTime.clone().add(moment.duration(30, 'minutes')).add(moment.duration(30, 'minutes')).unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     const currentTime = moment().unix();
@@ -88,7 +96,11 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime,
         end: endTime,
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
 
@@ -116,7 +128,11 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime.clone().unix(),
         end: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds').unix(),
@@ -124,7 +140,11 @@ describe('Add Bookings Tests', () => {
           .clone()
           .add(2 * moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds')
           .unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime
@@ -135,7 +155,11 @@ describe('Add Bookings Tests', () => {
           .clone()
           .add(3 * moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds')
           .unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime
@@ -146,7 +170,11 @@ describe('Add Bookings Tests', () => {
           .clone()
           .add(4 * moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds')
           .unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime
@@ -157,7 +185,11 @@ describe('Add Bookings Tests', () => {
           .clone()
           .add(5 * moment.duration(30, 'minutes').asMilliseconds(), 'milliseconds')
           .unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
 
@@ -172,12 +204,20 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime.clone().unix(),
         end: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
         end: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     await addBooking(sampleBookings, currentTime);
@@ -186,7 +226,11 @@ describe('Add Bookings Tests', () => {
     const overlappingBooking = {
       start: startTime.clone().unix(),
       end: startTime.clone().add(moment.duration(30, 'minutes')).unix(),
-      bookedBy: 'Kevin',
+      bookedBy: {
+        name: 'Kevin',
+        house: '9',
+        room: '0607',
+      },
     };
     await expect(addBooking([overlappingBooking], currentTime)).rejects.toThrow(
       `Booking already exists ${startTime.clone().unix()} - ${startTime
@@ -202,12 +246,20 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime.clone().unix(), // 10:00
         end: startTime.clone().add(moment.duration(30, 'minutes')).unix(), // 10:30
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(moment.duration(90, 'minutes')).unix(), // 11:30
         end: startTime.clone().add(moment.duration(120, 'minutes')).unix(), // 12:00
-        bookedBy: 'Kevin',
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     await expect(addBooking(sampleBookings, currentTime)).rejects.toThrow('Bookings not in order');
@@ -219,12 +271,20 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime.clone().unix(), // 10:00
         end: startTime.clone().add(moment.duration(30, 'minutes')).unix(), // 10:30
-        bookedBy: 'KevinToday',
+        bookedBy: {
+          name: 'KevinToday',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(moment.duration(30, 'minutes')).unix(), // 11:30
         end: startTime.clone().add(moment.duration(60, 'minutes')).unix(), // 12:00
-        bookedBy: 'KevinToday',
+        bookedBy: {
+          name: 'KevinToday',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     const res = await addBooking(bookingsToday, currentTime);
@@ -239,7 +299,11 @@ describe('Add Bookings Tests', () => {
       {
         start: startTimeTomorrow.clone().unix(), // 10:00
         end: startTimeTomorrow.clone().add(moment.duration(30, 'minutes')).unix(), // 10:30
-        bookedBy: 'KevinTomorrow',
+        bookedBy: {
+          name: 'KevinTomorrow',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     const res1 = await addBooking(bookingsTomorrow, currentTime);
@@ -253,44 +317,55 @@ describe('Add Bookings Tests', () => {
     const currentTime = moment('04 23 2023 15:00:00', 'MM DD YYYY HH:mm:ss').unix();
     const startTime = moment('04 23 2023 23:30:00', 'MM DD YYYY HH:mm:ss');
     const endTime = moment('04 24 2023 00:00:00 ', 'MM DD YYYY HH:mm:ss');
-    const randomName1 = (Math.random() + 1).toString(36).substring(7);
-    const randomName2 = (Math.random() + 1).toString(36).substring(7);
     const sampleBooking1 = [
       {
-        start: startTime.clone().unix(), // 10:00
-        end: endTime.clone().unix(), // 10:30
-        bookedBy: randomName1,
+        start: startTime.clone().unix(),
+        end: endTime.clone().unix(),
+        bookedBy: {
+          name: 'Kevin1',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     const sampleBooking2 = [
       {
-        start: startTime.clone().unix(), // 10:00
-        end: endTime.clone().unix(), // 10:30
-        bookedBy: randomName2,
+        start: startTime.clone().unix(),
+        end: endTime.clone().unix(),
+        bookedBy: {
+          name: 'Kevin2',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     await addBooking(sampleBooking1, currentTime);
     await expect(addBooking(sampleBooking2, currentTime)).rejects.toThrow(
-      `Booking already exists ${startTime.clone().unix()} - ${endTime.clone().unix()} by ${randomName1}`
+      `Booking already exists ${startTime.clone().unix()} - ${endTime.clone().unix()} by Kevin1`
     );
   });
   it('Check if bookings are retrieved correctly', async () => {
     // create multiple bookings
 
     const startTime = moment('Sun 04 23 2023 14:00:00', 'MM DD YYYY HH:mm:ss');
-    const randomName1 = (Math.random() + 1).toString(36).substring(7);
-    const randomName2 = (Math.random() + 1).toString(36).substring(7);
-    const randomName3 = (Math.random() + 1).toString(36).substring(7);
     const sampleBooking1 = [
       {
         start: startTime.clone().unix(), // 14:00
         end: startTime.clone().add(30, 'minutes').unix(), // 14:30
-        bookedBy: randomName1,
+        bookedBy: {
+          name: 'Kevin1',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(30, 'minutes').unix(), // 14:30
         end: startTime.clone().add(60, 'minutes').unix(), // 15:00
-        bookedBy: randomName1,
+        bookedBy: {
+          name: 'Kevin1',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     const startTime2 = moment('Sun 04 23 2023 23:30:00', 'MM DD YYYY HH:mm:ss');
@@ -298,12 +373,20 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime2.clone().unix(), // 23:30
         end: startTime2.clone().add(30, 'minutes').unix(), // ', 'MM DD YYYY HH:mm:ss
-        bookedBy: randomName2,
+        bookedBy: {
+          name: 'Kevin2',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime2.clone().add(30, 'minutes').unix(), // ', 'MM DD YYYY HH:mm:ss
         end: startTime2.clone().add(60, 'minutes').unix(), // 00:30
-        bookedBy: randomName2,
+        bookedBy: {
+          name: 'Kevin2',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
     const startTime3 = moment('Sun 04 24 2023 14:00:00', 'MM DD YYYY HH:mm:ss');
@@ -311,12 +394,20 @@ describe('Add Bookings Tests', () => {
       {
         start: startTime3.clone().unix(), // 14:00
         end: startTime3.clone().add(30, 'minutes').unix(), // 14:30
-        bookedBy: randomName1,
+        bookedBy: {
+          name: 'Kevin3',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime3.clone().add(30, 'minutes').unix(), // 14:30
         end: startTime3.clone().add(60, 'minutes').unix(), // 15:00
-        bookedBy: randomName1,
+        bookedBy: {
+          name: 'Kevin3',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
 
@@ -337,21 +428,28 @@ describe('Add Bookings Tests', () => {
   it('Check if deleteAllBookings works', async () => {
     const currentTime = moment('Sun 04 23 2023 16:00:00', 'MM DD YYYY HH:mm:ss').unix();
     const startTime = moment('Sun 04 23 2023 14:00:00', 'MM DD YYYY HH:mm:ss');
-    const randomName1 = (Math.random() + 1).toString(36).substring(7);
-    const sampleBooking1 = [
+    const sampleBooking = [
       {
         start: startTime.clone().unix(), // 14:00
         end: startTime.clone().add(30, 'minutes').unix(), // 14:30
-        bookedBy: randomName1,
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
       {
         start: startTime.clone().add(30, 'minutes').unix(), // 14:30
         end: startTime.clone().add(60, 'minutes').unix(), // 15:00
-        bookedBy: randomName1,
+        bookedBy: {
+          name: 'Kevin',
+          house: '9',
+          room: '0607',
+        },
       },
     ];
 
-    const res1 = await addBooking(sampleBooking1, currentTime);
+    const res1 = await addBooking(sampleBooking, currentTime);
     expect(res1).not.toBeNull();
 
     // delete all
@@ -386,6 +484,79 @@ describe('Router Bookings Test', () => {
     const unixCurrentTime = res.body.currentTime;
     expect(moment.unix(unixCurrentTime).isValid()).toEqual(true);
   });
+
+  describe('POST /bookings/addBooking', () => {
+    it('should return 200 and save the booking when the data is valid', async () => {
+      const sampleBooking = [
+        {
+          start: moment('04 23 2023 23:30:00', 'MM DD YYYY HH:mm:ss').unix(),
+          end: moment('04 24 2023 00:00:00 ', 'MM DD YYYY HH:mm:ss').unix(),
+          bookedBy: {
+            name: 'Kevin1',
+            house: '9',
+            room: '0607',
+          },
+        },
+      ];
+      const currentTime = moment('04 23 2023 15:00:00', 'MM DD YYYY HH:mm:ss').unix();
+
+      const res = await request(app)
+        .post('/bookings/addBooking')
+        .send(sampleBooking)
+        .set('Authorization', `Bearer ${await valid_token_user()}`);
+
+      expect(res.statusCode).toEqual(200);
+      // You may want to add more checks here depending on your implementation
+      // For example, check the response body or check the database to make sure the booking was saved
+    });
+
+    it('should return 400 when the data is invalid', async () => {
+      const sampleBooking = [
+        {
+          start: 'invalid_start_time',
+          end: moment('04 24 2023 00:00:00 ', 'MM DD YYYY HH:mm:ss').unix(),
+          bookedBy: {
+            name: 'Kevin1',
+            house: '9',
+            room: '0607',
+          },
+        },
+      ];
+      const currentTime = moment('04 23 2023 15:00:00', 'MM DD YYYY HH:mm:ss').unix();
+
+      const res = await request(app)
+        .post('/bookings/addBooking')
+        .send({ bookings: sampleBooking, currentTime })
+        .set('Authorization', `Bearer ${await valid_token_user()}`);
+
+      expect(res.statusCode).toEqual(400);
+      // You may want to add more checks here depending on your implementation
+    });
+
+    it('should return 401 when the request is unauthenticated', async () => {
+      const sampleBooking = [
+        {
+          start: moment('04 23 2023 23:30:00', 'MM DD YYYY HH:mm:ss').unix(),
+          end: moment('04 24 2023 00:00:00 ', 'MM DD YYYY HH:mm:ss').unix(),
+          bookedBy: {
+            name: 'Kevin1',
+            house: '9',
+            room: '0607',
+          },
+        },
+      ];
+      const currentTime = moment('04 23 2023 15:00:00', 'MM DD YYYY HH:mm:ss').unix();
+
+      const res = await request(app)
+        .post('/bookings/addBooking')
+        .send({ bookings: sampleBooking, currentTime })
+        .set('Authorization', `Bearer ${await invalid_token()}`);
+
+      expect(res.statusCode).toEqual(401);
+      // You may want to add more checks here depending on your implementation
+    });
+  });
+
   it('DELETE /deleteAll should delete all bookings', async () => {
     const res = await request(app)
       .delete('/bookings/deleteAll')

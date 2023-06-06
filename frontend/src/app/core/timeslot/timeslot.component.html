@@ -5,13 +5,16 @@
     <div class="checkboxContainerInner">
       <app-checkbox
         [checked]="checked"
-        [disabled]="disabled"
-        (click)="$event.preventDefault(); disabled ? null : checked ? onUncheck() : onCheck()"
-        [tooltipText]="timeslot.bookedBy"
+        [disabled]="disabledCheckbox"
+        (click)="
+          $event.preventDefault();
+          disabledCheckbox ? null : checked ? onUncheck() : onCheck()
+        "
+        [tooltipText]="timeslot.bookedBy?.name || ''"
       ></app-checkbox>
     </div>
   </div>
-  <div *ngIf="isReadOnly" class="nameContainer">
-    <span *ngIf="timeslot.bookedBy" class="name">Gebucht von: {{ timeslot.bookedBy }}</span>
+  <div class="nameContainer">
+    <span class="name">{{ getBookingText() }}</span>
   </div>
 </div>

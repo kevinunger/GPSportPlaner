@@ -24,6 +24,7 @@ export class BookingComponent implements OnInit {
   public error: string = '';
   public userCanSubmit: boolean = false;
   public errorLabelText: string = 'Gib bitte deinen Namen ein!';
+  public bookingConfirmButtonText: string = 'Eintragen!';
 
   constructor(
     private adminService: AdminService,
@@ -57,18 +58,29 @@ export class BookingComponent implements OnInit {
     });
 
     this.bookingService.getSelectedBookingsByUser().subscribe(timeslots => {
-      this.selectedTimeSlots = timeslots;
-      this.userName = this.authService.getName();
+      this.bookingService.getBookingsToRemove().subscribe(timeslotsToRemove => {
+        // if there are bookings to remove from the backend, the btn text should change, to indicate
+        // that the user is about to delete bookings
+        if (timeslotsToRemove.length > 0) {
+          this.bookingConfirmButtonText = 'Ändern!';
+          this.userCanSubmit = true;
+          this.errorLabelText = '';
+        } else {
+          this.bookingConfirmButtonText = 'Eintragen!';
+          this.selectedTimeSlots = timeslots;
+          this.userName = this.authService.getName();
 
-      if (timeslots.length === 0) {
-        this.userCanSubmit = false;
-        this.errorLabelText = 'Du musst mindestens eine Buchung wählen!';
-      } else if (this.userName.length === 0) {
-        this.userCanSubmit = false;
-        this.errorLabelText = 'Gib bitte deinen Namen ein!';
-      } else {
-        this.userCanSubmit = true;
-      }
+          if (timeslots.length === 0) {
+            this.userCanSubmit = false;
+            this.errorLabelText = 'Du musst mindestens eine Buchung wählen!';
+          } else if (this.userName.length === 0) {
+            this.userCanSubmit = false;
+            this.errorLabelText = 'Gib bitte deinen Namen ein!';
+          } else {
+            this.userCanSubmit = true;
+          }
+        }
+      });
     });
   }
 
@@ -83,7 +95,7 @@ export class BookingComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.successFullSumbission = false;
         console.error(error);
-        console.log(error);
+        console.error(error);
         this.errorLabelText = error.error.error;
         this.userCanSubmit = false;
       }
@@ -120,21 +132,22 @@ export class BookingComponent implements OnInit {
       timeToStartFirstSlot = currentTime.startOf('hour').add(30, 'minutes');
     }
 
-    console.log(timeToStartFirstSlot.format('HH:mm'));
-
     const timeSlots: IBooking[] = [];
     for (let i = 0; i < 48; i++) {
       const start = timeToStartFirstSlot.clone().add(i * 30, 'minutes');
       const end = start.clone().add(30, 'minutes');
       // console.log(start.format('HH:mm'), end.format('HH:mm'));
 
-      // check if timeSlot is alrady booked by someone
+      // check if timeSlot is already booked by someone
       // check if there is a booking with the same start time
-      const booking = this.bookings.data.find(booking => moment.unix(booking.start).isSame(start));
+      const booking = this.bookings.data.find(booking =>
+        moment.unix(booking.start).isSame(start)
+      );
+      const bookedBy = booking ? booking.bookedBy : null;
       timeSlots.push({
         start: start.unix(),
         end: end.unix(),
-        bookedBy: booking?.bookedBy || '',
+        bookedBy,
       });
     }
     return timeSlots;

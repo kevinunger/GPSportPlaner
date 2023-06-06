@@ -1,7 +1,7 @@
 export interface IBooking {
   start: number;
   end: number;
-  bookedBy: string;
+  bookedBy: IUser | null;
 }
 
 export interface IResponse<T> {
@@ -13,7 +13,14 @@ export interface IErrorResponse {
   error: string;
 }
 
-export type Day = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Day =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday';
 export interface IAdmin {
   name: string;
   phoneNumber: string;
@@ -23,13 +30,6 @@ export interface IAdmin {
   isAvailable: boolean;
 }
 
-export interface ILoginData {
-  name: string;
-  house: string;
-  room: string;
-  password: string;
-}
-
 //enum roles
 export enum Role {
   User = 'user',
@@ -37,15 +37,18 @@ export enum Role {
   Master = 'master',
 }
 
-export interface ILoginData {
+export interface IUser {
   name: string;
   house: string;
   room: string;
-  password: string;
-  role?: Role;
 }
 
-export interface IUserData {
-  role: string;
-  expDate: number;
+export interface TokenPayload extends IUser {
+  role: Role;
+  iat: number;
+  exp: number;
+}
+export interface ILoginData extends IUser {
+  password: string;
+  role?: Role;
 }

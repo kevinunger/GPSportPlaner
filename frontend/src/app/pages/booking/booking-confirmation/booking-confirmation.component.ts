@@ -4,6 +4,13 @@ import { BookingService } from '../../../services/booking.service';
 import { AdminService } from 'src/app/services/admin.service';
 import * as moment from 'moment';
 
+/*
+ * This component is used to display the selected bookings of the user on the booking confirmation page.
+ * It also shows the responsible admins for that day.
+ * If the user has just deleted bookings, it should reflect that
+ * and show the user that he just deleted these bookings.
+ */
+
 interface FormattedBookings {
   start: string;
   end: string;
@@ -20,12 +27,19 @@ export class BookingConfirmationComponent implements OnInit {
   formattedBookings: FormattedBookings[] = [];
   bookings: IBooking[] = [];
   adminsOfDays: IAdmin[][] = [];
+  justDeletedBookings: boolean = false;
+  titleText: string = 'Du bist eingetragen!';
+
   constructor(private bookingService: BookingService, private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.bookingService.getConfirmedBookingsByUser().subscribe((response: IBooking[]) => {
       this.formatBookings(response);
       this.bookings = response;
+      if (this.bookings.length === 0) {
+        this.justDeletedBookings = true;
+        this.titleText = 'Eintragungen wurden gelöscht!';
+      }
     });
 
     this.adminService.getAdmins().subscribe((admins: IAdmin[]) => {

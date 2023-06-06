@@ -6,9 +6,9 @@
     </svg>
   </div>
 
-  <h1>Du bist eingetragen!</h1>
+  <h1>{{ titleText }}</h1>
 
-  <div class="timingContainer">
+  <div *ngIf="!justDeletedBookings" class="timingContainer">
     <h3>Deine Trainingszeit</h3>
     <div *ngFor="let booking of formattedBookings">
       <p>

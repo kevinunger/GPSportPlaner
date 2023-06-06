@@ -43,7 +43,70 @@ export async function getBookingsOfDay(day: Moment): Promise<IBooking[]> {
 }
 
 export async function addBooking(bookings: IBooking[], currentTime: number) {
-  console.log(bookings[0].bookedBy);
+  // check if bookings are valid
+  await _checkIfBookingsAreValid(bookings, currentTime);
+
+  try {
+    const savedBookings = await Booking.insertMany(bookings);
+    // save to db
+    return savedBookings;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function changeBookings(bookingsToRemove: IBooking[], bookingsToAdd: IBooking[]) {
+  // check if old bookings exists
+  for (let booking of bookingsToRemove) {
+    const bookingExists = await Booking.findOne({
+      start: booking.start,
+      end: booking.end,
+      'bookedBy.name': booking.bookedBy.name,
+      'bookedBy.room': booking.bookedBy.room,
+      'bookedBy.house': booking.bookedBy.house,
+    });
+    if (!bookingExists) {
+      throw new Error(
+        `Booking does not exist ${booking.start} - ${booking.end} by ${booking.bookedBy.name}`
+      );
+    }
+  }
+
+  try {
+    // delete old bookings
+    const deletedBooking = await Booking.deleteMany({
+      start: { $in: bookingsToRemove.map(b => b.start) },
+      end: { $in: bookingsToRemove.map(b => b.end) },
+    });
+    console.log('deletedBooking: ', deletedBooking);
+
+    // bookingsToAdd can be empty (if the user just wants to delete bookings)
+    if (bookingsToAdd.length === 0) {
+      return;
+    }
+
+    // check if new bookings are valid
+    await _checkIfBookingsAreValid(bookingsToAdd, moment().unix());
+
+    // save new bookings
+    const savedBooking = await Booking.insertMany(bookingsToAdd);
+    return savedBooking;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+// delete all bookings from db
+export async function deleteAllBookings() {
+  try {
+    await Booking.deleteMany({});
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+async function _checkIfBookingsAreValid(bookings: IBooking[], currentTime: number) {
+  // check if bookings are in order and using correct types
   // check if last booking is more than 24 hours from now
   const lastBookingEnd = moment.unix(bookings[bookings.length - 1].end);
   const timeIn24Hours = moment.unix(currentTime + 86400);
@@ -63,12 +126,24 @@ export async function addBooking(bookings: IBooking[], currentTime: number) {
     const end = moment(bookings[i].end);
 
     // check if values are provided
-    if (!moment.isMoment(start) || !moment.isMoment(end) || !bookings[i].bookedBy) {
+    if (
+      !moment.isMoment(start) ||
+      !moment.isMoment(end) ||
+      !bookings[i].bookedBy.name ||
+      !bookings[i].bookedBy.house ||
+      !bookings[i].bookedBy.room
+    ) {
       throw new Error(`missing values ${bookings[i].bookedBy}`);
     }
 
-    if (!start.isValid || !end.isValid || typeof bookings[i].bookedBy !== 'string') {
-      throw new Error('wrong type');
+    if (
+      !start.isValid ||
+      !end.isValid ||
+      typeof bookings[i].bookedBy.name != 'string' ||
+      typeof bookings[i].bookedBy.house != 'string' ||
+      typeof bookings[i].bookedBy.room != 'string'
+    ) {
+      throw new Error('wrong type(s)');
     }
 
     // check if bookings are in order (start time of current booking is end of previous booking)
@@ -84,36 +159,9 @@ export async function addBooking(bookings: IBooking[], currentTime: number) {
       end: bookings[i].end,
     });
     if (booking) {
-      throw new Error(`Booking already exists ${booking.start} - ${booking.end} by ${booking.bookedBy}`);
+      throw new Error(
+        `Booking already exists ${booking.start} - ${booking.end} by ${booking.bookedBy.name}`
+      );
     }
-
-    // check if booking start and end is exactly 30 mins apart
-    // if (bookings[i].end.isSame(bookings[i].start.clone().add(30, 'minutes'))) {
-    //   throw new Error('booking not 30 mins apart');
-    // }
-  }
-
-  try {
-    // save bookings
-    // const bookingsToSave = bookings.map(booking => {
-    //   return {
-    //     start: moment(booking.start),
-    //     end: moment(booking.end),
-    //     bookedBy: booking.bookedBy,
-    //   };
-    // });
-    const savedBookings = await Booking.insertMany(bookings);
-    // save to db
-    return savedBookings;
-  } catch (err) {
-    throw new Error(err);
-  }
-}
-// delete all bookings from db
-export async function deleteAllBookings() {
-  try {
-    await Booking.deleteMany({});
-  } catch (err) {
-    throw new Error(err);
   }
 }

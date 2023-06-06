@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
-import { ILoginData, IResponse, Role } from '../types/index';
+import { ILoginData, IResponse, Role, TokenPayload } from '../types/index';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 @Injectable({
@@ -28,16 +28,23 @@ export class AuthService {
     return this.name;
   }
 
+  getRoom(): string {
+    return this.roomNumber;
+  }
+
+  getHouse(): string {
+    return this.houseNumber;
+  }
+
   getRole(): Observable<Role> {
     return this.role;
   }
 
-  getRoomNumber(): string {
-    return this.roomNumber;
-  }
-
-  getHouseNumber(): string {
-    return this.houseNumber;
+  getTokenData(): TokenPayload | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decoded = jwt_decode(token) as TokenPayload;
+    return decoded;
   }
 
   setLoginData(decodedTokenString: ILoginData): void {
