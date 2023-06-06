@@ -40,4 +40,23 @@ router.post('/changePw', authMaster, async function (req, res) {
   }
 });
 
+// route to set initial password, if none are set for role
+router.post('/setInitialPw', async function (req, res) {
+  const role = req.body.role;
+  const newPassword = req.body.newPassword;
+
+  if (!role || !newPassword) {
+    res.status(400).send({ error: 'role and newPassword are required' });
+  }
+
+  try {
+    await authController.setInitialPw(newPassword, role);
+    res.send({ message: 'Password set!' });
+  } catch (e) {
+    console.log(e);
+    // send error message with 400 status code
+    res.status(400).send({ error: e.message });
+  }
+});
+
 export default router;

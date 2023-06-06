@@ -62,6 +62,28 @@ router.post('/addAdmin', authAdmin, async (req, res) => {
   }
 });
 
+// add multiple admins, mainly for populating the test db
+router.post('/addAdmins', authAdmin, async (req, res) => {
+  if (!req.body) {
+    res.status(400).json({ message: 'Admins are required' });
+  }
+
+  const admins: IAdmin[] = req.body;
+  // check if valid admin
+  if (admins.length === 0) {
+    res.status(400).json({ message: 'Admin Values missing' });
+  } else {
+    try {
+      admins.forEach(async admin => {
+        const createdAdmin = await adminController.addAdmin(admin);
+      });
+      res.json(admins);
+    } catch (err) {
+      res.status(400).json({ message: err });
+    }
+  }
+});
+
 //edit admin
 router.put('/editAdmin', authAdmin, async (req, res) => {
   if (!req.body) {

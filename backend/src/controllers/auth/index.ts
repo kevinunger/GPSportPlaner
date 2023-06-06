@@ -60,6 +60,20 @@ export async function generateJwtToken(jwtData: ILoginData): Promise<string> {
   return token;
 }
 
+export async function setInitialPw(newPassword: string, forRole: Role) {
+  if (newPassword.length === 0) throw new Error('No password provided');
+  const hash = await bcrypt.hash(newPassword, 10);
+  // check if role is a Role
+  if (forRole != Role.User && forRole != Role.Admin && forRole != Role.Master) throw new Error('Invalid role');
+  // check if role already exists in db
+  const role = await Auth.findOne({ role: forRole });
+  if (role) throw new Error('Role already exists in DB');
+  else {
+    // create new entry
+    return Auth.create({ role: forRole, password: hash });
+  }
+}
+
 export async function changePw(oldPassword: string, newPassword: string, forRole: Role) {
   if (oldPassword.length === 0 || newPassword.length === 0) throw new Error('No password provided');
   try {

@@ -23,10 +23,12 @@ export default async function connectMongo() {
   await mongoose
     .connect(MONGO_CONNECTION_STRING)
     .then(() => {
-      console.log('connected to mongo');
+      const db_name = mongoose.connection.name;
+      console.log(`connected to mongo db: ${db_name}`);
     })
     .catch((err: any) => {
       console.error(err);
+      throw new Error(err);
     });
 }
 
