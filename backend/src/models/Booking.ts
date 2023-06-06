@@ -1,9 +1,8 @@
-import { Schema, model, connect, Model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 import { IBooking } from '../../../frontend/src/app/types/index';
 
 interface IBookingDocument extends IBooking, Document {}
-// interface IBookingModel extends Model<IBookingDocument> {}
 
 const bookingsSchema = new Schema<IBookingDocument>({
   start: Number,
