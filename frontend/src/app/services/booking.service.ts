@@ -13,24 +13,23 @@ import { AuthService } from './auth.service';
 })
 export class BookingService {
   private readonly API_URL = environment.apiUrl;
-  private bookings: BehaviorSubject<IResponse<IBooking[]>> =
-    new BehaviorSubject<IResponse<IBooking[]>>({
-      data: [],
-      currentTime: 0,
-    });
+  private bookings: BehaviorSubject<IResponse<IBooking[]>> = new BehaviorSubject<
+    IResponse<IBooking[]>
+  >({
+    data: [],
+    currentTime: 0,
+  });
 
-  private selectedBookingsByUser: BehaviorSubject<IBooking[]> =
-    new BehaviorSubject<IBooking[]>([]);
+  private selectedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
 
   // confirmed bookings are bookings the user already submitted to the backend
   // purpose is to show the user that he just submitted these on the confirmation page
-  private confirmedBookingsByUser: BehaviorSubject<IBooking[]> =
-    new BehaviorSubject<IBooking[]>([]);
+  private confirmedBookingsByUser: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>(
+    []
+  );
 
   // bookingsToRemove are bookings the user wants to remove from the backend
-  private bookingsToRemove: BehaviorSubject<IBooking[]> = new BehaviorSubject<
-    IBooking[]
-  >([]);
+  private bookingsToRemove: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -122,19 +121,14 @@ export class BookingService {
 
     const bookings = this.selectedBookingsByUser.getValue();
 
-    const index = bookings.findIndex(
-      b => b.start === booking.start && b.end === booking.end
-    );
+    const index = bookings.findIndex(b => b.start === booking.start && b.end === booking.end);
     // yes -> remove booking from selectedBookingsByUser
     if (index > -1) {
       bookings.splice(index, 1);
     }
     // no -> add booking to selectedBookingsByUser
     else {
-      this.bookingsToRemove.next([
-        ...this.bookingsToRemove.getValue(),
-        booking,
-      ]);
+      this.bookingsToRemove.next([...this.bookingsToRemove.getValue(), booking]);
       console.log('to remove: ', this.bookingsToRemove.getValue());
     }
     this.selectedBookingsByUser.next(bookings);
@@ -143,32 +137,23 @@ export class BookingService {
   // get current bookings ( bookings that are not in the past)
   public fetchAndUpdateBookings(): Observable<IResponse<IBooking[]>> {
     console.log('fetchAndUpdateBookings');
-    return this.http
-      .get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`)
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching current bookings:', error);
-          return throwError(error);
-        }),
-        tap(response => {
-          // Convert string to moment
-          response.data.forEach(booking => {
-            booking.start = booking.start;
-            booking.end = booking.end;
-          });
+    return this.http.get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`).pipe(
+      catchError(error => {
+        console.error('Error fetching current bookings:', error);
+        return throwError(error);
+      }),
+      tap(response => {
+        // Convert string to moment
+        response.data.forEach(booking => {
+          booking.start = booking.start;
+          booking.end = booking.end;
+        });
 
-          this.bookings.next(response);
-          console.log(
-            'found ',
-            this.bookings.getValue().data.length,
-            ' bookings'
-          );
-        })
-      );
+        this.bookings.next(response);
+      })
+    );
   }
-  public fetchAndUpdateBookingsByDate(
-    date: moment.Moment
-  ): Observable<IResponse<IBooking[]>> {
+  public fetchAndUpdateBookingsByDate(date: moment.Moment): Observable<IResponse<IBooking[]>> {
     console.log('fetchAndUpdateBookingsByDate');
     return this.http
       .get<IResponse<IBooking[]>>(
@@ -197,9 +182,7 @@ export class BookingService {
       );
   }
 
-  public submitBookings(
-    bookings: IBooking[]
-  ): Observable<IResponse<IBooking[]> | IErrorResponse> {
+  public submitBookings(bookings: IBooking[]): Observable<IResponse<IBooking[]> | IErrorResponse> {
     let bookingsToAdd = this.selectedBookingsByUser.getValue();
     let bookingsToRemove = this.bookingsToRemove.getValue();
 
@@ -214,10 +197,7 @@ export class BookingService {
       const subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
 
       this.http
-        .post<IResponse<IBooking[]>>(
-          `${this.API_URL}/bookings/addBooking`,
-          bookings
-        )
+        .post<IResponse<IBooking[]>>(`${this.API_URL}/bookings/addBooking`, bookings)
         .pipe(
           catchError(error => {
             console.error('Error submitting bookings:', error);
@@ -235,9 +215,6 @@ export class BookingService {
     }
     // post to /changeBooking
     else {
-      console.log('bookingsToRemove', bookingsToRemove);
-      console.log('bookingsToAdd', bookingsToAdd);
-
       const subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
 
       this.http
@@ -253,6 +230,7 @@ export class BookingService {
           })
         )
         .subscribe(response => {
+          this.bookingsToRemove.next([]);
           this.fetchAndUpdateBookings();
           subject.next(response);
           subject.complete();
