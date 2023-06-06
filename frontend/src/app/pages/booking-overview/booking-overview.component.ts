@@ -63,14 +63,11 @@ export class BookingOverviewComponent implements OnInit {
 
     let timeToStartFirstSlot: moment.Moment;
     timeToStartFirstSlot = currentTime.startOf('day');
-    console.log(timeToStartFirstSlot.format('HH:mm'));
 
     const timeSlots: IBooking[] = [];
     for (let i = 0; i < 48; i++) {
       const start = timeToStartFirstSlot.clone().add(i * 30, 'minutes');
       const end = start.clone().add(30, 'minutes');
-      // console.log(start.format('HH:mm'), end.format('HH:mm'));
-
       // check if timeSlot is alrady booked by someone
       // check if there is a booking with the same start time
       const booking = this.bookings.data.find(booking => moment.unix(booking.start).isSame(start));

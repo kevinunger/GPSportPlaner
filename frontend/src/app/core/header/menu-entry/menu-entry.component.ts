@@ -35,7 +35,6 @@ export class MenuEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.icon = iconMap[this.icon_name] || faPencil;
-    console.log(this.icon);
   }
 
   onClick(): void {

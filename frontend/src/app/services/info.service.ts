@@ -18,7 +18,6 @@ export class InfoService {
   }
 
   public checkIfBackendIsAlive() {
-    console.log('checking');
     this.http.get<IResponse<String>>(`${this.API_URL}/info`).subscribe(
       response => {
         if (response.data === 'Hello World') {
@@ -26,7 +25,6 @@ export class InfoService {
         } else {
           this.backendIsAlive.next(false);
         }
-        console.log(this.backendIsAlive);
       },
       error => {
         console.error('Error checking backend:', error);

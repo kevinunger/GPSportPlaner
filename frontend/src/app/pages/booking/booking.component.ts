@@ -35,7 +35,7 @@ export class BookingComponent implements OnInit {
   ngOnInit(): void {
     this.adminService.fetchAndSetAdmins().subscribe(
       () => {
-        console.log('Admins fetched and updated successfully');
+        console.info('Admins fetched and updated successfully');
       },
       error => {
         console.error('Error fetching and updating admins:', error);
@@ -44,7 +44,7 @@ export class BookingComponent implements OnInit {
     );
     this.bookingService.fetchAndUpdateBookings().subscribe(
       () => {
-        console.log('Bookings fetched and updated successfully');
+        console.info('Bookings fetched and updated successfully');
       },
       error => {
         console.error('Error fetching and updating bookings:', error);
@@ -116,8 +116,6 @@ export class BookingComponent implements OnInit {
       return [];
     }
 
-    console.log(this.bookings.currentTime);
-
     // get the start of the current half hour
     // if it's 16:05 the timeToStartFirstSlot is 16:00
     // if it's 16:29 the timeToStartFirstSlot is 16:00
@@ -135,7 +133,6 @@ export class BookingComponent implements OnInit {
     for (let i = 0; i < 48; i++) {
       const start = timeToStartFirstSlot.clone().add(i * 30, 'minutes');
       const end = start.clone().add(30, 'minutes');
-      // console.log(start.format('HH:mm'), end.format('HH:mm'));
 
       // check if timeSlot is already booked by someone
       // check if there is a booking with the same start time

@@ -57,25 +57,21 @@ export class HomeComponent implements OnInit {
   }
 
   onInputName(e: Event) {
-    // console.log((e.target as HTMLInputElement).value);
     this.name = (e.target as HTMLInputElement).value;
     this.checkValidity();
   }
 
   onInputHouse(e: Event) {
-    console.log((e.target as HTMLInputElement).value);
     this.house = (e.target as HTMLInputElement).value;
     this.checkValidity();
   }
 
   onInputRoom(e: Event) {
-    console.log((e.target as HTMLInputElement).value);
     this.room = (e.target as HTMLInputElement).value;
     this.checkValidity();
   }
 
   onInputPassword(e: Event) {
-    console.log((e.target as HTMLInputElement).value);
     this.password = (e.target as HTMLInputElement).value;
     this.checkValidity();
   }
@@ -104,12 +100,10 @@ export class HomeComponent implements OnInit {
 
     this.authService.authenticate(loginData).subscribe(
       jwtToken => {
-        console.log('Authenticated with token:', jwtToken);
         this.router.navigate(['/booking']); // Navigate to the booking page after successful authentication
-        console.log('pushed to booking');
       },
       error => {
-        console.log('Authentication error:', error);
+        console.error('Authentication error:', error);
         // this.errorLabelText = 'Authentication failed. Please check your credentials.';
         this.userCanSubmit = false;
         this.errorLabelText = error.error.error;

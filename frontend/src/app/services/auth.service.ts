@@ -90,7 +90,6 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return null;
     const decoded = jwt_decode(token) as JWT;
-    console.log(decoded);
 
     return decoded.exp;
   }
@@ -117,7 +116,6 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log('logout 1');
     this.clearToken();
     localStorage.clear();
   }

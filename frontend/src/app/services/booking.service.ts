@@ -89,7 +89,6 @@ export class BookingService {
   public changeNameOfBookings(name: string): void {
     let bookings = this.selectedBookingsByUser.getValue();
     bookings = this._addUserToBookings(bookings);
-    console.log(bookings);
     this.selectedBookingsByUser.next(bookings);
   }
 
@@ -109,8 +108,6 @@ export class BookingService {
       this.selectedBookingsByUser.next(bookings);
       this.orderBookingsByStartTime();
     }
-    console.log('to remove: ', this.bookingsToRemove.getValue());
-    console.log('selected: ', this.selectedBookingsByUser.getValue());
   }
 
   public removeBooking(booking: IBooking): void {
@@ -129,14 +126,12 @@ export class BookingService {
     // no -> add booking to selectedBookingsByUser
     else {
       this.bookingsToRemove.next([...this.bookingsToRemove.getValue(), booking]);
-      console.log('to remove: ', this.bookingsToRemove.getValue());
     }
     this.selectedBookingsByUser.next(bookings);
   }
 
   // get current bookings ( bookings that are not in the past)
   public fetchAndUpdateBookings(): Observable<IResponse<IBooking[]>> {
-    console.log('fetchAndUpdateBookings');
     return this.http.get<IResponse<IBooking[]>>(`${this.API_URL}/bookings/getCurrentBookings`).pipe(
       catchError(error => {
         console.error('Error fetching current bookings:', error);
@@ -154,7 +149,6 @@ export class BookingService {
     );
   }
   public fetchAndUpdateBookingsByDate(date: moment.Moment): Observable<IResponse<IBooking[]>> {
-    console.log('fetchAndUpdateBookingsByDate');
     return this.http
       .get<IResponse<IBooking[]>>(
         `${this.API_URL}/bookings/getBookingsByDate/?day=${date.toString()}`
@@ -246,9 +240,6 @@ export class BookingService {
   ): Observable<IResponse<IBooking[]> | IErrorResponse> {
     // add user data to bookings
     newBookings = this._addUserToBookings(newBookings);
-
-    console.log('oldBookings', oldBookings);
-    console.log('newBookings', newBookings);
 
     const subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
 

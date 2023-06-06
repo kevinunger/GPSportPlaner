@@ -71,7 +71,6 @@ export class HeaderComponent implements OnInit {
       title: 'Ausloggen',
       icon_name: 'faRightFromBracket',
       action: () => {
-        console.log('logout');
         this.authService.logout();
         window.location.reload();
       },
@@ -103,7 +102,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onToggleMenu() {
-    console.log('toggle menu');
     // open burger-menu
     this.menuActive = !this.menuActive;
   }
