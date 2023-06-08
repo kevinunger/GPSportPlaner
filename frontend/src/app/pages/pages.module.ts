@@ -15,6 +15,7 @@ import { AdminsSettingsComponent } from './admins-settings/admins-settings.compo
 import { MasterSettingsComponent } from './master-settings/master-settings.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { InfoComponent } from './info/info.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { InfoComponent } from './info/info.component';
     MasterSettingsComponent,
     UserSettingsComponent,
     InfoComponent,
+    RulesComponent,
   ],
   imports: [FontAwesomeModule, CommonModule, PagesRoutingModule, CoreModule, SharedModule],
 })
