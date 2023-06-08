@@ -11,6 +11,3 @@ cp /home/gps/envs/.env.production .env.production
 
 echo "Run new PM2 action"
 pm2 start "npm run start" --update-env
-
-
-
