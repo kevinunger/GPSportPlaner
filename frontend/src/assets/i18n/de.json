@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "title": "Regeln für die Benutzung des Sportraumes",
+    "rule1": "Benutzung ausschließlich für Bewohner:innen der Studentenwohnheime Gret-Palucca-Straße 9 und 11.",
+    "rule2": "Betreten ausschließlich mit sauberen (Turn-)Schuhen.",
+    "rule3": "Bitte mit Handtuch trainieren.",
+    "rule4": "Sorgsamer und respektvoller Umgang mit den Trainingsgeräten.",
+    "rule5": "Wände sauber halten. Keine Gewichte anlehnen oder selbst als Unterstützung nutzen.",
+    "rule6": "Gewichte nicht direkt auf dem Boden absetzen. Matten benutzen.",
+    "rule7": "Gewichte und Hantelstangen nach Gebrauch aufräumen.",
+    "rule8": "Geräte nach Benutzung desinfizieren.",
+    "rule9": "Fenster 15 Minuten vor Ende des Trainings öffnen. Danach schließen.",
+    "rule10": "Am Ende des Trainings: Licht ausschalten."
+  }
+}
