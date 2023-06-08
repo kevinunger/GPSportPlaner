@@ -15,49 +15,26 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Node.js 16.x
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
           cache: "npm"
-        env:
-          PORT: ${{ vars.PORT }}}
-          MONGO_USER: ${{ secrets.MONGO_USER }}
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-          MONGO_HOST: ${{ secrets.MONGO_HOST }}
-          MONGO_DB: ${{ secrets.MONGO_DB }}
-          CORS_ORIGIN: ${{ vars.CORS_ORIGIN }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      - name: Set environment variables
-        run: |
-          echo "PORT=${{ vars.PORT }}" >> $GITHUB_ENV
-          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> $GITHUB_ENV
-          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> $GITHUB_ENV
-          echo "MONGO_HOST=${{ secrets.MONGO_HOST }}" >> $GITHUB_ENV
-          echo "MONGO_DB=${{ secrets.MONGO_DB }}" >> $GITHUB_ENV
-          echo "CORS_ORIGIN=${{ vars.CORS_ORIGIN }}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+
       - run: npm ci
         working-directory: ./backend
-      - name: source env vars
-        working-directory: ./backend
-        run: source /home/gps/envs/envs.sh
-      - name: Debug - Print environment variables
+
+      - name: Run tests
         run: |
-          echo "PORT=$PORT"
-      - run: echo "NODE_ENV=test" >> $GITHUB_ENV
+          echo "NODE_ENV=test" >> $GITHUB_ENV
+          npm run test
         working-directory: ./backend
-      - name: Debug - Print environment variables
-        run: |
-          echo "PORT=$PORT"
-      - run: npm run test
-        working-directory: ./backend
-      - name: test env var
-        working-directory: ./backend
-        run: echo $PORT
+
       - run: echo "NODE_ENV=production" >> $GITHUB_ENV
       - run: npm run build --if-present
         working-directory: ./backend
+
       - name: run deploy script
         working-directory: ./backend
-        run: sh deploy.sh
+        run: source deploy.sh
