@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   name: string = '';
   house: string = '';
   room: string = '';
@@ -23,38 +23,6 @@ export class HomeComponent implements OnInit {
   errorLabelText: string = 'Bitte fülle alles aus';
 
   constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.checkAndRedirect();
-  }
-
-  checkAndRedirect() {
-    const expiresIn = this.authService.getTokenExpirationDate();
-    if (expiresIn) {
-      if (expiresIn >= 0) {
-        // 1.5 weeks
-        if (expiresIn >= 1.5 * 7 * 24 * 60 * 60) {
-          this.authService.initToken();
-          this.router.navigate(['/booking']);
-        }
-        // jwt expired
-        else {
-          // Get a new token from the backend and then redirect
-          this.authService.refreshToken().subscribe(
-            () => {
-              this.router.navigate(['/booking']);
-            },
-            error => {
-              console.error('Error refreshing token:', error);
-              this.authService.clearToken();
-              localStorage.clear();
-              location.reload();
-            }
-          );
-        }
-      }
-    }
-  }
 
   onInputName(e: Event) {
     this.name = (e.target as HTMLInputElement).value;

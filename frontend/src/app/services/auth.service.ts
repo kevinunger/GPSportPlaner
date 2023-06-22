@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { tap, catchError, map } from 'rxjs/operators';
+import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { ILoginData, IResponse, Role, TokenPayload } from '../types/index';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
@@ -94,17 +94,20 @@ export class AuthService {
     return decoded.exp;
   }
 
-  refreshToken(): Observable<void> {
-    return this.http.post<{ token: string }>(`${this.API_URL}/auth/refreshToken`, {}).pipe(
-      catchError(error => {
-        console.error('Error refreshing token:', error);
-        this.clearToken();
-        return throwError(error);
-      }),
-      map(res => {
-        this.setToken(res.token);
-      })
-    );
+  refreshToken(): Observable<{ token: string }> {
+    const token = this.getToken();
+    return this.http
+      .post<{ token: string }>(`${this.API_URL}/auth/refreshToken`, { token: token })
+      .pipe(
+        catchError(error => {
+          console.error('Error refreshing token:', error);
+          // this.clearToken();
+          return throwError(error);
+        }),
+        tap(res => {
+          this.setToken(res.token);
+        })
+      );
   }
 
   clearToken(): void {

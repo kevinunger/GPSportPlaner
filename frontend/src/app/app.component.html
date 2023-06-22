@@ -2,7 +2,7 @@
   <app-header></app-header>
 
   <div class="pageWrapper">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="changeOfRoutes()"></router-outlet>
   </div>
 
   <app-footer></app-footer>
