@@ -33,7 +33,16 @@ export class AppComponent implements OnInit {
 
   checkAndRedirect() {
     const expDate = this.authService.getTokenExpirationDate();
-    if (expDate === null) return; // If there is no token, exit the function
+    // If there is no or the token is invalid, exit the function
+    if (expDate === null) {
+      console.log('Token is invalid or does not exist');
+      // logout and reditect to login
+      this.authService.clearToken();
+      localStorage.clear();
+      // location.reload();
+
+      return;
+    }
 
     const expiresIn = expDate * 1000 - Date.now(); // Convert expDate to milliseconds
     console.log('expDate - Date.now()', new Date(expDate * 1000), ' ', Date.now());
@@ -43,7 +52,7 @@ export class AppComponent implements OnInit {
       console.log('Token is still valid');
       // Token is still valid for more than 1.5 weeks
       this.authService.initToken();
-      this.router.navigate(['/booking']);
+      // this.router.navigate(['/booking']);
     }
     // Token is expired or will expire within 1.5 weeks
     else {
@@ -52,15 +61,15 @@ export class AppComponent implements OnInit {
       this.authService
         .refreshToken()
         .pipe(switchMap(() => this.router.navigate(['/booking'])))
-        .subscribe(
-          () => {},
-          error => {
+        .subscribe({
+          next: () => {},
+          error: error => {
             console.error('Error refreshing token:', error);
             this.authService.clearToken();
             localStorage.clear();
             location.reload();
-          }
-        );
+          },
+        });
     }
   }
 }

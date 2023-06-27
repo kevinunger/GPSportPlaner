@@ -21,7 +21,24 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   getToken(): string | null {
-    return localStorage.getItem('jwt');
+    // return token and check if it is valid
+    const token = localStorage.getItem('jwt');
+    if (!token) return null;
+
+    const segments = token.split('.');
+    if (segments.length !== 3) {
+      console.error('Token structure is incorrect.');
+      return null;
+    }
+
+    try {
+      const decoded = jwt_decode(token) as TokenPayload;
+
+      return token;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
   }
 
   getName(): string {
@@ -60,6 +77,7 @@ export class AuthService {
       const decoded = jwt_decode(token) as ILoginData;
       this.setLoginData(decoded);
     }
+    console.log('token:', token);
   }
 
   setToken(token: string): void {
@@ -89,6 +107,9 @@ export class AuthService {
     }
     const token = this.getToken();
     if (!token) return null;
+    // check validity
+    console.log(jwt_decode(token));
+
     const decoded = jwt_decode(token) as JWT;
 
     return decoded.exp;
