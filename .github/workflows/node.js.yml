@@ -31,16 +31,16 @@ jobs:
       - name: Copying .env.production from /home/gps/envs/.env.production
         run: cp /home/gps/envs/.env.production .env.production
 
+      - name: Copying .env.test from /home/gps/envs/.env.test
+        run: cp /home/gps/envs/.env.test .env.test
+
       - name: Run tests
         run: |
           export NODE_ENV=test
-          echo "NODE_ENV=test" >> $GITHUB_ENV
           npm run test
         working-directory: ./backend
 
-      - run: |
-          export NODE_ENV=production
-          echo "NODE_ENV=production" >> $GITHUB_ENV
+      - run: export NODE_ENV=production
       - run: npm run build --if-present
         working-directory: ./backend
 
