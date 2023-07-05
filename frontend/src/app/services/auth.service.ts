@@ -77,7 +77,6 @@ export class AuthService {
       const decoded = jwt_decode(token) as ILoginData;
       this.setLoginData(decoded);
     }
-    console.log('token:', token);
   }
 
   setToken(token: string): void {
@@ -108,25 +107,26 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return null;
     // check validity
-    console.log(jwt_decode(token));
+    // console.log(jwt_decode(token));
 
     const decoded = jwt_decode(token) as JWT;
 
     return decoded.exp;
   }
 
-  refreshToken(): Observable<{ token: string }> {
+  refreshToken(): Observable<IResponse<string>> {
     const token = this.getToken();
     return this.http
-      .post<{ token: string }>(`${this.API_URL}/auth/refreshToken`, { token: token })
+      .post<IResponse<string>>(`${this.API_URL}/auth/refreshToken`, { token: token })
       .pipe(
         catchError(error => {
           console.error('Error refreshing token:', error);
           // this.clearToken();
-          return throwError(error);
+          return throwError(() => error);
         }),
         tap(res => {
-          this.setToken(res.token);
+          // console.log('refreshed token:', res.data);
+          this.setToken(res.data);
         })
       );
   }

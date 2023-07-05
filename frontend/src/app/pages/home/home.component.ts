@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   name: string = '';
   house: string = '';
   room: string = '';
@@ -23,6 +23,13 @@ export class HomeComponent {
   errorLabelText: string = 'Bitte fülle alles aus';
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    const token = this.authService.getToken();
+    if (token) {
+      this.router.navigate(['/booking']);
+    }
+  }
 
   onInputName(e: Event) {
     this.name = (e.target as HTMLInputElement).value;

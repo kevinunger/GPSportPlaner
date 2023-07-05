@@ -43,6 +43,21 @@ export async function authenticate(loginData: ILoginData): Promise<string> {
   }
 }
 
+export async function refreshToken(refreshToken: string): Promise<string> {
+  const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET) as JwtPayload;
+  const loginData = decoded as ILoginData;
+  console.log(loginData);
+  if (
+    loginData.role === Role.User ||
+    loginData.role === Role.Admin ||
+    loginData.role === Role.Master
+  ) {
+    return await generateJwtToken(loginData);
+  } else {
+    throw new Error('Invalid role');
+  }
+}
+
 // generate jwt token with express jwt
 export async function generateJwtToken(jwtData: ILoginData): Promise<string> {
   const token = jwt.sign(
@@ -64,7 +79,8 @@ export async function setInitialPw(newPassword: string, forRole: Role) {
   if (newPassword.length === 0) throw new Error('No password provided');
   const hash = await bcrypt.hash(newPassword, 10);
   // check if role is a Role
-  if (forRole != Role.User && forRole != Role.Admin && forRole != Role.Master) throw new Error('Invalid role');
+  if (forRole != Role.User && forRole != Role.Admin && forRole != Role.Master)
+    throw new Error('Invalid role');
   // check if role already exists in db
   const role = await Auth.findOne({ role: forRole });
   if (role) throw new Error('Role already exists in DB');
@@ -96,7 +112,8 @@ export async function changePw(oldPassword: string, newPassword: string, forRole
 }
 
 export async function getPasswordOfRole(role: Role): Promise<string> {
-  if (role != Role.User && role != Role.Admin && role != Role.Master) throw new Error('Invalid role');
+  if (role != Role.User && role != Role.Admin && role != Role.Master)
+    throw new Error('Invalid role');
   try {
     return (await Auth.findOne({ role: role })).toObject().password;
   } catch (err) {
@@ -110,7 +127,11 @@ export async function authUser(req: ExpressJwtRequest, res: Response, next: Next
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
     const loginData = decoded as ILoginData;
 
-    if (loginData.role === Role.User || loginData.role === Role.Admin || loginData.role === Role.Master) {
+    if (
+      loginData.role === Role.User ||
+      loginData.role === Role.Admin ||
+      loginData.role === Role.Master
+    ) {
       next();
     } else {
       res.status(401).json({ error: 'Unauthorized' });

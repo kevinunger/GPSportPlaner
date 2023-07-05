@@ -22,10 +22,6 @@ export class AppComponent implements OnInit {
     this.infoService.getBackendIsAlive().subscribe(backendIsAlive => {
       this.backendIsAlive = backendIsAlive;
     });
-
-    // init jwt
-    this.authService.initToken();
-    this.checkAndRedirect();
   }
   changeOfRoutes() {
     this.checkAndRedirect();
@@ -33,43 +29,52 @@ export class AppComponent implements OnInit {
 
   checkAndRedirect() {
     const expDate = this.authService.getTokenExpirationDate();
-    // If there is no or the token is invalid, exit the function
-    if (expDate === null) {
-      console.log('Token is invalid or does not exist');
-      // logout and reditect to login
-      this.authService.clearToken();
-      localStorage.clear();
-      // location.reload();
 
+    // Check if does not exist or is expired
+    if (!expDate || expDate * 1000 - Date.now() < 0) {
+      console.log('Token is invalid or does not exist or is expired');
+      // logout and redirect to login
+      this.authService.clearToken();
+      this.router.navigate(['/']);
+      // location.reload();
       return;
     }
 
     const expiresIn = expDate * 1000 - Date.now(); // Convert expDate to milliseconds
-    console.log('expDate - Date.now()', new Date(expDate * 1000), ' ', Date.now());
-    console.log('expiresIn:', expiresIn);
 
-    if (expiresIn >= 1.5 * 7 * 24 * 60 * 60 * 1000) {
-      console.log('Token is still valid');
-      // Token is still valid for more than 1.5 weeks
-      this.authService.initToken();
-      // this.router.navigate(['/booking']);
+    // token is valid for 14 days
+    // if the token is older than 3 days, refresh it
+
+    let refreshAt = 11 * 24 * 60 * 60 * 1000; // refresh at 11 days (3 days after issued)
+
+    // console.log('expires in: ', expiresIn / 1000 / 60 / 60 / 24, ' days');
+    // console.log('refreshTime days: ', refreshAt / 1000 / 60 / 60 / 24, ' days');
+    // console.log(
+    //   'expiresIn - refreshTime: ',
+    //   (expiresIn - refreshAt) / 1000 / 60 / 60 / 24,
+    //   ' days'
+    // );
+
+    // check if token is older than 3 days
+    if (expiresIn - refreshAt < 0) {
+      this.authService.refreshToken().subscribe({
+        next: () => {
+          console.log('Token refreshed');
+        },
+        error: error => {
+          console.error('Error refreshing token:', error);
+          this.authService.clearToken();
+          localStorage.clear();
+          // redirect to login
+          this.router.navigate(['/']);
+        },
+      });
     }
-    // Token is expired or will expire within 1.5 weeks
+
+    // token is not older than 3 days
     else {
-      console.log('Token is expired');
-      // Get a new token from the backend and then redirect
-      this.authService
-        .refreshToken()
-        .pipe(switchMap(() => this.router.navigate(['/booking'])))
-        .subscribe({
-          next: () => {},
-          error: error => {
-            console.error('Error refreshing token:', error);
-            this.authService.clearToken();
-            localStorage.clear();
-            location.reload();
-          },
-        });
+      console.log('Token is still valid and not older than 3 days');
+      this.authService.initToken();
     }
   }
 }

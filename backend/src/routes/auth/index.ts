@@ -59,4 +59,25 @@ router.post('/setInitialPw', async function (req, res) {
   }
 });
 
+router.post('/refreshToken', async function (req, res) {
+  const token = req.body.token;
+  console.log(req.body.token);
+  if (!token) {
+    res.status(400).send({ error: 'refreshToken is required' });
+    return;
+  }
+
+  try {
+    const jwt = await authController.refreshToken(token);
+    const response: IResponse<string> = {
+      data: jwt,
+      currentTime: moment(),
+    };
+    res.send(response);
+  } catch (e) {
+    // send error message with 400 status code
+    res.status(400).send({ error: e.message });
+  }
+});
+
 export default router;
