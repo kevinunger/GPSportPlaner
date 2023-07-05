@@ -7,7 +7,7 @@
     "test": "cross-env NODE_ENV=test && echo $NODE_ENV && jest --clearCache && jest --detectOpenHandles",
     "testWatch": "cross-env NODE_ENV=test && echo $NODE_ENV && jest --clearCache && jest --watchAll",
     "build": "npx tsc",
-    "start": "node dist/backend/src/index.js ",
+    "start": "node dist/backend/src/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\""
   },
   "author": "kevin unger",

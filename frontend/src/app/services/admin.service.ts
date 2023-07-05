@@ -31,7 +31,6 @@ export class AdminService {
         return throwError(error);
       }),
       tap(res => {
-        console.log('AdminsR:', res.data);
         this.setAdmins(res.data);
       })
     );

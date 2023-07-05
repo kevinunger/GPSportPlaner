@@ -12,7 +12,10 @@ import { config } from 'dotenv';
 config();
 const path = require('path');
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
+if (env !== 'test' && env !== 'development' && env !== 'production') {
+  throw new Error('NODE_ENV must be either test, development or production');
+}
 
 // load env variables from .env.development or .env.production
 dotenv.config({
