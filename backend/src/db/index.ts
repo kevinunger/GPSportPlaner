@@ -54,6 +54,10 @@ export async function closeMongoTest() {
 
 // clear db, remove all data
 export async function clearMongoTest(excludeCollections = []) {
+  // CRASH IF CONNECT TO REAL DB OR TEST DB OR ENV is not test
+  if (process.env.NODE_ENV !== 'test') {
+    throw new Error('Attempt to clear non-test database');
+  }
   const collections = mongoose.connection.collections;
   for (const key in collections) {
     if (!excludeCollections.includes(key)) {
