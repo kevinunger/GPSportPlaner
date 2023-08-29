@@ -8,6 +8,10 @@ import infoRouter from './routes/info/index';
 import adminsRouter from './routes/admins/index';
 import authRouter from './routes/auth/index';
 import { config } from 'dotenv';
+import { validateEnvVariables } from './utils/validateEnv';
+
+// check if all env keys are there and valid
+validateEnvVariables();
 
 config();
 const path = require('path');
