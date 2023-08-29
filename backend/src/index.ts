@@ -47,7 +47,7 @@ app.get('/', (req: any, res: any) => {
 if (process.env.NODE_ENV !== 'test') {
   connectMongo().catch(err => console.log(err));
 
-  app.listen(port, () => {
+  app.listen(+port, '0.0.0.0', () => {
     console.log(`using env: ${env}`);
     console.log(`[server]: Server is running at http://localhost:${port}`);
     // console.log(process.env.JWT_SECRET);

@@ -11,7 +11,7 @@ export const environment = {
     authDomain: 'gpsportplaner.firebaseapp.com',
     messagingSenderId: '555972866190',
   },
-  apiUrl: 'http://localhost:3000',
+  apiUrl: `http://${window.location.hostname}:3000`,
   // apiUrl: 'https://gps.kevinunger.de',
   production: false,
 };
