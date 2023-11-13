@@ -47,6 +47,7 @@ router.post('/setInitialPw', async function (req, res) {
 
   if (!role || !newPassword) {
     res.status(400).send({ error: 'role and newPassword are required' });
+    return;
   }
 
   try {
