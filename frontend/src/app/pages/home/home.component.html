@@ -6,6 +6,7 @@
     <label for="name">Your Name</label>
     <app-text-input
       [type]="'text'"
+      [name]="'name'"
       [placeholder]="placeholderName"
       [value]="name"
       (input)="onInputName($event)"
@@ -14,6 +15,7 @@
     <label for="name">House Number (9 or 11)</label>
     <app-text-input
       [type]="'text'"
+      [name]="'house'"
       [placeholder]="placeholderHouse"
       [value]="house"
       (input)="onInputHouse($event)"
@@ -22,6 +24,7 @@
     <label for="name">Room Number</label>
     <app-text-input
       [type]="'text'"
+      [name]="'room'"
       [placeholder]="placeholderRoom"
       [value]="room"
       (input)="onInputRoom($event)"
@@ -30,6 +33,7 @@
     <label for="name">Password</label>
     <app-text-input
       [type]="'password'"
+      [name]="'password'"
       [placeholder]="placeholderPassword"
       [value]="password"
       (input)="onInputPassword($event)"
