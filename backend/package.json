@@ -8,7 +8,8 @@
     "testWatch": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --clearCache\" \"jest --watchAll\"",
     "build": "npx tsc",
     "start": "node dist/backend/src/index.js",
-    "dev": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\""
+    "dev": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\"",
+    "devTest": "cross-env NODE_ENV=developmentTest concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\""
   },
   "author": "kevin unger",
   "license": "ISC",

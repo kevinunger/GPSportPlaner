@@ -1,22 +1,30 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { Admin, IAdmin } from '../models/Admin';
 
 const env = process.env.NODE_ENV || 'development';
 dotenv.config({
   path: `.env.${env}`,
 });
 
-const MONGO_CONNECTION_STRING =
-  'mongodb+srv://' +
-  process.env.MONGO_USER +
-  ':' +
-  process.env.MONGO_PASSWORD +
-  '@' +
-  process.env.MONGO_HOST +
-  '/' +
-  process.env.MONGO_DB +
-  '?retryWrites=true&w=majority';
+let MONGO_CONNECTION_STRING: string;
+if (process.env.NODE_ENV === 'development') {
+  MONGO_CONNECTION_STRING = 'mongodb://' + process.env.MONGO_HOST + '/' + process.env.MONGO_DB;
+} else {
+  MONGO_CONNECTION_STRING =
+    'mongodb+srv://' +
+    process.env.MONGO_USER +
+    ':' +
+    process.env.MONGO_PASSWORD +
+    '@' +
+    process.env.MONGO_HOST +
+    '/' +
+    process.env.MONGO_DB +
+    '?retryWrites=true&w=majority';
+}
+
+// const MONGO_CONNECTION_STRING = 'mongodb://localhost:27017/gps';
 
 // connect to mongodb
 export default async function connectMongo() {
@@ -65,4 +73,10 @@ export async function clearMongoTest(excludeCollections = []) {
       await collection.deleteMany();
     }
   }
+}
+
+async function populateLocalDB() {
+  // post request to
+  // localhost:3000/api/auth/setInitialPw
+  // with body:
 }

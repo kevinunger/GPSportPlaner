@@ -2,34 +2,28 @@
 
 ## Frontend
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Backend
 
+#### local mongodb setup
+`docker run -d -p 27017:27017 --name gpsmongo -e MONGO_INITDB_ROOT_USERNAME=gpsbackend -e MONGO_INITDB_ROOT_PASSWORD=gpstest mongo:latest`
 
+send POST to http://localhost:3000/auth/setInitialPw with
+{
+    "role": "user",
+    "newPassword": "pw"
+}
+
+to set user pw
+
+and set pws for all other roles (admin and master)
+
+### run
+
+`start gpsmongo`
+``
 
 
 ### Deployment to VPS
-
 
 Point A-Record to VPS-IP
 
@@ -53,7 +47,6 @@ sudo ufw enable
 sudo ufw allow ssh
 sudo ufw allow 'Nginx Full'
 
-
 Optional (new repo)
 Goto Github Actions and use the deploy-backend.yml
 Goto settings -> actions -> add runner
@@ -74,3 +67,4 @@ nano ~/.profile
 add "export PATH=~/.npm-global/bin:$PATH"
 
 npm install -g pm2
+
