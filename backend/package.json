@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --clearCache\" \"jest --detectOpenHandles\"",
+    "test": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --detectOpenHandles\"",
     "testWatch": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --clearCache\" \"jest --watchAll\"",
     "build": "npx tsc",
     "start": "node dist/backend/src/index.js",
