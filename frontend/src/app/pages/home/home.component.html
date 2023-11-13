@@ -1,43 +1,45 @@
 <div class="pageContainer">
-  <h1>Willkommen zum Sportplaner!</h1>
+  <h1 class="headerText">Willkommen zum Sportplaner!</h1>
   <!-- <p>Logg dich bitte</p> -->
 
-  <label for="name">Your Name</label>
-  <app-text-input
-    type="text"
-    [placeholder]="placeholderName"
-    [value]="name"
-    (input)="onInputName($event)"
-  ></app-text-input>
+  <form (submit)="onSubmit(); $event.preventDefault()" class="form">
+    <label for="name">Your Name</label>
+    <app-text-input
+      [type]="'text'"
+      [placeholder]="placeholderName"
+      [value]="name"
+      (input)="onInputName($event)"
+    ></app-text-input>
 
-  <label for="name">House Number (9 or 11)</label>
-  <app-text-input
-    type="text"
-    [placeholder]="placeholderHouse"
-    [value]="house"
-    (input)="onInputHouse($event)"
-  ></app-text-input>
+    <label for="name">House Number (9 or 11)</label>
+    <app-text-input
+      [type]="'text'"
+      [placeholder]="placeholderHouse"
+      [value]="house"
+      (input)="onInputHouse($event)"
+    ></app-text-input>
 
-  <label for="name">Room Number</label>
-  <app-text-input
-    type="text"
-    [placeholder]="placeholderRoom"
-    [value]="room"
-    (input)="onInputRoom($event)"
-  ></app-text-input>
+    <label for="name">Room Number</label>
+    <app-text-input
+      [type]="'text'"
+      [placeholder]="placeholderRoom"
+      [value]="room"
+      (input)="onInputRoom($event)"
+    ></app-text-input>
 
-  <label for="name">Password</label>
-  <app-text-input
-    type="password"
-    [placeholder]="placeholderPassword"
-    [value]="password"
-    (input)="onInputPassword($event)"
-  ></app-text-input>
+    <label for="name">Password</label>
+    <app-text-input
+      [type]="'password'"
+      [placeholder]="placeholderPassword"
+      [value]="password"
+      (input)="onInputPassword($event)"
+    ></app-text-input>
 
-  <app-button
-    [errorLabelText]="errorLabelText"
-    [disabled]="!userCanSubmit"
-    [text]="'Login'"
-    (click)="$event.preventDefault(); onSubmit()"
-  ></app-button>
+    <app-button
+      [errorLabelText]="errorLabelText"
+      [disabled]="!userCanSubmit"
+      [text]="'Login'"
+      (click)="$event.preventDefault(); onSubmit()"
+    ></app-button>
+  </form>
 </div>
