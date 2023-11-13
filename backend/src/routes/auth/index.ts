@@ -18,6 +18,7 @@ router.post('/login', async function (req, res) {
     };
 
     res.send(response);
+    return;
   } catch (e) {
     // send erropr message with 400 status code
     res.status(400).send({ error: e.message });
