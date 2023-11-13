@@ -50,4 +50,4 @@ jobs:
         working-directory: ./backend
         run: |
           export NODE_ENV=production
-          source deploy.sh
+          pm2 start "npm run start" --update-env
