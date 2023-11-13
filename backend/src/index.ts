@@ -44,10 +44,6 @@ app.use('/info', infoRouter);
 app.use('/admins', adminsRouter);
 app.use('/auth', authRouter);
 
-app.get('/', (req: any, res: any) => {
-  res.send('Express + TypeScript Server');
-});
-
 if (process.env.NODE_ENV !== 'test') {
   connectMongo().catch(err => console.log(err));
 

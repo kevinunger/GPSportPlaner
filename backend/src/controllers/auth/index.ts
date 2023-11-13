@@ -23,10 +23,6 @@ export async function authenticate(loginData: ILoginData): Promise<string> {
   const hashedPasswordAdmin = await getPasswordOfRole(Role.Admin);
   const hashedPasswordMaster = await getPasswordOfRole(Role.Master);
 
-  const saltRounds = 10;
-
-  const hash2 = await bcrypt.hash(loginData.password, saltRounds);
-
   const result_user = await bcrypt.compare(loginData.password, hashedPasswordUser);
   let result_admin, result_master;
   if (!result_user) {
