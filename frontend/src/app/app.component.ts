@@ -12,6 +12,7 @@ import { switchMap } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   title = 'GPSportPlaner';
   backendIsAlive: boolean = true;
+  isLoggedIn: boolean = false;
   constructor(
     private infoService: InfoService,
     private authService: AuthService,
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
     // Check if does not exist or is expired
     if (!expDate || expDate * 1000 - Date.now() < 0) {
       console.log('Token is invalid or does not exist or is expired');
+      this.isLoggedIn = false;
       // logout and redirect to login
       this.authService.clearToken();
       this.router.navigate(['/']);

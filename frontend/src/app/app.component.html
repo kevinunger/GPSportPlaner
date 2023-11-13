@@ -5,7 +5,9 @@
     <router-outlet (activate)="changeOfRoutes()"></router-outlet>
   </div>
 
-  <app-footer></app-footer>
+  <ng-container *ngIf="isLoggedIn">
+    <app-footer></app-footer>
+  </ng-container>
 </ng-container>
 
 <ng-container *ngIf="!backendIsAlive">
