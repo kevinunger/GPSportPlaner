@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
     // Check if does not exist or is expired
     if (!expDate || expDate * 1000 - Date.now() < 0) {
       console.log('Token is invalid or does not exist or is expired');
-      this.isLoggedIn = false;
       // logout and redirect to login
       this.authService.clearToken();
       this.router.navigate(['/']);
@@ -78,5 +77,6 @@ export class AppComponent implements OnInit {
       console.log('Token is still valid and not older than 3 days');
       this.authService.initToken();
     }
+    this.isLoggedIn = true;
   }
 }
