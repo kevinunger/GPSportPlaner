@@ -115,8 +115,9 @@ export class HeaderComponent implements OnInit {
   }
 
   onToggleMenu() {
-    // open burger-menu
-    this.menuActive = !this.menuActive;
+    if (this.authService.getToken()) {
+      this.menuActive = !this.menuActive;
+    }
   }
   onLanguageChange() {
     this.translocoService.setActiveLang(this.activeLang);
