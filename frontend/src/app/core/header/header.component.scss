@@ -11,14 +11,13 @@
 
 .headerText {
   color: #030303;
-  position: relative;
   text-align: center;
-  font-size: 24px;
+  // font-size: 20px;
 }
 
 .menuBtn {
   position: absolute;
-  top: 0;
+  top: 2px;
   right: 0;
   height: 100%;
   width: 50px;
@@ -87,13 +86,12 @@
 .langMenu {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 20px;
   width: 50px;
   height: 50px;
+  padding: 0 12px;
 
-  // width: 200px; /* Adjust width as needed */
-  padding: 8px 12px;
-  border: 1px solid hsl(0, 0%, 0%);
+  border: 1px solid hsla(0, 0%, 0%, 0.5);
   border-radius: 4px;
   background-color: white;
   color: #333;
@@ -106,9 +104,18 @@
   background-position: right 10px center;
   background-size: 15px;
   transition: border-color 0.3s;
+
+  /* only uppercase */ ;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 
 .langMenu:focus {
   outline: none; /* Removes outline */
 }
+
+.langMenu > * {
+  text-align: center;  
+}
+

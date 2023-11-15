@@ -1,6 +1,5 @@
 <div class="pageContainer" *transloco="let t">
   <h1 class="headerText">{{ t('home.title') }}</h1>
-  <!-- <p>Logg dich bitte</p> -->
 
   <form (submit)="onSubmit(); $event.preventDefault()" class="form">
     <label for="name">{{ t('home.yourName') }}</label>
@@ -14,7 +13,7 @@
 
     <label for="name">{{ t('home.houseNumber') }}</label>
     <app-text-input
-      [type]="'text'"
+      [type]="'number'"
       [name]="'house'"
       [placeholder]="t('home.namePlaceholder')"
       [value]="house"
@@ -23,7 +22,7 @@
 
     <label for="name">{{ t('home.roomNumber') }}</label>
     <app-text-input
-      [type]="'text'"
+      [type]="'number'"
       [name]="'room'"
       [placeholder]="t('home.namePlaceholder')"
       [value]="room"
@@ -42,7 +41,7 @@
     <app-button
       [errorLabelText]="errorLabelText"
       [disabled]="!userCanSubmit"
-      [text]="'Login'"
+      [text]="t('home.loginButtonLabel')"
       (click)="$event.preventDefault(); onSubmit()"
     ></app-button>
   </form>

@@ -14,12 +14,12 @@ app-timeslot {
 }
 
 app-text-input {
-  margin: 20px auto;
+  margin: 5px 0px 20px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: clamp(250px, 80%, 300px);
+  width: clamp(250px, 95%, 90vw);
   height: 50px;
 }
 
@@ -32,10 +32,13 @@ app-button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: clamp(250px, 80%, 300px);
+  width: clamp(250px, 80vw, 350px);
   height: 100%;
 }
 
 .headerText {
   text-align: center;
+  /* break after each word */
+  word-break: break-word;
+  margin: 20px 20px;
 }

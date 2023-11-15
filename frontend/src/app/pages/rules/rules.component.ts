@@ -9,8 +9,5 @@ import { TranslocoService } from '@ngneat/transloco';
 export class RulesComponent implements OnInit {
   constructor(private translocoService: TranslocoService) {}
 
-  ngOnInit(): void {
-    console.log('RulesComponent');
-    this.translocoService.selectTranslate('rules').subscribe(value => console.log(value));
-  }
+  ngOnInit(): void {}
 }
