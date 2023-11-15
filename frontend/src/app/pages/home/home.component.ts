@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-home',
@@ -13,20 +14,19 @@ export class HomeComponent implements OnInit {
   room: string = '';
   password: string = '';
 
-  placeholderName: string = 'Name';
-  placeholderHouse: string = 'Haus';
-  placeholderRoom: string = 'Zimmernummer';
-  placeholderPassword: string = 'Passwort';
-
   userCanSubmit: boolean = false;
+  errorLabelText: string = '';
 
-  errorLabelText: string = 'Bitte fülle alles aus';
-
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     const token = this.authService.getToken();
     if (token) {
+      console.log('Token exists');
       this.router.navigate(['/booking']);
     }
   }
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
       this.userCanSubmit = true;
     } else {
       this.userCanSubmit = false;
-      this.errorLabelText = 'Bitte fülle alles aus';
+      this.errorLabelText = this.translocoService.translate('home.errorLabelText');
     }
   }
 
@@ -75,6 +75,7 @@ export class HomeComponent implements OnInit {
 
     this.authService.authenticate(loginData).subscribe(
       jwtToken => {
+        console.log('Authentication successful');
         this.router.navigate(['/booking']); // Navigate to the booking page after successful authentication
       },
       error => {

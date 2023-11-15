@@ -1,0 +1,28 @@
+ul {
+  list-style: none; /* Remove default list-style */
+  margin: 0; /* Reset default margin */
+  padding: 0; /* Reset default padding */
+  max-width: 600px; /* Adjust as needed */
+  margin: 20px auto; /* Center the list */
+  word-break: keep-all;
+  hyphens: auto;
+}
+li {
+  background-color: #f9f9f9; /* Light background for each item */
+  border-left: 4px solid #1a73e8; /* Accent line on the left */
+  margin-bottom: 10px; /* Space between items */
+  padding: 10px 20px; /* Padding inside each item */
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Font color */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+li:hover {
+  background-color: #eef4fd; /* Slightly different background on hover */
+  border-left-color: #0f62fe; /* Darker shade of blue for the border on hover */
+  transform: translateX(5px); /* Move to the right on hover */
+}
+
+li:last-child {
+  margin-bottom: 0; /* Remove margin from the last item */
+}

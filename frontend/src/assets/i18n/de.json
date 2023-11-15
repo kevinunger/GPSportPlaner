@@ -1,4 +1,15 @@
 {
+  "home": {
+    "title": "Willkommen zum Sportplaner!",
+    "yourName": "Dein Name",
+    "namePlaceholder": "Name",
+    "houseNumber": "Hausnummer",
+    "houseNumberPlaceholder": "Hausnummer",
+    "roomNumber": "Zimmernummer",
+    "password": "Passwort",
+    "loginButtonLabel": "Login",
+    "errorLabelText": "Bitte fülle alles aus"
+  },
   "rules": {
     "title": "Regeln für die Benutzung des Sportraumes",
     "rule1": "Benutzung ausschließlich für Bewohner:innen der Studentenwohnheime Gret-Palucca-Straße 9 und 11.",
