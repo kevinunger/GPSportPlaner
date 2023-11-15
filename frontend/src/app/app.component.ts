@@ -3,7 +3,8 @@ import { InfoService } from './services/info.service';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-
+import { TranslocoService } from '@ngneat/transloco';
+import { SettingsService } from './services/settings.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,13 +17,19 @@ export class AppComponent implements OnInit {
   constructor(
     private infoService: InfoService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translocoService: TranslocoService,
+    private settingsService: SettingsService
   ) {}
   ngOnInit(): void {
     this.infoService.checkIfBackendIsAlive();
     this.infoService.getBackendIsAlive().subscribe(backendIsAlive => {
       this.backendIsAlive = backendIsAlive;
     });
+
+    // Load initial settings
+    let lang = this.settingsService.getLanguage();
+    this.translocoService.setActiveLang(lang);
   }
   changeOfRoutes() {
     this.checkAndRedirect();

@@ -5,6 +5,7 @@ import { Role } from 'src/app/types';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
+import { SettingsService } from 'src/app/services/settings.service';
 
 interface MenuEntry {
   title: string;
@@ -87,7 +88,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private settingsService: SettingsService
   ) {
     router.events.subscribe(val => {
       // see also
@@ -120,6 +122,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   onLanguageChange() {
+    this.settingsService.setLanguage(this.activeLang);
     this.translocoService.setActiveLang(this.activeLang);
   }
 }

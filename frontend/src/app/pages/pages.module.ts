@@ -33,13 +33,6 @@ import { TranslocoModule } from '@ngneat/transloco';
     InfoComponent,
     RulesComponent,
   ],
-  imports: [
-    FontAwesomeModule,
-    CommonModule,
-    PagesRoutingModule,
-    CoreModule,
-    SharedModule,
-    TranslocoModule,
-  ],
+  imports: [FontAwesomeModule, CommonModule, PagesRoutingModule, CoreModule, SharedModule],
 })
 export class PagesModule {}
