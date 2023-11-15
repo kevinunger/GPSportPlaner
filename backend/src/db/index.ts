@@ -32,7 +32,9 @@ export default async function connectMongo() {
     .connect(MONGO_CONNECTION_STRING)
     .then(() => {
       const db_name = mongoose.connection.name;
-      console.log(`connected to mongo db: ${db_name}`);
+      console.log(
+        `connected to mongo db: ${db_name} with connection string: ${MONGO_CONNECTION_STRING}`
+      );
     })
     .catch((err: any) => {
       console.error(err);
@@ -44,7 +46,7 @@ const mongod = new MongoMemoryServer();
 
 // connect to test db
 export async function connectMongoTest() {
-  await mongod.start(); // Add this line to start the MongoMemoryServer
+  await mongod.start();
   const uri = await mongod.getUri();
   const mongoOpts = {
     useNewUrlParser: true,
