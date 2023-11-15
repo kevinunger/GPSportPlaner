@@ -83,3 +83,32 @@
     transition: background 3s ease-in-out;
   }
 }
+
+.langMenu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+
+  // width: 200px; /* Adjust width as needed */
+  padding: 8px 12px;
+  border: 1px solid hsl(0, 0%, 0%);
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 15px;
+  transition: border-color 0.3s;
+}
+
+
+.langMenu:focus {
+  outline: none; /* Removes outline */
+}

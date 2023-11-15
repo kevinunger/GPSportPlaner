@@ -10,8 +10,9 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { CoreModule } from './core/core.module';
-
+import { TranslocoRootModule } from './transloco-root.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,6 +25,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     RouterModule,
     HttpClientModule,
     CoreModule,
+    TranslocoRootModule,
   ],
   providers: [
     {
@@ -31,6 +33,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       useClass: AuthInterceptor,
       multi: true,
     },
+    TranslocoRootModule,
   ],
   bootstrap: [AppComponent],
 })

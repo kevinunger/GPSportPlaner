@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/types';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
 
 interface MenuEntry {
   title: string;
@@ -22,11 +23,17 @@ interface MenuEntry {
 })
 export class HeaderComponent implements OnInit {
   private roleSubscription?: Subscription;
+
   faBars = faBars;
+  faLanguage = faLanguage;
+
   menuActive = false;
   headerTitle = '';
 
   userRole: Role = Role.User;
+
+  activeLang = '';
+  availableLangs: string[] = [];
 
   menuEntries: MenuEntry[] = [
     {
@@ -54,7 +61,7 @@ export class HeaderComponent implements OnInit {
       headerTitle: 'Regeln',
       title: 'Regeln',
       link: '/rules',
-      icon_name: 'faBook',
+      icon_name: 'faClipboardList',
       action: () => {},
     },
     // Admins only
@@ -77,7 +84,11 @@ export class HeaderComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private translocoService: TranslocoService
+  ) {
     router.events.subscribe(val => {
       // see also
       // check which router is active
@@ -95,6 +106,8 @@ export class HeaderComponent implements OnInit {
     this.roleSubscription = this.authService.role.subscribe(role => {
       this.userRole = role;
     });
+    this.activeLang = this.translocoService.getActiveLang();
+    this.availableLangs = this.translocoService.getAvailableLangs() as string[];
   }
 
   ngOnDestroy(): void {
@@ -104,5 +117,8 @@ export class HeaderComponent implements OnInit {
   onToggleMenu() {
     // open burger-menu
     this.menuActive = !this.menuActive;
+  }
+  onLanguageChange() {
+    this.translocoService.setActiveLang(this.activeLang);
   }
 }
