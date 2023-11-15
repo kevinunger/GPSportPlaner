@@ -24,6 +24,7 @@ const admin_password_hashed = bcrypt.hashSync('admin_password', 10);
 const master_password_hashed = bcrypt.hashSync('master_password', 10);
 
 beforeAll(async () => {
+  console.log('env: ', process.env.NODE_ENV);
   await connectMongoTest();
   await createUsers();
   // Set up users with their passwords
