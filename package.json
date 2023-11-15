@@ -7,6 +7,7 @@
   "scripts": {
     "start:frontend": "cd frontend && ng serve",
     "start:backend": "cd backend && npm run dev",
+    "start:db": "docker start gpsmongo || docker run -d -p 27017:27017 --name gpsmongo -e MONGO_INITDB_ROOT_USERNAME=gpsbackend -e MONGO_INITDB_ROOT_PASSWORD=gpstest mongo:latest",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
   },
   "repository": {

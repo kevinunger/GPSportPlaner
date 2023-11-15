@@ -19,7 +19,7 @@ and set pws for all other roles (admin and master)
 
 ### run
 
-`start gpsmongo`
+`docker start gpsmongo`
 ``
 
 
