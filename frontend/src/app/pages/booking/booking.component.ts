@@ -5,6 +5,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { IBooking, IResponse } from '../../types/index';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-booking',
@@ -23,13 +24,14 @@ export class BookingComponent implements OnInit {
   public successFullSumbission: boolean = false;
   public error: string = '';
   public userCanSubmit: boolean = false;
-  public errorLabelText: string = 'Gib bitte deinen Namen ein!';
-  public bookingConfirmButtonText: string = 'Eintragen!';
+  public errorLabelText: string = '';
+  public bookingConfirmButtonText: string = '';
 
   constructor(
     private adminService: AdminService,
     private bookingService: BookingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -59,23 +61,30 @@ export class BookingComponent implements OnInit {
 
     this.bookingService.getSelectedBookingsByUser().subscribe(timeslots => {
       this.bookingService.getBookingsToRemove().subscribe(timeslotsToRemove => {
+        this.translocoService
+          .selectTranslate('booking.bookingConfirm')
+          .subscribe((value: string) => {
+            console.log(value);
+          });
+
+        this.bookingConfirmButtonText = this.translocoService.translate('booking.bookingConfirm');
         // if there are bookings to remove from the backend, the btn text should change, to indicate
         // that the user is about to delete bookings
         if (timeslotsToRemove.length > 0) {
-          this.bookingConfirmButtonText = 'Ändern!';
+          this.bookingConfirmButtonText = this.translocoService.translate('booking.bookingChange');
           this.userCanSubmit = true;
           this.errorLabelText = '';
         } else {
-          this.bookingConfirmButtonText = 'Eintragen!';
+          this.bookingConfirmButtonText = this.translocoService.translate('booking.bookingConfirm');
           this.selectedTimeSlots = timeslots;
           this.userName = this.authService.getName();
 
           if (timeslots.length === 0) {
             this.userCanSubmit = false;
-            this.errorLabelText = 'Du musst mindestens eine Buchung wählen!';
+            this.errorLabelText = this.translocoService.translate('booking.error1');
           } else if (this.userName.length === 0) {
             this.userCanSubmit = false;
-            this.errorLabelText = 'Gib bitte deinen Namen ein!';
+            this.errorLabelText = this.translocoService.translate('booking.error2');
           } else {
             this.userCanSubmit = true;
           }

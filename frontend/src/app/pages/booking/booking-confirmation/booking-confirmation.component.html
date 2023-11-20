@@ -1,4 +1,4 @@
-<div class="pageContainer pageWrapper confirmation">
+<div class="pageContainer pageWrapper confirmation" *transloco="let t">
   <div class="success-animation">
     <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
       <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
@@ -9,7 +9,7 @@
   <h1>{{ titleText }}</h1>
 
   <div *ngIf="!justDeletedBookings" class="timingContainer">
-    <h3>Deine Trainingszeit</h3>
+    <h3>{{ t('bookingConfirmation.yourTrainingTime') }}</h3>
     <div *ngFor="let booking of formattedBookings">
       <p>
         {{ booking.start }} - {{ booking.end }}
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div *ngIf="adminsOfDays.length > 0" class="adminContainer">
-    <h4>Bei den folgenden Personen kannst du dir einen Schlüssel holen:</h4>
+    <h4>{{ t('bookingConfirmation.adminsInfo') }}</h4>
     <ng-container *ngFor="let day of adminsOfDays">
       <!-- <span class="adminDayText">{{ day[0].assignedDay }}</span> -->
       <ng-container *ngFor="let admin of day">

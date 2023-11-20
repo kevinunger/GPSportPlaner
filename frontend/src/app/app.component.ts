@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { InfoService } from './services/info.service';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { SettingsService } from './services/settings.service';
 @Component({

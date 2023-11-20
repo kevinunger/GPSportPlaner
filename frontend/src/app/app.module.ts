@@ -12,7 +12,14 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { CoreModule } from './core/core.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { provideTranslocoPreloadLangs } from '@ngneat/transloco-preload-langs';
 
+import { APP_INITIALIZER } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+
+export function preloadTranslations(translocoService: TranslocoService) {
+  return () => translocoService.load('de').toPromise();
+}
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -33,7 +40,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       useClass: AuthInterceptor,
       multi: true,
     },
-    TranslocoRootModule,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: preloadTranslations,
+      deps: [TranslocoService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

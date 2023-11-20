@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IResponse, IBooking, IErrorResponse, IAdmin } from '../../../types/index';
+import { Component, OnInit } from '@angular/core';
+import { IBooking, IAdmin } from '../../../types/index';
 import { BookingService } from '../../../services/booking.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { TranslocoService } from '@ngneat/transloco';
+
 import * as moment from 'moment';
 
 /*
@@ -28,9 +30,13 @@ export class BookingConfirmationComponent implements OnInit {
   bookings: IBooking[] = [];
   adminsOfDays: IAdmin[][] = [];
   justDeletedBookings: boolean = false;
-  titleText: string = 'Du bist eingetragen!';
+  titleText: string = '';
 
-  constructor(private bookingService: BookingService, private adminService: AdminService) {}
+  constructor(
+    private bookingService: BookingService,
+    private adminService: AdminService,
+    private translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     this.bookingService.getConfirmedBookingsByUser().subscribe((response: IBooking[]) => {
@@ -38,7 +44,9 @@ export class BookingConfirmationComponent implements OnInit {
       this.bookings = response;
       if (this.bookings.length === 0) {
         this.justDeletedBookings = true;
-        this.titleText = 'Eintragungen wurden gelöscht!';
+        this.titleText = this.translocoService.translate('bookingConfirmation.titleConfirm');
+      } else {
+        this.titleText = this.translocoService.translate('bookingConfirmation.titleDelete');
       }
     });
 

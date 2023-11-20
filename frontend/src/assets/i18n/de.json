@@ -1,14 +1,57 @@
 {
+  "menu": {
+    "homeTitle": "",
+    "bookingTitle": "Eintragen",
+    "bookingHeaderTitle": "Trag dich ein!",
+    "overviewTitle": "Übersicht",
+    "overviewHeaderTitle": "Übersicht",
+    "adminsTitle": "Schlüssel",
+    "adminsHeaderTitle": "Schlüsselhalter",
+    "rulesTitle": "Regeln",
+    "rulesHeaderTitle": "Regeln",
+    "adminAreaTitle": "Adminbereich",
+    "adminAreaHeaderTitle": "Adminbereich",
+    "logoutTitle": "Ausloggen",
+    "logoutHeaderTitle": "Ausloggen"
+  },
   "home": {
     "title": "Willkommen zum Sportplaner!",
     "yourName": "Dein Name",
-    "namePlaceholder": "Name",
+    "namePlaceholder": " ",
     "houseNumber": "Hausnummer",
-    "houseNumberPlaceholder": "Hausnummer",
+    "houseNumberPlaceholder": " ",
     "roomNumber": "Zimmernummer",
+    "roomNumberPlaceholder": " ",
     "password": "Passwort",
+    "passwordPlaceholder":" ",
     "loginButtonLabel": "Login",
     "errorLabelText": "Bitte fülle alles aus"
+  },
+  "booking": {
+    "topRule1": "Eine Eintragung ist erst 24h im voraus möglich",
+    "topRule2": "Es kann maximal 2h am Stück trainiert werden",
+    "bookingChange": "Ändern!",
+    "bookingConfirm": "Eintragen!",
+    "error1": "Du musst mindestens eine Buchung wählen!",
+    "error2": "Gib bitte deinen Namen ein!"
+  },
+  "bookingConfirmation": {
+    "titleConfirm":"Du bist eingetragen!",
+    "titleDelete":"Eintragungen wurden gelöscht!",
+    "yourTrainingTime": "Deine Trainingszeit",
+    "adminsInfo":"Bei den folgenden Personen kannst du dir einen Schlüssel holen:"
+  },
+  "adminOverview": {
+    "weekdays": {
+      "Monday": "Montag",
+      "Tuesday": "Dienstag",
+      "Wednesday": "Mittwoch",
+      "Thursday": "Donnerstag",
+      "Friday": "Freitag",
+      "Saturday": "Samstag",
+      "Sunday": "Sonntag"
+    }
+
   },
   "rules": {
     "title": "Regeln für die Benutzung des Sportraumes",

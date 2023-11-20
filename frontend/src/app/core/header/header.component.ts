@@ -38,45 +38,45 @@ export class HeaderComponent implements OnInit {
 
   menuEntries: MenuEntry[] = [
     {
-      headerTitle: 'Trag dich ein!',
-      title: 'Eintragen',
+      headerTitle: 'menu.bookingHeaderTitle',
+      title: 'menu.bookingTitle',
       link: '/booking',
       icon_name: 'faPencil',
       action: () => {},
     },
     {
-      headerTitle: 'Übersicht',
-      title: 'Übersicht',
+      headerTitle: 'menu.overviewTitle',
+      title: 'menu.overviewTitle',
       link: '/overview',
       icon_name: 'faClock',
       action: () => {},
     },
     {
-      headerTitle: 'Schlüsselverantwortliche',
-      title: 'Schlüssel',
+      headerTitle: 'menu.adminsHeaderTitle',
+      title: 'menu.adminsTitle',
       link: '/admins',
       icon_name: 'faKey',
       action: () => {},
     },
     {
-      headerTitle: 'Regeln',
-      title: 'Regeln',
+      headerTitle: 'menu.rulesHeaderTitle',
+      title: 'menu.rulesTitle',
       link: '/rules',
       icon_name: 'faClipboardList',
       action: () => {},
     },
     // Admins only
     {
-      headerTitle: 'Adminbereich',
-      title: 'Adminbereich',
+      headerTitle: 'menu.adminAreaHeaderTitle',
+      title: 'menu.adminAreaTitle',
       link: '/admins/edit',
       icon_name: 'faUserShield',
       onlyAdmin: true,
       action: () => {},
     },
     {
-      headerTitle: 'Ausloggen',
-      title: 'Ausloggen',
+      headerTitle: 'menu.logoutHeaderTitle',
+      title: 'menu.logoutTitle',
       icon_name: 'faRightFromBracket',
       action: () => {
         this.authService.logout();
@@ -110,8 +110,21 @@ export class HeaderComponent implements OnInit {
     });
     this.activeLang = this.translocoService.getActiveLang();
     this.availableLangs = this.translocoService.getAvailableLangs() as string[];
-  }
 
+    this.translocoService.selectTranslate('menu.bookingHeaderTitle').subscribe({
+      next: () => {
+        console.log(this.translocoService.translate('menu.bookingHeaderTitle'));
+        this.applyTranslations();
+      },
+    });
+  }
+  applyTranslations() {
+    this.menuEntries = this.menuEntries.map(entry => ({
+      ...entry,
+      title: this.translocoService.translate(entry.title),
+      headerTitle: this.translocoService.translate(entry.headerTitle),
+    }));
+  }
   ngOnDestroy(): void {
     this.roleSubscription?.unsubscribe();
   }
@@ -124,5 +137,6 @@ export class HeaderComponent implements OnInit {
   onLanguageChange() {
     this.settingsService.setLanguage(this.activeLang);
     this.translocoService.setActiveLang(this.activeLang);
+    window.location.reload();
   }
 }
