@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --detectOpenHandles\"",
-    "testWatch": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --clearCache\" \"jest --watchAll\"",
+    "testwatch": "cross-env NODE_ENV=test concurrently \"echo \\$NODE_ENV\" \"jest --clearCache\" \"jest --watchAll\"",
     "build": "npx tsc",
     "start": "node dist/backend/src/index.js",
     "dev": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/src/index.js\"",

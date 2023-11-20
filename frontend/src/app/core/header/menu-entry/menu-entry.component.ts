@@ -9,6 +9,7 @@ import {
   IconDefinition,
   faUserShield,
   faRightFromBracket,
+  faClipboardList,
 } from '@fortawesome/free-solid-svg-icons';
 
 const iconMap: Record<string, IconDefinition> = {
@@ -17,6 +18,7 @@ const iconMap: Record<string, IconDefinition> = {
   faKey: faKey,
   faUserShield: faUserShield,
   faRightFromBracket: faRightFromBracket,
+  faClipboardList: faClipboardList,
 };
 
 @Component({

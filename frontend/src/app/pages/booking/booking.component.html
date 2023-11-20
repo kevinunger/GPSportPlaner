@@ -1,8 +1,8 @@
 <div class="pageContainer" *ngIf="!successFullSumbission">
-  <div class="topRulesContainer">
+  <div class="topRulesContainer" *transloco="let t">
     <ul>
-      <li>Eine Eintragung ist erst 24h im voraus möglich</li>
-      <li>Es kann maximal 2h am Stück trainiert werden</li>
+      <li>{{ t('booking.topRule1') }}</li>
+      <li>{{ t('booking.topRule2') }}</li>
     </ul>
   </div>
 
@@ -10,7 +10,6 @@
     <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"></app-timeslot>
   </div>
 
-  <!-- <app-text-input [placeholder]="'Name eintragen'" [value]="userName" (input)="onNameInput($event)"></app-text-input> -->
   <app-button
     [errorLabelText]="errorLabelText"
     [disabled]="!userCanSubmit"

@@ -3,12 +3,21 @@
     <button class="arrowBtn left" (click)="onDateChange('previous')">
       <fa-icon [icon]="faAngleLeft"></fa-icon>
     </button>
-    <span class="selectedDate" [ngClass]="{ isCurrentDay: selectedDateIsCurrentDay }">{{ selectedDateFormatted }}</span>
-    <button class="arrowBtn right" (click)="onDateChange('next')"><fa-icon [icon]="faAngleRight"></fa-icon></button>
+    <span class="selectedDate" [ngClass]="{ isCurrentDay: selectedDateIsCurrentDay }">{{
+      selectedDateFormatted
+    }}</span>
+    <button class="arrowBtn right" (click)="onDateChange('next')">
+      <fa-icon [icon]="faAngleRight"></fa-icon>
+    </button>
   </div>
   <div class="timeslotsContainer">
     <ng-container *ngFor="let timeSlot of timeSlots">
-      <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot" [isReadOnly]="true"> </app-timeslot>
+      <app-timeslot
+        *ngIf="timeSlot.start.valueOf() !== 0"
+        [timeslot]="timeSlot"
+        [isReadOnly]="true"
+      >
+      </app-timeslot>
     </ng-container>
   </div>
 </div>

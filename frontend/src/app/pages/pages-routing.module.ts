@@ -10,11 +10,18 @@ import { MasterSettingsComponent } from './master-settings/master-settings.compo
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { InfoComponent } from './info/info.component';
 import { AuthGuard } from '../services/auth.guard';
+import { RulesComponent } from './rules/rules.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'rules',
+    component: RulesComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'user' },
   },
   {
     path: 'booking',

@@ -1,40 +1,39 @@
-<div class="pageContainer">
-  <h1 class="headerText">Willkommen zum Sportplaner!</h1>
-  <!-- <p>Logg dich bitte</p> -->
+<div class="pageContainer" *transloco="let t">
+  <h1 class="headerText">{{ t('home.title') }}</h1>
 
   <form (submit)="onSubmit(); $event.preventDefault()" class="form">
-    <label for="name">Your Name</label>
+    <label for="name">{{ t('home.yourName') }}</label>
     <app-text-input
       [type]="'text'"
       [name]="'name'"
-      [placeholder]="placeholderName"
+      [placeholder]="t('home.namePlaceholder')"
       [value]="name"
       (input)="onInputName($event)"
     ></app-text-input>
 
-    <label for="name">House Number (9 or 11)</label>
+    <label for="name">{{ t('home.houseNumber') }}</label>
     <app-text-input
-      [type]="'text'"
+      [type]="'number'"
       [name]="'house'"
-      [placeholder]="placeholderHouse"
+      [placeholder]="t('home.namePlaceholder')"
       [value]="house"
       (input)="onInputHouse($event)"
     ></app-text-input>
 
-    <label for="name">Room Number</label>
+    <label for="name">{{ t('home.roomNumber') }}</label>
     <app-text-input
-      [type]="'text'"
+      [type]="'number'"
       [name]="'room'"
-      [placeholder]="placeholderRoom"
+      [placeholder]="t('home.namePlaceholder')"
       [value]="room"
       (input)="onInputRoom($event)"
     ></app-text-input>
 
-    <label for="name">Password</label>
+    <label for="name">{{ t('home.password') }}</label>
     <app-text-input
       [type]="'password'"
       [name]="'password'"
-      [placeholder]="placeholderPassword"
+      [placeholder]="t('home.passwordPlaceholder')"
       [value]="password"
       (input)="onInputPassword($event)"
     ></app-text-input>
@@ -42,7 +41,7 @@
     <app-button
       [errorLabelText]="errorLabelText"
       [disabled]="!userCanSubmit"
-      [text]="'Login'"
+      [text]="t('home.loginButtonLabel')"
       (click)="$event.preventDefault(); onSubmit()"
     ></app-button>
   </form>

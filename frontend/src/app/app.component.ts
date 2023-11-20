@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { InfoService } from './services/info.service';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-
+import { TranslocoService } from '@ngneat/transloco';
+import { SettingsService } from './services/settings.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,13 +16,19 @@ export class AppComponent implements OnInit {
   constructor(
     private infoService: InfoService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translocoService: TranslocoService,
+    private settingsService: SettingsService
   ) {}
   ngOnInit(): void {
     this.infoService.checkIfBackendIsAlive();
     this.infoService.getBackendIsAlive().subscribe(backendIsAlive => {
       this.backendIsAlive = backendIsAlive;
     });
+
+    // Load initial settings
+    let lang = this.settingsService.getLanguage();
+    this.translocoService.setActiveLang(lang);
   }
   changeOfRoutes() {
     this.checkAndRedirect();
@@ -34,7 +40,6 @@ export class AppComponent implements OnInit {
     // Check if does not exist or is expired
     if (!expDate || expDate * 1000 - Date.now() < 0) {
       console.log('Token is invalid or does not exist or is expired');
-      this.isLoggedIn = false;
       // logout and redirect to login
       this.authService.clearToken();
       this.router.navigate(['/']);
@@ -78,5 +83,6 @@ export class AppComponent implements OnInit {
       console.log('Token is still valid and not older than 3 days');
       this.authService.initToken();
     }
+    this.isLoggedIn = true;
   }
 }

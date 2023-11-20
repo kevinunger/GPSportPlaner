@@ -1,26 +1,47 @@
 # GPSportPlaner
 
 ## Frontend
+Angular
+
+setup:
+`npm install`
+
+develop with 
+`npm run dev` or `npm run hostdev` (to be able to access it from your phone)
 
 ## Backend
+Express with Typescript and Mongoose
 
-#### local mongodb setup
-`docker run -d -p 27017:27017 --name gpsmongo -e MONGO_INITDB_ROOT_USERNAME=gpsbackend -e MONGO_INITDB_ROOT_PASSWORD=gpstest mongo:latest`
+setup:
+
+`npm install`
+
+develop with:
+
+`npm run dev`
+
+run tests with:
+
+`npm run test` or `npm run testwatch`
+
+
+### local mongodb setup
+```bash
+docker run -d -p 27017:27017 --name gpsmongo -e MONGO_INITDB_ROOT_USERNAME=gpsbackend -e MONGO_INITDB_ROOT_PASSWORD=gpstest mongo:latest
+```
 
 send POST to http://localhost:3000/auth/setInitialPw with
+```json
 {
     "role": "user",
     "newPassword": "pw"
 }
+```
+to set user pw and set pws for all other roles (admin and master)
 
-to set user pw
+### run mongodb docker
 
-and set pws for all other roles (admin and master)
-
-### run
-
-`start gpsmongo`
-``
+`npm run start:db`
 
 
 ### Deployment to VPS

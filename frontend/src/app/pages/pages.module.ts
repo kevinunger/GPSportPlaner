@@ -16,6 +16,7 @@ import { MasterSettingsComponent } from './master-settings/master-settings.compo
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { InfoComponent } from './info/info.component';
 import { RulesComponent } from './rules/rules.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,13 @@ import { RulesComponent } from './rules/rules.component';
     InfoComponent,
     RulesComponent,
   ],
-  imports: [FontAwesomeModule, CommonModule, PagesRoutingModule, CoreModule, SharedModule],
+  imports: [
+    FontAwesomeModule,
+    CommonModule,
+    PagesRoutingModule,
+    CoreModule,
+    SharedModule,
+    TranslocoModule,
+  ],
 })
 export class PagesModule {}

@@ -1,4 +1,10 @@
 <div class="header">
+  <select class="langMenu" name="langs" [(ngModel)]="activeLang" (change)="onLanguageChange()">
+    <option class="langMenuEntry" *ngFor="let entry of availableLangs" [value]="entry">
+      {{ entry }}
+    </option>
+  </select>
+
   <h1 class="headerText">{{ headerTitle }}</h1>
   <button (click)="onToggleMenu()" class="menuBtn">
     <fa-icon [icon]="faBars"></fa-icon>
@@ -6,7 +12,10 @@
 
   <div class="menu" [ngClass]="{ menuActive: menuActive }">
     <ng-container *ngFor="let entry of menuEntries">
-      <div *ngIf="!entry.onlyAdmin || userRole == 'admin' || userRole == 'master'" class="menuInner">
+      <div
+        *ngIf="!entry.onlyAdmin || userRole == 'admin' || userRole == 'master'"
+        class="menuInner"
+      >
         <app-menu-entry
           (click)="onToggleMenu()"
           [title]="entry.title"
@@ -18,5 +27,10 @@
       </div>
     </ng-container>
   </div>
-  <div class="backdrop" *ngIf="menuActive" [ngClass]="{ backdropActive: menuActive }" (click)="onToggleMenu()"></div>
+  <div
+    class="backdrop"
+    *ngIf="menuActive"
+    [ngClass]="{ backdropActive: menuActive }"
+    (click)="onToggleMenu()"
+  ></div>
 </div>

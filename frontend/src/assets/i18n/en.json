@@ -1,4 +1,57 @@
 {
+  "menu": {
+    "homeTitle": "",
+    "bookingTitle": "Register",
+    "bookingHeaderTitle": "Register yourself!",
+    "overviewTitle": "Overview",
+    "overviewHeaderTitle": "Overview",
+    "adminsTitle": "Keys",
+    "adminsHeaderTitle": "Key Holders",
+    "rulesTitle": "Rules",
+    "rulesHeaderTitle": "Rules",
+    "adminAreaTitle": "Admin Area",
+    "adminAreaHeaderTitle": "Admin Area",
+    "logoutTitle": "Log Out",
+    "logoutHeaderTitle": "Log Out"
+  },
+  "home": {
+    "title": "Welcome to the Sports Scheduler!",
+    "yourName": "Your Name",
+    "namePlaceholder": " ",
+    "houseNumber": "House Number",
+    "houseNumberPlaceholder": " ",
+    "roomNumber": "Room Number",
+    "roomNumberPlaceholder": " ",
+    "password": "Password",
+    "passwordPlaceholder":" ",
+    "loginButtonLabel": "Login",
+    "errorLabelText": "Please fill out everything"
+  },
+  "booking": {
+    "topRule1": "A booking can only be made 24h in advance",
+    "topRule2": "You can train a maximum of 2 hours at a time",
+    "bookingChange": "Change!",
+    "bookingConfirm": "Register!",
+    "error1": "You must select at least one booking!",
+    "error2": "Please enter your name!"
+  },
+  "bookingConfirmation": {
+    "titleConfirm":"You are registered!",
+    "titleDelete":"Entries have been deleted!",
+    "yourTrainingTime": "Your Training Time",
+    "adminsInfo":"You can get a key from the following people:"
+  },
+  "adminOverview": {
+    "weekdays": {
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday"
+    }
+  },
   "rules": {
     "title": "Rules for Using the Sports Room",
     "rule1": "The gym is exclusive to residents of dormitories located at Gret-Palucca-Street 9 and 11.",
