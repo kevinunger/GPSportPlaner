@@ -12,17 +12,19 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { CoreModule } from './core/core.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { provideTranslocoPreloadLangs } from '@ngneat/transloco-preload-langs';
 
 import { APP_INITIALIZER } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
 export function preloadTranslations(translocoService: TranslocoService) {
-  return () => translocoService.load('de').toPromise();
+  const locale = localStorage.getItem('lang') || 'de';
+  return async () => await translocoService.load(locale).toPromise();
 }
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    TranslocoRootModule,
     FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
@@ -32,7 +34,6 @@ export function preloadTranslations(translocoService: TranslocoService) {
     RouterModule,
     HttpClientModule,
     CoreModule,
-    TranslocoRootModule,
   ],
   providers: [
     {
