@@ -44,9 +44,9 @@ export class BookingConfirmationComponent implements OnInit {
       this.bookings = response;
       if (this.bookings.length === 0) {
         this.justDeletedBookings = true;
-        this.titleText = this.translocoService.translate('bookingConfirmation.titleConfirm');
-      } else {
         this.titleText = this.translocoService.translate('bookingConfirmation.titleDelete');
+      } else {
+        this.titleText = this.translocoService.translate('bookingConfirmation.titleConfirm');
       }
     });
 
