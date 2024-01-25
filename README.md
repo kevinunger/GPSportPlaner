@@ -1,31 +1,23 @@
 # GPSportPlaner
 
 ## Frontend
-Angular
+Angular v16
 
-setup:
+#### setup:
 `npm install`
 
-develop with 
+#### develop with:
 `npm run dev` or `npm run hostdev` (to be able to access it from your phone)
 
 ## Backend
 Express with Typescript and Mongoose
 
-setup:
+#### setup:
 
+1. Install packages
 `npm install`
 
-develop with:
-
-`npm run dev`
-
-run tests with:
-
-`npm run test` or `npm run testwatch`
-
-
-### local mongodb setup
+2. Setup local mongodb
 ```bash
 docker run -d -p 27017:27017 --name gpsmongo -e MONGO_INITDB_ROOT_USERNAME=gpsbackend -e MONGO_INITDB_ROOT_PASSWORD=gpstest mongo:latest
 ```
@@ -37,15 +29,44 @@ send POST to http://localhost:3000/auth/setInitialPw with
     "newPassword": "pw"
 }
 ```
+curl command to set all roles:
+```bash
+curl -X POST http://localhost:3000/auth/setInitialPw -H "Content-Type: application/json" -d "{\"role\": \"user\", \"newPassword\": \"userpw\"}"
+curl -X POST http://localhost:3000/auth/setInitialPw -H "Content-Type: application/json" -d "{\"role\": \"master\", \"newPassword\": \"masterpw\"}"
+curl -X POST http://localhost:3000/auth/setInitialPw -H "Content-Type: application/json" -d "{\"role\": \"admin\", \"newPassword\": \"adminpw\"}"
+```
+
+
 to set user pw and set pws for all other roles (admin and master)
 
-### run mongodb docker
+#### run mongodb docker
 
 `npm run start:db`
 
+#### develop with:
 
-### Deployment to VPS
+`npm run dev`
 
+#### run tests with:
+
+`npm run test` or `npm run testwatch`
+
+
+
+
+
+
+
+
+
+# Hosting
+
+### Frontend
+Angular frontend is hosted via google firebase hosting
+
+### Backend Deployment to VPS for CI/CD with Github Actions
+
+```md
 Point A-Record to VPS-IP
 
 adduser username
@@ -88,4 +109,4 @@ nano ~/.profile
 add "export PATH=~/.npm-global/bin:$PATH"
 
 npm install -g pm2
-
+```
