@@ -10,7 +10,14 @@ dotenv.config({
 
 let MONGO_CONNECTION_STRING: string;
 if (process.env.NODE_ENV === 'development') {
-  MONGO_CONNECTION_STRING = 'mongodb://' + process.env.MONGO_HOST + '/' + process.env.MONGO_DB;
+  MONGO_CONNECTION_STRING =
+    'mongodb://' +
+    process.env.MONGO_USER +
+    ':' +
+    process.env.MONGO_PASSWORD +
+    '@' +
+    process.env.MONGO_HOST +
+    '/';
 } else {
   MONGO_CONNECTION_STRING =
     'mongodb+srv://' +
@@ -28,6 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // connect to mongodb
 export default async function connectMongo() {
+  console.log(`${MONGO_CONNECTION_STRING}`);
   await mongoose
     .connect(MONGO_CONNECTION_STRING)
     .then(() => {
