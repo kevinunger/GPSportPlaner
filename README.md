@@ -1,7 +1,7 @@
 # GPSportPlaner
 
 ## Frontend
-Angular v16
+Angular v16 with i18n
 
 #### setup:
 `npm install`
