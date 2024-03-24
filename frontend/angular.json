@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "GPSportPlaner:build:production"
+              "buildTarget": "GPSportPlaner:build:production"
             },
             "development": {
-              "browserTarget": "GPSportPlaner:build:development"
+              "buildTarget": "GPSportPlaner:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "GPSportPlaner:build"
+            "buildTarget": "GPSportPlaner:build"
           }
         },
         "test": {
