@@ -26,6 +26,7 @@ export class BookingComponent implements OnInit {
   public userCanSubmit: boolean = false;
   public errorLabelText: string = '';
   public bookingConfirmButtonText: string = '';
+  public isLoading: boolean = true; // P3fdd
 
   constructor(
     private adminService: AdminService,
@@ -35,6 +36,7 @@ export class BookingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true; // P0274
     this.adminService.fetchAndSetAdmins().subscribe(
       () => {
         console.info('Admins fetched and updated successfully');
@@ -47,10 +49,12 @@ export class BookingComponent implements OnInit {
     this.bookingService.fetchAndUpdateBookings().subscribe(
       () => {
         console.info('Bookings fetched and updated successfully');
+        this.isLoading = false; // Peb71
       },
       error => {
         console.error('Error fetching and updating bookings:', error);
         this.error = error.message;
+        this.isLoading = false; // Peb71
       }
     );
 
