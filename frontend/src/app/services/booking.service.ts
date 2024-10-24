@@ -280,4 +280,8 @@ export class BookingService {
     });
     return bookings;
   }
+
+  public refreshBookings(): Observable<IResponse<IBooking[]>> {
+    return this.fetchAndUpdateBookings();
+  }
 }
