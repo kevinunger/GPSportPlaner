@@ -1,3 +1,7 @@
+<ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+
 <div class="pageContainer" *ngIf="!successFullSumbission">
   <div class="topRulesContainer" *transloco="let t">
     <ul>

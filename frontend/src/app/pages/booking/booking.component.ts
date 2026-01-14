@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { IBooking, IResponse } from '../../types/index';
 import { TranslocoService } from '@ngneat/transloco';
+import { IonRefresher } from '@ionic/angular'; // P47a6
 
 @Component({
   selector: 'app-booking',
@@ -155,4 +156,16 @@ export class BookingComponent implements OnInit {
     }
     return timeSlots;
   }
+
+  public onRefresh(event: IonRefresher): void { // P95cf
+    this.bookingService.refreshBookings().subscribe( // P95cf
+      () => { // P95cf
+        event.complete(); // P95cf
+      }, // P95cf
+      (error: HttpErrorResponse) => { // P95cf
+        console.error('Error refreshing bookings:', error); // P95cf
+        event.complete(); // P95cf
+      } // P95cf
+    ); // P95cf
+  } // P95cf
 }
