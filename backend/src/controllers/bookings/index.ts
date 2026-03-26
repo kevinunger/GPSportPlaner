@@ -42,11 +42,18 @@ export async function getBookingsOfDay(day: Moment): Promise<IBooking[]> {
   return bookings;
 }
 
-export async function addBooking(bookings: IBooking[], currentTime: number) {
+export async function addBooking(
+  bookings: IBooking[],
+  currentTime: number,
+  allowOverwrite: boolean = false
+) {
   // check if bookings are valid
-  await _checkIfBookingsAreValid(bookings, currentTime);
+  await _checkIfBookingsAreValid(bookings, currentTime, allowOverwrite);
 
   try {
+    if (allowOverwrite) {
+      await _removeConflictingBookings(bookings);
+    }
     const savedBookings = await Booking.insertMany(bookings);
     // save to db
     return savedBookings;
@@ -55,7 +62,11 @@ export async function addBooking(bookings: IBooking[], currentTime: number) {
   }
 }
 
-export async function changeBookings(bookingsToRemove: IBooking[], bookingsToAdd: IBooking[]) {
+export async function changeBookings(
+  bookingsToRemove: IBooking[],
+  bookingsToAdd: IBooking[],
+  allowOverwrite: boolean = false
+) {
   // check if old bookings exists
   for (let booking of bookingsToRemove) {
     const bookingExists = await Booking.findOne({
@@ -86,7 +97,11 @@ export async function changeBookings(bookingsToRemove: IBooking[], bookingsToAdd
     }
 
     // check if new bookings are valid
-    await _checkIfBookingsAreValid(bookingsToAdd, moment().unix());
+    await _checkIfBookingsAreValid(bookingsToAdd, moment().unix(), allowOverwrite);
+
+    if (allowOverwrite) {
+      await _removeConflictingBookings(bookingsToAdd);
+    }
 
     // save new bookings
     const savedBooking = await Booking.insertMany(bookingsToAdd);
@@ -105,7 +120,11 @@ export async function deleteAllBookings() {
   }
 }
 
-async function _checkIfBookingsAreValid(bookings: IBooking[], currentTime: number) {
+async function _checkIfBookingsAreValid(
+  bookings: IBooking[],
+  currentTime: number,
+  allowOverwrite: boolean = false
+) {
   // check if bookings are in order and using correct types
   // check if last booking is more than 24 hours from now
   const lastBookingEnd = moment.unix(bookings[bookings.length - 1].end);
@@ -151,10 +170,23 @@ async function _checkIfBookingsAreValid(bookings: IBooking[], currentTime: numbe
       start: bookings[i].start,
       end: bookings[i].end,
     });
-    if (booking) {
+    if (booking && !allowOverwrite) {
       throw new Error(
         `Booking already exists ${booking.start} - ${booking.end} by ${booking.bookedBy.name}`
       );
     }
   }
+}
+
+async function _removeConflictingBookings(bookings: IBooking[]) {
+  if (bookings.length === 0) {
+    return;
+  }
+
+  await Booking.deleteMany({
+    $or: bookings.map(booking => ({
+      start: booking.start,
+      end: booking.end,
+    })),
+  });
 }

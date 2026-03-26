@@ -78,9 +78,17 @@ router.post('/addBooking', authUser, async function (req, res) {
   }
 
   const currentTime = moment().unix();
+  const token = req.headers.authorization.split(' ')[1];
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+  } catch (err) {
+    return res.status(401).send({ error: 'Invalid token' });
+  }
+  const allowOverwrite = decoded.role === 'admin' || decoded.role === 'master';
 
   try {
-    const savedBookings = await addBooking(bookings, currentTime);
+    const savedBookings = await addBooking(bookings, currentTime, allowOverwrite);
     res.send({
       data: savedBookings,
       currentTime,
@@ -100,7 +108,7 @@ router.post('/changeBooking', authUser, async function (req, res) {
   const bookingsToAdd = req.body?.bookingsToAdd;
 
   if (!bookingsToRemove || !bookingsToAdd) {
-    res.status(400).send({
+    return res.status(400).send({
       error: 'oldBookings and newBookings are required',
     });
   }
@@ -109,28 +117,28 @@ router.post('/changeBooking', authUser, async function (req, res) {
   const bookingUser = bookingsToRemove[0].bookedBy;
 
   // check if bookedBy is the same for all oldBookings and newBookings
-  bookingsToRemove.forEach(booking => {
+  for (const booking of bookingsToRemove) {
     if (
       booking.bookedBy.name != bookingUser.name ||
       booking.bookedBy.house != bookingUser.house ||
       booking.bookedBy.room != bookingUser.room
     ) {
-      res.status(400).send({
+      return res.status(400).send({
         error: 'bookedBy is not the same for all oldBookings',
       });
     }
-  });
-  bookingsToAdd.forEach(booking => {
+  }
+  for (const booking of bookingsToAdd) {
     if (
       booking.bookedBy.name != bookingUser.name ||
       booking.bookedBy.house != bookingUser.house ||
       booking.bookedBy.room != bookingUser.room
     ) {
-      res.status(400).send({
+      return res.status(400).send({
         error: 'bookedBy is not the same for all oldBookings',
       });
     }
-  });
+  }
 
   // check if user is allowed to change booking by checking if token name is the same as bookingUser.name,
   // token house is the same as bookingUser.house and
@@ -146,6 +154,8 @@ router.post('/changeBooking', authUser, async function (req, res) {
   const nameToken = decoded.name;
   const houseToken = decoded.house;
   const roomToken = decoded.room;
+  const roleToken = decoded.role;
+  const allowOverwrite = roleToken === 'admin' || roleToken === 'master';
 
   // NOTE: This is not secure
   // a user can just login with the same name as the one who booked the booking (if he knows the name, room and house)
@@ -153,17 +163,18 @@ router.post('/changeBooking', authUser, async function (req, res) {
   // but who cares
 
   if (
-    nameToken != bookingUser.name ||
-    houseToken != bookingUser.house ||
-    roomToken != bookingUser.room
+    !allowOverwrite &&
+    (nameToken != bookingUser.name ||
+      houseToken != bookingUser.house ||
+      roomToken != bookingUser.room)
   ) {
-    res.status(400).send({
+    return res.status(400).send({
       error: 'You are not allowed to change this booking',
     });
   }
 
   try {
-    await changeBookings(bookingsToRemove, bookingsToAdd);
+    await changeBookings(bookingsToRemove, bookingsToAdd, allowOverwrite);
     res.send({
       data: 'Booking changed',
     });
