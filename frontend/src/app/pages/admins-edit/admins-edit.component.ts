@@ -174,12 +174,14 @@ export class AdminsEditComponent implements OnInit {
 
       const nextRow = rows[rowIndex + 1];
       if (nextRow && row[0] !== nextRow[0]) {
-        const dividerY = rowTop + rowHeight + 10;
+        const currentRowBottom = rowTop + (rowHeight - 4);
+        const nextRowTop = tableTop + headerRowHeight + (rowIndex + 1) * rowHeight;
+        const dividerY = currentRowBottom + (nextRowTop - currentRowBottom) / 2;
         context.beginPath();
         context.moveTo(padding + 8, dividerY);
         context.lineTo(padding + tableWidth - 8, dividerY);
         context.strokeStyle = 'rgba(42, 106, 199, 0.22)';
-        context.lineWidth = 3;
+        context.lineWidth = 2;
         context.stroke();
       }
     });
