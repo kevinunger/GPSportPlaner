@@ -6,33 +6,37 @@
     <app-text-input
       [type]="'text'"
       [name]="'name'"
+      [autocomplete]="'name'"
       [placeholder]="t('home.namePlaceholder')"
       [value]="name"
       (input)="onInputName($event)"
     ></app-text-input>
 
-    <label for="name">{{ t('home.houseNumber') }}</label>
+    <label for="house">{{ t('home.houseNumber') }}</label>
     <app-text-input
       [type]="'number'"
       [name]="'house'"
+      [autocomplete]="'street-address'"
       [placeholder]="t('home.namePlaceholder')"
       [value]="house"
       (input)="onInputHouse($event)"
     ></app-text-input>
 
-    <label for="name">{{ t('home.roomNumber') }}</label>
+    <label for="room">{{ t('home.roomNumber') }}</label>
     <app-text-input
       [type]="'number'"
       [name]="'room'"
+      [autocomplete]="'username'"
       [placeholder]="t('home.namePlaceholder')"
       [value]="room"
       (input)="onInputRoom($event)"
     ></app-text-input>
 
-    <label for="name">{{ t('home.password') }}</label>
+    <label for="password">{{ t('home.password') }}</label>
     <app-text-input
       [type]="'password'"
       [name]="'password'"
+      [autocomplete]="'current-password'"
       [placeholder]="t('home.passwordPlaceholder')"
       [value]="password"
       (input)="onInputPassword($event)"

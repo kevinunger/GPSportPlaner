@@ -4,6 +4,6 @@
   [value]="value"
   (input)="onInput($event)"
   [name]="name"
-  [autocomplete]="name"
+  [autocomplete]="autocomplete || name"
   [id]="name"
 />

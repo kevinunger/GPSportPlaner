@@ -12,6 +12,7 @@ export class TextInputComponent implements OnInit {
   @Input() value: string = '';
   @Input() type: string = 'text';
   @Input() name: string = '';
+  @Input() autocomplete: string = '';
 
   constructor() {}
 
