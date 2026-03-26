@@ -31,6 +31,8 @@
     "errorLabelText": "Please fill out everything"
   },
   "booking": {
+    "topRule1Admin": "As an admin, you can book further than 24 hours in advance when needed.",
+    "showMoreSlots": "Show another 24h",
     "topRule1": "A booking can only be made 24h in advance",
     "topRule2": "You can train a maximum of 2 hours at a time",
     "bookingChange": "Change!",
@@ -94,7 +96,11 @@
       "save": "Save changes",
       "cancel": "Cancel",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "download": "Download admin image"
+    },
+    "export": {
+      "dayColumn": "Day"
     }
   },
   "rules": {

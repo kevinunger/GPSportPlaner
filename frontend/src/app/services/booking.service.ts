@@ -202,7 +202,7 @@ export class BookingService {
       const subject = new Subject<IResponse<IBooking[]> | IErrorResponse>();
 
       this.http
-        .post<IResponse<IBooking[]>>(`${this.API_URL}/bookings/addBooking`, bookings)
+        .post<IResponse<IBooking[]>>(`${this.API_URL}/bookings/addBooking`, bookingsToAdd)
         .pipe(
           catchError(error => {
             console.error('Error submitting bookings:', error);

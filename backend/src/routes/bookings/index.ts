@@ -113,11 +113,28 @@ router.post('/changeBooking', authUser, async function (req, res) {
     });
   }
 
+  if (bookingsToRemove.length === 0) {
+    return res.status(400).send({
+      error: 'at least one booking to remove is required',
+    });
+  }
+
   // check if oldBooking is booked by user
   const bookingUser = bookingsToRemove[0].bookedBy;
 
+  if (!bookingUser) {
+    return res.status(400).send({
+      error: 'bookedBy is required for bookingsToRemove',
+    });
+  }
+
   // check if bookedBy is the same for all oldBookings and newBookings
   for (const booking of bookingsToRemove) {
+    if (!booking.bookedBy) {
+      return res.status(400).send({
+        error: 'bookedBy is required for bookingsToRemove',
+      });
+    }
     if (
       booking.bookedBy.name != bookingUser.name ||
       booking.bookedBy.house != bookingUser.house ||
@@ -129,6 +146,11 @@ router.post('/changeBooking', authUser, async function (req, res) {
     }
   }
   for (const booking of bookingsToAdd) {
+    if (!booking.bookedBy) {
+      return res.status(400).send({
+        error: 'bookedBy is required for bookingsToAdd',
+      });
+    }
     if (
       booking.bookedBy.name != bookingUser.name ||
       booking.bookedBy.house != bookingUser.house ||

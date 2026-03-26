@@ -97,6 +97,23 @@ app-button {
   margin-top: 50px;
 }
 
+.showMoreButton {
+  background: transparent;
+  border: 1px solid rgba(42, 106, 199, 0.18);
+  border-radius: 16px;
+  color: #163457;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 800;
+  margin: 8px auto 24px;
+  min-height: 46px;
+  padding: 0 18px;
+}
+
+.showMoreButton:hover {
+  background: rgba(42, 106, 199, 0.05);
+}
+
 
 ul {
   list-style: none;

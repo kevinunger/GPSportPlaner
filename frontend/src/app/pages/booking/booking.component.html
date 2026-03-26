@@ -1,7 +1,7 @@
 <div class="pageContainer" *ngIf="!successFullSumbission">
   <div class="topRulesContainer" *transloco="let t">
     <ul>
-      <li>{{ t('booking.topRule1') }}</li>
+      <li>{{ t(canExtendBookingRange ? 'booking.topRule1Admin' : 'booking.topRule1') }}</li>
       <li>{{ t('booking.topRule2') }}</li>
     </ul>
   </div>
@@ -18,6 +18,15 @@
     <div class="timeslotsContainer" *ngFor="let timeSlot of timeSlots">
       <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"></app-timeslot>
     </div>
+
+    <button
+      *ngIf="shouldShowExtendButton()"
+      type="button"
+      class="showMoreButton"
+      (click)="showMoreTimeSlots()"
+    >
+      {{ 'booking.showMoreSlots' | transloco }}
+    </button>
 
     <app-button
       [errorLabelText]="errorLabelText"

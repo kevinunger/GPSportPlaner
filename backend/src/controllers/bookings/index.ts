@@ -130,7 +130,10 @@ async function _checkIfBookingsAreValid(
   const lastBookingEnd = moment.unix(bookings[bookings.length - 1].end);
   const timeIn24Hours = moment.unix(currentTime + 86400);
 
-  if (lastBookingEnd.isAfter(timeIn24Hours) || lastBookingEnd.isSame(timeIn24Hours)) {
+  if (
+    !allowOverwrite &&
+    (lastBookingEnd.isAfter(timeIn24Hours) || lastBookingEnd.isSame(timeIn24Hours))
+  ) {
     throw new Error('End of last booking is more than 24 hours from now');
   }
 

@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { AdminService } from 'src/app/services/admin.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookingService } from 'src/app/services/booking.service';
-import { IBooking, IResponse } from '../../types/index';
+import { IBooking, IResponse, Role } from '../../types/index';
 import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
@@ -29,6 +29,8 @@ export class BookingComponent implements OnInit {
   public bookingConfirmButtonText: string = '';
   public isLoading: boolean = true; // P3fdd
   public skeletonSlots = Array.from({ length: 8 });
+  public visibleSlotCount: number = 48;
+  public canExtendBookingRange: boolean = false;
 
   constructor(
     private adminService: AdminService,
@@ -38,6 +40,7 @@ export class BookingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.canExtendBookingRange = this.checkCanExtendBookingRange();
     this.isLoading = true; // P0274
     this.adminService.fetchAndSetAdmins().subscribe(
       () => {
@@ -116,6 +119,15 @@ export class BookingComponent implements OnInit {
     );
   }
 
+  public showMoreTimeSlots(): void {
+    this.visibleSlotCount += 48;
+    this.timeSlots = this.createTimeSlots();
+  }
+
+  public shouldShowExtendButton(): boolean {
+    return !this.isLoading && this.canExtendBookingRange;
+  }
+
   // create time slots for the next 24 hours
   // if it's 16:05, the first time slot is 16:00 - 16:30 of the same day
   // the last time slot is 15.30 - 16:00 of the next day
@@ -145,7 +157,7 @@ export class BookingComponent implements OnInit {
     }
 
     const timeSlots: IBooking[] = [];
-    for (let i = 0; i < 48; i++) {
+    for (let i = 0; i < this.visibleSlotCount; i++) {
       const start = timeToStartFirstSlot.clone().add(i * 30, 'minutes');
       const end = start.clone().add(30, 'minutes');
 
@@ -160,5 +172,14 @@ export class BookingComponent implements OnInit {
       });
     }
     return timeSlots;
+  }
+
+  private checkCanExtendBookingRange(): boolean {
+    const tokenData = this.authService.getTokenData();
+    if (!tokenData) {
+      return false;
+    }
+
+    return tokenData.role === Role.Admin || tokenData.role === Role.Master;
   }
 }

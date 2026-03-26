@@ -31,6 +31,8 @@
     "errorLabelText": "Bitte fülle alles aus"
   },
   "booking": {
+    "topRule1Admin": "Als Admin kannst du bei Bedarf weiter als 24h im Voraus buchen.",
+    "showMoreSlots": "Weitere 24h anzeigen",
     "topRule1": "Eine Eintragung ist erst 24h im voraus möglich",
     "topRule2": "Es kann maximal 2h am Stück trainiert werden",
     "bookingChange": "Ändern!",
@@ -95,7 +97,11 @@
       "save": "Aenderungen speichern",
       "cancel": "Abbrechen",
       "edit": "Bearbeiten",
-      "delete": "Loeschen"
+      "delete": "Loeschen",
+      "download": "Adminliste als Bild laden"
+    },
+    "export": {
+      "dayColumn": "Tag"
     }
   },
   "rules": {

@@ -112,6 +112,17 @@
         <p *ngIf="!loading">{{ admins.length }} {{ 'adminEdit.entriesLabel' | transloco }}</p>
       </div>
 
+      <div class="listActions">
+        <button
+          type="button"
+          class="secondary exportButton"
+          (click)="downloadAdminsOverview()"
+          [disabled]="saving || loading || admins.length === 0"
+        >
+          {{ 'adminEdit.actions.download' | transloco }}
+        </button>
+      </div>
+
       <div class="emptyState" *ngIf="!loading && admins.length === 0">
         {{ 'adminEdit.empty' | transloco }}
       </div>
