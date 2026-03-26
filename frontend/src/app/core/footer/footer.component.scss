@@ -1,15 +1,17 @@
 .footer {
-  position: fixed;
-  bottom: 0;
-  height: 70px;
-  left: 0;
-  right: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(247, 249, 253, 0.88);
+  border: 1px solid rgba(42, 106, 199, 0.1);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 14px rgba(14, 28, 50, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: #ffffff;
-  box-shadow: 0 2px 10px rgba(3, 3, 3, 0.1);
-  border-radius: 10px;
+  height: 70px;
+  left: 0;
+  right: 0;
+  position: fixed;
+  bottom: 0;
 }
 a {
   text-decoration: none;
@@ -17,11 +19,28 @@ a {
 }
 
 .entry {
-  color: #030303;
+  color: #15304c;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 22px;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.entry a {
+  align-items: center;
+  border-radius: 16px;
+  display: inline-flex;
+  height: 46px;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+  width: 46px;
+}
+
+.entry a:hover {
+  background: rgba(42, 106, 199, 0.08);
+  transform: translateY(-1px);
 }

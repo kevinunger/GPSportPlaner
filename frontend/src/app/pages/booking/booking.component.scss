@@ -39,12 +39,13 @@ ul {
   hyphens: auto;
 }
 li {
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(42, 106, 199, 0.1);
   margin-bottom: 10px;
   padding: 10px 20px;
   font-size: 16px;
   color: #333;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(12, 27, 51, 0.04);
   transition: all 0.3s ease;
 }
 li:hover {

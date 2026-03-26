@@ -6,7 +6,7 @@
   </select>
 
   <h1 class="headerText">{{ headerTitle }}</h1>
-  <button (click)="onToggleMenu()" class="menuBtn">
+  <button *ngIf="authService.getToken()" (click)="onToggleMenu()" class="menuBtn">
     <fa-icon [icon]="faBars"></fa-icon>
   </button>
 

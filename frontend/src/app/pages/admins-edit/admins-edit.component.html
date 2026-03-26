@@ -2,6 +2,7 @@
   <div class="pageContent adminsEditPage">
     <section class="adminFormCard">
       <div class="sectionHeader">
+        <p class="sectionEyebrow">{{ 'menu.adminAreaTitle' | transloco }}</p>
         <h2>
           {{
             editingAdmin
@@ -16,12 +17,12 @@
       <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
 
       <div class="formGrid">
-        <label>
+        <label class="fieldLabel">
           <span>{{ 'adminEdit.fields.name' | transloco }}</span>
           <input [value]="form.name" (input)="onInput('name', $event)" [disabled]="saving" />
         </label>
 
-        <label>
+        <label class="fieldLabel">
           <span>{{ 'adminEdit.fields.phoneNumber' | transloco }}</span>
           <input
             [value]="form.phoneNumber"
@@ -30,7 +31,7 @@
           />
         </label>
 
-        <label>
+        <label class="fieldLabel">
           <span>{{ 'adminEdit.fields.assignedDay' | transloco }}</span>
           <select
             [value]="form.assignedDay"
@@ -43,7 +44,7 @@
           </select>
         </label>
 
-        <label>
+        <label class="fieldLabel">
           <span>{{ 'adminEdit.fields.roomNumber' | transloco }}</span>
           <input
             [value]="form.roomNumber"
@@ -52,7 +53,7 @@
           />
         </label>
 
-        <label>
+        <label class="fieldLabel">
           <span>{{ 'adminEdit.fields.houseNumber' | transloco }}</span>
           <input
             [value]="form.houseNumber"
@@ -61,14 +62,26 @@
           />
         </label>
 
-        <label class="availabilityLabel">
+        <label class="availabilityLabel fieldLabel">
           <span>{{ 'adminEdit.fields.isAvailable' | transloco }}</span>
-          <input
-            type="checkbox"
-            [checked]="form.isAvailable"
-            (change)="onInput('isAvailable', $event)"
-            [disabled]="saving"
-          />
+          <span class="availabilityToggle" [class.isChecked]="form.isAvailable">
+            <input
+              type="checkbox"
+              [checked]="form.isAvailable"
+              (change)="onInput('isAvailable', $event)"
+              [disabled]="saving"
+            />
+            <span class="availabilitySwitch" aria-hidden="true">
+              <span class="availabilityKnob"></span>
+            </span>
+            <span class="availabilityState">
+              {{
+                form.isAvailable
+                  ? ('adminEdit.availableYes' | transloco)
+                  : ('adminEdit.availableNo' | transloco)
+              }}
+            </span>
+          </span>
         </label>
       </div>
 
@@ -93,6 +106,7 @@
 
     <section class="adminListCard">
       <div class="sectionHeader">
+        <p class="sectionEyebrow">{{ 'menu.adminsTitle' | transloco }}</p>
         <h2>{{ 'adminEdit.listTitle' | transloco }}</h2>
         <p *ngIf="loading">{{ 'adminEdit.loading' | transloco }}</p>
         <p *ngIf="!loading">{{ admins.length }} {{ 'adminEdit.entriesLabel' | transloco }}</p>
