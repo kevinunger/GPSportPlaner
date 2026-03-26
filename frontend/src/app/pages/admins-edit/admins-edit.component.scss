@@ -1,0 +1,148 @@
+.adminsEditPage {
+  display: grid;
+  gap: 24px;
+  padding: 24px 0 40px;
+}
+
+.adminFormCard,
+.adminListCard {
+  background: #ffffff;
+  border: 1px solid #d7dee8;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(27, 44, 68, 0.08);
+  padding: 24px;
+}
+
+.sectionHeader h2 {
+  margin: 0 0 8px;
+}
+
+.sectionHeader p {
+  margin: 0;
+  color: #57667a;
+}
+
+.message {
+  border-radius: 12px;
+  margin-top: 16px;
+  padding: 12px 14px;
+}
+
+.message.error {
+  background: #fff1f1;
+  color: #9f1d1d;
+}
+
+.message.success {
+  background: #eefbf2;
+  color: #17663a;
+}
+
+.formGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-top: 20px;
+}
+
+.formGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.formGrid input,
+.formGrid select {
+  border: 1px solid #bcc9d8;
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 12px;
+}
+
+.availabilityLabel {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.availabilityLabel input {
+  min-height: 18px;
+  min-width: 18px;
+  padding: 0;
+}
+
+.formActions,
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.formActions {
+  margin-top: 24px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 12px 16px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.primary {
+  background: #1d6fdc;
+  color: #ffffff;
+}
+
+.secondary {
+  background: #e9eef5;
+  color: #1d2b3d;
+}
+
+.danger {
+  background: #c63232;
+  color: #ffffff;
+}
+
+.emptyState {
+  color: #57667a;
+  margin-top: 16px;
+}
+
+.adminList {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.adminRow {
+  align-items: center;
+  border: 1px solid #d7dee8;
+  border-radius: 14px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.adminMeta h3 {
+  margin: 0 0 8px;
+}
+
+.adminMeta p {
+  color: #57667a;
+  margin: 4px 0;
+}
+
+@media (max-width: 700px) {
+  .adminRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

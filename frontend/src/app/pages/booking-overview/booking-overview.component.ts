@@ -22,18 +22,23 @@ export class BookingOverviewComponent implements OnInit {
   public selectedDateIsCurrentDay: boolean = true;
 
   public timeSlots: IBooking[] = [];
+  public isLoading: boolean = true; // P56e5
+
   constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
+    this.isLoading = true; // Pc036
     this.bookingService.fetchAndUpdateBookingsByDate(this.selectedDate).subscribe(
       () => {
         this.bookingService.getBookings().subscribe(bookings => {
           this.bookings = bookings;
           this.timeSlots = this.createTimeSlots();
+          this.isLoading = false; // P5f4e
         });
       },
       (error: IErrorResponse) => {
         console.error('Error fetching and updating bookings:', error);
+        this.isLoading = false; // P5f4e
       }
     );
   }

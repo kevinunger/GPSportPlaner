@@ -53,6 +53,36 @@
     }
 
   },
+  "adminEdit": {
+    "createTitle": "Admin hinzufuegen",
+    "editTitle": "Admin bearbeiten",
+    "description": "Hier kannst du Schluesselverantwortliche anlegen, aendern und loeschen.",
+    "listTitle": "Vorhandene Admins",
+    "entriesLabel": "Eintraege",
+    "loading": "Admins werden geladen...",
+    "empty": "Es sind noch keine Admins angelegt.",
+    "validationError": "Bitte fuelle alle Felder aus.",
+    "createSuccess": "Admin wurde angelegt.",
+    "editSuccess": "Admin wurde aktualisiert.",
+    "deleteSuccess": "Admin wurde geloescht.",
+    "availableYes": "Verfuegbar",
+    "availableNo": "Nicht verfuegbar",
+    "fields": {
+      "name": "Name",
+      "phoneNumber": "Telefonnummer",
+      "assignedDay": "Zustaendiger Tag",
+      "roomNumber": "Zimmernummer",
+      "houseNumber": "Hausnummer",
+      "isAvailable": "Gerade verfuegbar"
+    },
+    "actions": {
+      "create": "Admin anlegen",
+      "save": "Aenderungen speichern",
+      "cancel": "Abbrechen",
+      "edit": "Bearbeiten",
+      "delete": "Loeschen"
+    }
+  },
   "rules": {
     "title": "Regeln für die Benutzung des Sportraumes",
     "rule1": "Benutzung ausschließlich für Bewohner:innen der Studentenwohnheime Gret-Palucca-Straße 9 und 11.",

@@ -1,1 +1,133 @@
-<p>admins-edit works!</p>
+<div class="pageContainer">
+  <div class="pageContent adminsEditPage">
+    <section class="adminFormCard">
+      <div class="sectionHeader">
+        <h2>
+          {{
+            editingAdmin
+              ? ('adminEdit.editTitle' | transloco)
+              : ('adminEdit.createTitle' | transloco)
+          }}
+        </h2>
+        <p>{{ 'adminEdit.description' | transloco }}</p>
+      </div>
+
+      <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+
+      <div class="formGrid">
+        <label>
+          <span>{{ 'adminEdit.fields.name' | transloco }}</span>
+          <input [value]="form.name" (input)="onInput('name', $event)" [disabled]="saving" />
+        </label>
+
+        <label>
+          <span>{{ 'adminEdit.fields.phoneNumber' | transloco }}</span>
+          <input
+            [value]="form.phoneNumber"
+            (input)="onInput('phoneNumber', $event)"
+            [disabled]="saving"
+          />
+        </label>
+
+        <label>
+          <span>{{ 'adminEdit.fields.assignedDay' | transloco }}</span>
+          <select
+            [value]="form.assignedDay"
+            (change)="onInput('assignedDay', $event)"
+            [disabled]="saving"
+          >
+            <option *ngFor="let day of dayOptions" [value]="day">
+              {{ getDayLabel(day) }}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          <span>{{ 'adminEdit.fields.roomNumber' | transloco }}</span>
+          <input
+            [value]="form.roomNumber"
+            (input)="onInput('roomNumber', $event)"
+            [disabled]="saving"
+          />
+        </label>
+
+        <label>
+          <span>{{ 'adminEdit.fields.houseNumber' | transloco }}</span>
+          <input
+            [value]="form.houseNumber"
+            (input)="onInput('houseNumber', $event)"
+            [disabled]="saving"
+          />
+        </label>
+
+        <label class="availabilityLabel">
+          <span>{{ 'adminEdit.fields.isAvailable' | transloco }}</span>
+          <input
+            type="checkbox"
+            [checked]="form.isAvailable"
+            (change)="onInput('isAvailable', $event)"
+            [disabled]="saving"
+          />
+        </label>
+      </div>
+
+      <div class="formActions">
+        <button type="button" class="primary" (click)="submit()" [disabled]="saving">
+          {{
+            editingAdmin
+              ? ('adminEdit.actions.save' | transloco)
+              : ('adminEdit.actions.create' | transloco)
+          }}
+        </button>
+        <button
+          type="button"
+          class="secondary"
+          (click)="cancelEdit()"
+          [disabled]="saving || !editingAdmin"
+        >
+          {{ 'adminEdit.actions.cancel' | transloco }}
+        </button>
+      </div>
+    </section>
+
+    <section class="adminListCard">
+      <div class="sectionHeader">
+        <h2>{{ 'adminEdit.listTitle' | transloco }}</h2>
+        <p *ngIf="loading">{{ 'adminEdit.loading' | transloco }}</p>
+        <p *ngIf="!loading">{{ admins.length }} {{ 'adminEdit.entriesLabel' | transloco }}</p>
+      </div>
+
+      <div class="emptyState" *ngIf="!loading && admins.length === 0">
+        {{ 'adminEdit.empty' | transloco }}
+      </div>
+
+      <div class="adminList" *ngIf="admins.length > 0">
+        <article class="adminRow" *ngFor="let admin of admins; trackBy: trackByAdmin">
+          <div class="adminMeta">
+            <h3>{{ admin.name }}</h3>
+            <p>{{ getDayLabel(admin.assignedDay) }}</p>
+            <p>{{ admin.phoneNumber }}</p>
+            <p>{{ admin.houseNumber }}/{{ admin.roomNumber }}</p>
+            <p>
+              {{
+                admin.isAvailable
+                  ? ('adminEdit.availableYes' | transloco)
+                  : ('adminEdit.availableNo' | transloco)
+              }}
+            </p>
+          </div>
+
+          <div class="rowActions">
+            <button type="button" class="secondary" (click)="startEdit(admin)" [disabled]="saving">
+              {{ 'adminEdit.actions.edit' | transloco }}
+            </button>
+            <button type="button" class="danger" (click)="deleteAdmin(admin)" [disabled]="saving">
+              {{ 'adminEdit.actions.delete' | transloco }}
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</div>

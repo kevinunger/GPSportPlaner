@@ -22,6 +22,7 @@ export type Day =
   | 'Saturday'
   | 'Sunday';
 export interface IAdmin {
+  _id?: unknown;
   name: string;
   phoneNumber: string;
   assignedDay: Day;
