@@ -132,6 +132,14 @@ export class AdminsEditComponent implements OnInit {
 
   deleteAdmin(admin: IAdmin): void {
     this.clearMessages();
+    const confirmed = window.confirm(
+      this.translocoService.translate('adminEdit.deleteConfirm', {
+        name: admin.name,
+      })
+    );
+    if (!confirmed) {
+      return;
+    }
     this.saving = true;
     this.adminService
       .deleteAdmin(admin)

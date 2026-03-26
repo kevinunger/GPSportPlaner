@@ -65,6 +65,7 @@
     "createSuccess": "Admin wurde angelegt.",
     "editSuccess": "Admin wurde aktualisiert.",
     "deleteSuccess": "Admin wurde geloescht.",
+    "deleteConfirm": "Admin {{name}} wirklich loeschen?",
     "availableYes": "Verfuegbar",
     "availableNo": "Nicht verfuegbar",
     "fields": {

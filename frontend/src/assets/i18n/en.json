@@ -64,6 +64,7 @@
     "createSuccess": "Admin was created.",
     "editSuccess": "Admin was updated.",
     "deleteSuccess": "Admin was deleted.",
+    "deleteConfirm": "Do you really want to delete admin {{name}}?",
     "availableYes": "Available",
     "availableNo": "Unavailable",
     "fields": {
