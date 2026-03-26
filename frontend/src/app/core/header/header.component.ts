@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/types';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { SettingsService } from 'src/app/services/settings.service';
 
 interface MenuEntry {
@@ -19,6 +19,7 @@ interface MenuEntry {
 
 @Component({
   selector: 'app-header',
+  standalone: false,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

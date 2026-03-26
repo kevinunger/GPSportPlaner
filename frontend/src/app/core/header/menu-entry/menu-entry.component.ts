@@ -23,6 +23,7 @@ const iconMap: Record<string, IconDefinition> = {
 
 @Component({
   selector: 'app-menu-entry',
+  standalone: false,
   templateUrl: './menu-entry.component.html',
   styleUrls: ['./menu-entry.component.scss'],
 })

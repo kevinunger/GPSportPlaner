@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input } from '@angular/core';
 
 type CheckedState = 'checked' | 'unchecked' | 'indeterminate';
 
 @Component({
   selector: 'app-checkbox',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
 })

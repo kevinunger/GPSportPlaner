@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-rules',
+  standalone: false,
   templateUrl: './rules.component.html',
   styleUrls: ['./rules.component.scss'],
 })

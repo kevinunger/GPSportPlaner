@@ -16,7 +16,7 @@ import { MasterSettingsComponent } from './master-settings/master-settings.compo
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { InfoComponent } from './info/info.component';
 import { RulesComponent } from './rules/rules.component';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @NgModule({
   declarations: [

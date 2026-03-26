@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TranslocoService, LangDefinition } from '@ngneat/transloco';
+import { TranslocoService, LangDefinition } from '@jsverse/transloco';
 
 @Injectable({
   providedIn: 'root',

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { InfoService } from './services/info.service';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { SettingsService } from './services/settings.service';
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IBooking, IAdmin } from '../../../types/index';
 import { BookingService } from '../../../services/booking.service';
 import { AdminService } from 'src/app/services/admin.service';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import * as moment from 'moment';
 
@@ -22,6 +22,7 @@ interface FormattedBookings {
 
 @Component({
   selector: 'app-booking-confirmation',
+  standalone: false,
   templateUrl: './booking-confirmation.component.html',
   styleUrls: ['./booking-confirmation.component.scss'],
 })

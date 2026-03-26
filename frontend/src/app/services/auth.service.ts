@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { tap, catchError, map, switchMap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { ILoginData, IResponse, Role, TokenPayload } from '../types/index';
-import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     try {
-      const decoded = jwt_decode(token) as TokenPayload;
+      const decoded = jwtDecode(token) as TokenPayload;
 
       return token;
     } catch (error) {
@@ -60,7 +60,7 @@ export class AuthService {
   getTokenData(): TokenPayload | null {
     const token = this.getToken();
     if (!token) return null;
-    const decoded = jwt_decode(token) as TokenPayload;
+    const decoded = jwtDecode(token) as TokenPayload;
     return decoded;
   }
 
@@ -74,14 +74,14 @@ export class AuthService {
   initToken(): void {
     const token = this.getToken();
     if (token) {
-      const decoded = jwt_decode(token) as ILoginData;
+      const decoded = jwtDecode(token) as ILoginData;
       this.setLoginData(decoded);
     }
   }
 
   setToken(token: string): void {
     localStorage.setItem('jwt', token);
-    const decoded = jwt_decode(token) as ILoginData;
+    const decoded = jwtDecode(token) as ILoginData;
 
     this.setLoginData(decoded);
   }
@@ -109,7 +109,7 @@ export class AuthService {
     // check validity
     // console.log(jwt_decode(token));
 
-    const decoded = jwt_decode(token) as JWT;
+    const decoded = jwtDecode(token) as JWT;
 
     return decoded.exp;
   }

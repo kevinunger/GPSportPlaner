@@ -14,7 +14,7 @@ import { TranslocoRootModule } from './transloco-root.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { APP_INITIALIZER } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 export function preloadTranslations(translocoService: TranslocoService) {
   const locale = localStorage.getItem('lang') || 'de';
@@ -28,14 +28,14 @@ export function preloadTranslations(translocoService: TranslocoService) {
     FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
     RouterModule,
     HttpClientModule,
     CoreModule,
   ],
   providers: [
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

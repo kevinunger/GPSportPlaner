@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-text-input',
+  standalone: true,
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss'],
 })

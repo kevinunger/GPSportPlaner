@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { AdminService } from 'src/app/services/admin.service';
 import { Day, IAdmin } from 'src/app/types';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 interface AdminForm {
   name: string;
@@ -15,6 +15,7 @@ interface AdminForm {
 
 @Component({
   selector: 'app-admins-edit',
+  standalone: false,
   templateUrl: './admins-edit.component.html',
   styleUrls: ['./admins-edit.component.scss'],
 })

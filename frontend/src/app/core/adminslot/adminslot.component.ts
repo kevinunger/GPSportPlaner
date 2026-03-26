@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-adminslot',
+  standalone: false,
   templateUrl: './adminslot.component.html',
   styleUrls: ['./adminslot.component.scss'],
 })

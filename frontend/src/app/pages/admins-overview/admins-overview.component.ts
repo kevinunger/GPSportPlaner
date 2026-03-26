@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { IAdmin } from 'src/app/types/index';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 interface IAdminsPerDay {
   Monday: IAdmin[];
@@ -15,6 +15,7 @@ interface IAdminsPerDay {
 
 @Component({
   selector: 'app-admins-overview',
+  standalone: false,
   templateUrl: './admins-overview.component.html',
   styleUrls: ['./admins-overview.component.scss'],
 })

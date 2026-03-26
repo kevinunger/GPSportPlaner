@@ -7,6 +7,7 @@ import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-booking-overview',
+  standalone: false,
   templateUrl: './booking-overview.component.html',
   styleUrls: ['./booking-overview.component.scss'],
 })

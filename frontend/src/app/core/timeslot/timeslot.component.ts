@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-timeslot',
+  standalone: false,
   templateUrl: './timeslot.component.html',
   styleUrls: ['./timeslot.component.scss'],
 })

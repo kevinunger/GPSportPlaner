@@ -5,10 +5,11 @@ import { AdminService } from 'src/app/services/admin.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { IBooking, IResponse } from '../../types/index';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-booking',
+  standalone: false,
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss'],
 })

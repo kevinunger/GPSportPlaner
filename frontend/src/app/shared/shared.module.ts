@@ -5,8 +5,7 @@ import { ButtonComponent } from './button/button.component';
 import { TextInputComponent } from './text-input/text-input.component';
 
 @NgModule({
-  declarations: [CheckboxComponent, ButtonComponent, TextInputComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, CheckboxComponent, ButtonComponent, TextInputComponent],
   exports: [CheckboxComponent, ButtonComponent, TextInputComponent],
 })
 export class SharedModule {}
