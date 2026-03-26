@@ -5,8 +5,11 @@ app-timeslot {
 }
 
 .loginPage {
+  box-sizing: border-box;
   min-height: calc(100vh - 70px);
-  padding: 24px 16px 80px;
+  max-width: 100%;
+  padding: 24px 12px 80px;
+  width: 100%;
 }
 
 .loginHero {
@@ -38,6 +41,7 @@ app-timeslot {
 }
 
 .loginCard {
+  box-sizing: border-box;
   backdrop-filter: blur(10px);
   background:
     linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(245, 248, 255, 0.92));
@@ -50,7 +54,7 @@ app-timeslot {
   flex-direction: column;
   gap: 18px;
   padding: 28px 20px 24px;
-  width: min(100%, 430px);
+  width: min(calc(100vw - 24px), 430px);
 }
 
 .fieldGroup {
@@ -159,7 +163,8 @@ app-timeslot {
 @media (max-width: 420px) {
   .loginCard {
     border-radius: 22px;
-    padding: 24px 16px 20px;
+    padding: 22px 14px 18px;
+    width: min(calc(100vw - 20px), 430px);
   }
 
   .twoColumnRow {
