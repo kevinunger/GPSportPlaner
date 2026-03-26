@@ -58,14 +58,27 @@ export async function addAdmin(admin: IAdmin): Promise<IAdmin> {
 
 // delete an admin
 export async function deleteAdmin(admin: IAdmin): Promise<IAdmin> {
-  // check if admin exists
-  const existingAdmin = await Admin.find(admin);
-  if (existingAdmin.length === 0) {
+  const existingAdmin = await Admin.findOne({
+    name: admin.name,
+    phoneNumber: admin.phoneNumber,
+    assignedDay: admin.assignedDay,
+    roomNumber: admin.roomNumber,
+    houseNumber: admin.houseNumber,
+  });
+  if (!existingAdmin) {
     throw new Error('Admin does not exist');
   }
   try {
-    // mongoose delete admin from db
-    const deletedAdmin = await Admin.findByIdAndDelete(admin);
+    const deletedAdmin = await Admin.findOneAndDelete({
+      name: admin.name,
+      phoneNumber: admin.phoneNumber,
+      assignedDay: admin.assignedDay,
+      roomNumber: admin.roomNumber,
+      houseNumber: admin.houseNumber,
+    });
+    if (!deletedAdmin) {
+      throw new Error('Admin does not exist');
+    }
     return deletedAdmin.toObject();
   } catch (err) {
     throw new Error(err);
@@ -126,21 +139,40 @@ export async function editAdmin(oldAdmin: IAdmin, newAdmin: IAdmin): Promise<IAd
     throw new Error('Missing fields of oldAdmin: ' + missingFieldsOld.join(', '));
   }
 
-  // check if admin already exists
-  const existingAdmin = await Admin.findOne({
-    name: newAdmin.name,
-    phoneNumber: newAdmin.phoneNumber,
-    assignedDay: newAdmin.assignedDay,
-    roomNumber: newAdmin.roomNumber,
-    houseNumber: newAdmin.houseNumber,
+  const existingOldAdmin = await Admin.findOne({
+    name: oldAdmin.name,
+    phoneNumber: oldAdmin.phoneNumber,
+    assignedDay: oldAdmin.assignedDay,
+    roomNumber: oldAdmin.roomNumber,
+    houseNumber: oldAdmin.houseNumber,
   });
 
-  if (existingAdmin) {
-    throw new Error('Admin already exists');
+  if (!existingOldAdmin) {
+    throw new Error('Admin does not exist');
+  }
+
+  const isSameAdmin =
+    oldAdmin.name === newAdmin.name &&
+    oldAdmin.phoneNumber === newAdmin.phoneNumber &&
+    oldAdmin.assignedDay === newAdmin.assignedDay &&
+    oldAdmin.roomNumber === newAdmin.roomNumber &&
+    oldAdmin.houseNumber === newAdmin.houseNumber;
+
+  if (!isSameAdmin) {
+    const existingAdmin = await Admin.findOne({
+      name: newAdmin.name,
+      phoneNumber: newAdmin.phoneNumber,
+      assignedDay: newAdmin.assignedDay,
+      roomNumber: newAdmin.roomNumber,
+      houseNumber: newAdmin.houseNumber,
+    });
+
+    if (existingAdmin) {
+      throw new Error('Admin already exists');
+    }
   }
 
   try {
-    // mongoose update admin in db
     const updatedAdmin = await Admin.findOneAndUpdate(
       {
         name: oldAdmin.name,
@@ -152,6 +184,9 @@ export async function editAdmin(oldAdmin: IAdmin, newAdmin: IAdmin): Promise<IAd
       newAdmin,
       { new: true }
     );
+    if (!updatedAdmin) {
+      throw new Error('Admin does not exist');
+    }
     return updatedAdmin.toObject();
   } catch (err) {
     throw new Error(err);

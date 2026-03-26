@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { IResponse, IBooking, IErrorResponse, IAdmin } from '../types/index';
-import { Observable, BehaviorSubject, Subject, throwError } from 'rxjs';
+import { IResponse, IAdmin } from '../types/index';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
-import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -36,5 +35,30 @@ export class AdminService {
     );
   }
 
-  public getAllAdmins() {}
+  public addAdmin(admin: IAdmin): Observable<IAdmin> {
+    return this.http.post<IAdmin>(`${this.API_URL}/admins/addAdmin`, admin).pipe(
+      catchError(error => {
+        console.error('Error adding admin:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  public editAdmin(oldAdmin: IAdmin, newAdmin: IAdmin): Observable<IAdmin> {
+    return this.http.put<IAdmin>(`${this.API_URL}/admins/editAdmin`, { oldAdmin, newAdmin }).pipe(
+      catchError(error => {
+        console.error('Error editing admin:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  public deleteAdmin(admin: IAdmin): Observable<IAdmin> {
+    return this.http.delete<IAdmin>(`${this.API_URL}/admins/deleteAdmin`, { body: admin }).pipe(
+      catchError(error => {
+        console.error('Error deleting admin:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }

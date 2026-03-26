@@ -2,7 +2,7 @@
   class="timeslot"
   [ngClass]="{
     isBooked: timeslot.bookedBy?.name || timeslot.bookedBy,
-    isBookedByMe: isMyBooking && isReadOnly
+    isBookedByMe: isMyBooking && isReadOnly,
   }"
 >
   <!--TODO: Remove || || timeslot.bookedBy after some time (this is just to support the old and new booking system)-->
@@ -23,11 +23,4 @@
   <div class="nameContainer">
     <span class="name">{{ getBookingText() }}</span>
   </div>
-</div>
-
-<div *ngIf="isLoading" class="skeleton-loader">
-  <div class="skeleton-day"></div>
-  <div class="skeleton-time"></div>
-  <div class="skeleton-checkbox"></div>
-  <div class="skeleton-name"></div>
 </div>

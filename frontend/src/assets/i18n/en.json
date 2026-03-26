@@ -52,6 +52,36 @@
       "Sunday": "Sunday"
     }
   },
+  "adminEdit": {
+    "createTitle": "Add admin",
+    "editTitle": "Edit admin",
+    "description": "Manage key holders directly in the frontend.",
+    "listTitle": "Existing admins",
+    "entriesLabel": "entries",
+    "loading": "Loading admins...",
+    "empty": "No admins have been created yet.",
+    "validationError": "Please fill all required fields.",
+    "createSuccess": "Admin was created.",
+    "editSuccess": "Admin was updated.",
+    "deleteSuccess": "Admin was deleted.",
+    "availableYes": "Available",
+    "availableNo": "Unavailable",
+    "fields": {
+      "name": "Name",
+      "phoneNumber": "Phone number",
+      "assignedDay": "Assigned day",
+      "roomNumber": "Room number",
+      "houseNumber": "House number",
+      "isAvailable": "Currently available"
+    },
+    "actions": {
+      "create": "Create admin",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
   "rules": {
     "title": "Rules for Using the Sports Room",
     "rule1": "The gym is exclusive to residents of dormitories located at Gret-Palucca-Street 9 and 11.",
