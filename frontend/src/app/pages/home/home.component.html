@@ -2,7 +2,7 @@
   <section class="loginHero">
     <p class="eyebrow">GPS Sportplaner</p>
     <h1 class="headerText">{{ t('home.title') }}</h1>
-    <p class="subText">Melde dich mit deinen Wohnheimdaten und dem Rollen-Passwort an.</p>
+    <p class="subText">{{ t('home.subtitle') }}</p>
   </section>
 
   <form (submit)="onSubmit(); $event.preventDefault()" class="form loginCard">
@@ -25,7 +25,7 @@
           [type]="'number'"
           [name]="'house'"
           [autocomplete]="'street-address'"
-          [placeholder]="'9 oder 11'"
+          [placeholder]="t('home.houseNumberPlaceholder')"
           [value]="house"
           (input)="onInputHouse($event)"
         ></app-text-input>
@@ -37,7 +37,7 @@
           [type]="'number'"
           [name]="'room'"
           [autocomplete]="'username'"
-          [placeholder]="'0607'"
+          [placeholder]="t('home.roomNumberPlaceholder')"
           [value]="room"
           (input)="onInputRoom($event)"
         ></app-text-input>

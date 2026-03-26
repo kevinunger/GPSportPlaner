@@ -3,6 +3,7 @@ import { IResponse, IBooking, IErrorResponse } from '../../types/index';
 import { BookingService } from '../../services/booking.service';
 import * as moment from 'moment';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslocoService } from '@jsverse/transloco';
 @Component({
   selector: 'app-timeslot',
   standalone: false,
@@ -29,7 +30,11 @@ export class TimeslotComponent implements OnInit {
 
   @Input() isReadOnly: boolean = false;
 
-  constructor(private bookingService: BookingService, private authService: AuthService) {}
+  constructor(
+    private bookingService: BookingService,
+    private authService: AuthService,
+    private translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -70,10 +75,12 @@ export class TimeslotComponent implements OnInit {
   getBookingText(): string {
     if (this.timeslot.bookedBy) {
       return this.isMyBooking
-        ? 'Gebucht von: Dir'
+        ? this.translocoService.translate('timeslot.bookedByMe')
         : // TODO: || this.timeslot.bookedBy can be removed in some time
           // this has been added to support both the old format (string) and the new format (object)
-          `Gebucht von: ${this.timeslot.bookedBy.name || this.timeslot.bookedBy}`;
+          this.translocoService.translate('timeslot.bookedBy', {
+            name: this.timeslot.bookedBy.name || this.timeslot.bookedBy,
+          });
     }
     return '';
   }

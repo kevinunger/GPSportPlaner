@@ -16,12 +16,13 @@
   },
   "home": {
     "title": "Welcome to the Sports Scheduler!",
+    "subtitle": "Log in with your dorm information and role password.",
     "yourName": "Your Name",
     "namePlaceholder": " ",
     "houseNumber": "House Number",
-    "houseNumberPlaceholder": " ",
+    "houseNumberPlaceholder": "9 or 11",
     "roomNumber": "Room Number",
-    "roomNumberPlaceholder": " ",
+    "roomNumberPlaceholder": "0607",
     "password": "Password",
     "passwordPlaceholder":" ",
     "loginButtonLabel": "Login",
@@ -40,6 +41,10 @@
     "titleDelete":"Entries have been deleted!",
     "yourTrainingTime": "Your Training Time",
     "adminsInfo":"You can get a key from the following people:"
+  },
+  "timeslot": {
+    "bookedByMe": "Booked by: You",
+    "bookedBy": "Booked by: {{name}}"
   },
   "adminOverview": {
     "weekdays": {

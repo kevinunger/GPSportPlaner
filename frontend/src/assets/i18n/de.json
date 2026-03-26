@@ -16,12 +16,13 @@
   },
   "home": {
     "title": "Willkommen zum Sportplaner!",
+    "subtitle": "Melde dich mit deinen Wohnheimdaten und dem Rollen-Passwort an.",
     "yourName": "Dein Name",
     "namePlaceholder": " ",
     "houseNumber": "Hausnummer",
-    "houseNumberPlaceholder": " ",
+    "houseNumberPlaceholder": "9 oder 11",
     "roomNumber": "Zimmernummer",
-    "roomNumberPlaceholder": " ",
+    "roomNumberPlaceholder": "0607",
     "password": "Passwort",
     "passwordPlaceholder":" ",
     "loginButtonLabel": "Login",
@@ -40,6 +41,10 @@
     "titleDelete":"Eintragungen wurden gelöscht!",
     "yourTrainingTime": "Deine Trainingszeit",
     "adminsInfo":"Bei den folgenden Personen kannst du dir einen Schlüssel holen:"
+  },
+  "timeslot": {
+    "bookedByMe": "Gebucht von: Dir",
+    "bookedBy": "Gebucht von: {{name}}"
   },
   "adminOverview": {
     "weekdays": {
