@@ -116,6 +116,12 @@ export class BookingService {
       .some(selectedBooking => selectedBooking.start === booking.start && selectedBooking.end === booking.end);
   }
 
+  public isBookingMarkedForRemoval(booking: IBooking): boolean {
+    return this.bookingsToRemove
+      .getValue()
+      .some(bookingToRemove => bookingToRemove.start === booking.start && bookingToRemove.end === booking.end);
+  }
+
   public removeBooking(booking: IBooking): void {
     // triggered on unCheck
     // check if booking is in selectedBookingsByUser
@@ -190,7 +196,6 @@ export class BookingService {
     // if bookingsToRemove is not empty -> /changeBooking with bookingsToRemove and bookingsToAdd
 
     bookingsToAdd = this._addUserToBookings(bookingsToAdd);
-    bookingsToRemove = this._addUserToBookings(bookingsToRemove);
 
     // post to /addBooking
     if (bookingsToRemove.length === 0) {
@@ -275,15 +280,13 @@ export class BookingService {
     const room = this.authService.getRoom();
     const house = this.authService.getHouse();
 
-    // add user data to bookings
-    bookings.forEach(booking => {
-      // create bookedBy object
-      booking.bookedBy = {
+    return bookings.map(booking => ({
+      ...booking,
+      bookedBy: {
         name,
         room,
         house,
-      };
-    });
-    return bookings;
+      },
+    }));
   }
 }

@@ -52,9 +52,20 @@ export class TimeslotComponent implements OnInit {
 
     if (this.isMyBooking) {
       this.checked = true;
-    } else if (!this.disabledCheckbox) {
-      this.checked = this.bookingService.isBookingSelected(this.timeslot);
+      return;
     }
+
+    if (this.canOverrideBooking && this.timeslot.bookedBy) {
+      this.checked = !this.bookingService.isBookingMarkedForRemoval(this.timeslot);
+      return;
+    }
+
+    if (!this.disabledCheckbox) {
+      this.checked = this.bookingService.isBookingSelected(this.timeslot);
+      return;
+    }
+
+    this.checked = false;
   }
 
   onCheck(): void {
