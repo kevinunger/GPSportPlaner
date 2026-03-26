@@ -2,11 +2,14 @@
   font-size: 26px;
   color: white;
   background-color: #030303d8;
+  border: none;
   padding: 10px 60px;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .btn:disabled {
+  cursor: not-allowed;
   opacity: 0.3;
 }
 

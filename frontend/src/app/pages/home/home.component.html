@@ -1,46 +1,60 @@
-<div class="pageContainer" *transloco="let t">
-  <h1 class="headerText">{{ t('home.title') }}</h1>
+<div class="pageContainer loginPage" *transloco="let t">
+  <section class="loginHero">
+    <p class="eyebrow">GPS Sportplaner</p>
+    <h1 class="headerText">{{ t('home.title') }}</h1>
+    <p class="subText">Melde dich mit deinen Wohnheimdaten und dem Rollen-Passwort an.</p>
+  </section>
 
-  <form (submit)="onSubmit(); $event.preventDefault()" class="form">
-    <label for="name">{{ t('home.yourName') }}</label>
-    <app-text-input
-      [type]="'text'"
-      [name]="'name'"
-      [autocomplete]="'name'"
-      [placeholder]="t('home.namePlaceholder')"
-      [value]="name"
-      (input)="onInputName($event)"
-    ></app-text-input>
+  <form (submit)="onSubmit(); $event.preventDefault()" class="form loginCard">
+    <div class="fieldGroup">
+      <label for="name">{{ t('home.yourName') }}</label>
+      <app-text-input
+        [type]="'text'"
+        [name]="'name'"
+        [autocomplete]="'name'"
+        [placeholder]="t('home.yourName')"
+        [value]="name"
+        (input)="onInputName($event)"
+      ></app-text-input>
+    </div>
 
-    <label for="house">{{ t('home.houseNumber') }}</label>
-    <app-text-input
-      [type]="'number'"
-      [name]="'house'"
-      [autocomplete]="'street-address'"
-      [placeholder]="t('home.namePlaceholder')"
-      [value]="house"
-      (input)="onInputHouse($event)"
-    ></app-text-input>
+    <div class="twoColumnRow">
+      <div class="fieldGroup compact">
+        <label for="house">{{ t('home.houseNumber') }}</label>
+        <app-text-input
+          [type]="'number'"
+          [name]="'house'"
+          [autocomplete]="'street-address'"
+          [placeholder]="'9 oder 11'"
+          [value]="house"
+          (input)="onInputHouse($event)"
+        ></app-text-input>
+      </div>
 
-    <label for="room">{{ t('home.roomNumber') }}</label>
-    <app-text-input
-      [type]="'number'"
-      [name]="'room'"
-      [autocomplete]="'username'"
-      [placeholder]="t('home.namePlaceholder')"
-      [value]="room"
-      (input)="onInputRoom($event)"
-    ></app-text-input>
+      <div class="fieldGroup compact">
+        <label for="room">{{ t('home.roomNumber') }}</label>
+        <app-text-input
+          [type]="'number'"
+          [name]="'room'"
+          [autocomplete]="'username'"
+          [placeholder]="'0607'"
+          [value]="room"
+          (input)="onInputRoom($event)"
+        ></app-text-input>
+      </div>
+    </div>
 
-    <label for="password">{{ t('home.password') }}</label>
-    <app-text-input
-      [type]="'password'"
-      [name]="'password'"
-      [autocomplete]="'current-password'"
-      [placeholder]="t('home.passwordPlaceholder')"
-      [value]="password"
-      (input)="onInputPassword($event)"
-    ></app-text-input>
+    <div class="fieldGroup">
+      <label for="password">{{ t('home.password') }}</label>
+      <app-text-input
+        [type]="'password'"
+        [name]="'password'"
+        [autocomplete]="'current-password'"
+        [placeholder]="t('home.password')"
+        [value]="password"
+        (input)="onInputPassword($event)"
+      ></app-text-input>
+    </div>
 
     <app-button
       [errorLabelText]="errorLabelText"
