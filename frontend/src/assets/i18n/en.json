@@ -16,7 +16,7 @@
   },
   "home": {
     "title": "Welcome to the Sports Scheduler!",
-    "subtitle": "Log in with your dorm information and role password.",
+    "subtitle": "Log in with your dorm information and password.",
     "yourName": "Your Name",
     "namePlaceholder": " ",
     "houseNumber": "House Number",
