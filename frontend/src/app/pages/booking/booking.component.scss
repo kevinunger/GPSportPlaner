@@ -13,6 +13,75 @@ app-timeslot {
   width: 100%;
 }
 
+.timeslotsSkeleton {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.timeslotSkeleton {
+  width: clamp(250px, 80%, 300px);
+  height: 60px;
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid rgba(42, 106, 199, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  overflow: hidden;
+}
+
+.timeslotSkeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(42, 106, 199, 0.08) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: skeletonShimmer 1.2s ease-in-out infinite;
+}
+
+.skeletonLine,
+.skeletonBox {
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(42, 106, 199, 0.12);
+}
+
+.skeletonDay {
+  top: 8px;
+  left: 50%;
+  width: 52px;
+  height: 10px;
+  transform: translateX(-50%);
+}
+
+.skeletonTime {
+  top: 50%;
+  left: 50%;
+  width: 142px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+}
+
+.skeletonBox {
+  top: 12px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+}
+
+@keyframes skeletonShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 app-text-input {
   margin-top: 50px;
   display: flex;

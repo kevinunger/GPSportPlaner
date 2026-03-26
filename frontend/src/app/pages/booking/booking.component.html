@@ -6,23 +6,26 @@
     </ul>
   </div>
 
-  <div class="timeslotsContainer" *ngFor="let timeSlot of timeSlots">
-    <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"></app-timeslot>
+  <div *ngIf="isLoading" class="timeslotsSkeleton" aria-hidden="true">
+    <div class="timeslotSkeleton" *ngFor="let _ of skeletonSlots">
+      <div class="skeletonLine skeletonDay"></div>
+      <div class="skeletonLine skeletonTime"></div>
+      <div class="skeletonBox"></div>
+    </div>
   </div>
 
-  <app-button
-    [errorLabelText]="errorLabelText"
-    [disabled]="!userCanSubmit"
-    [text]="bookingConfirmButtonText"
-    (click)="$event.preventDefault(); onSubmit()"
-  ></app-button>
+  <ng-container *ngIf="!isLoading">
+    <div class="timeslotsContainer" *ngFor="let timeSlot of timeSlots">
+      <app-timeslot *ngIf="timeSlot.start.valueOf() !== 0" [timeslot]="timeSlot"></app-timeslot>
+    </div>
+
+    <app-button
+      [errorLabelText]="errorLabelText"
+      [disabled]="!userCanSubmit"
+      [text]="bookingConfirmButtonText"
+      (click)="$event.preventDefault(); onSubmit()"
+    ></app-button>
+  </ng-container>
 </div>
 
 <app-booking-confirmation *ngIf="successFullSumbission"></app-booking-confirmation>
-
-<div *ngIf="isLoading" class="skeleton-loader">
-  <div class="skeleton-day"></div>
-  <div class="skeleton-time"></div>
-  <div class="skeleton-checkbox"></div>
-  <div class="skeleton-name"></div>
-</div>

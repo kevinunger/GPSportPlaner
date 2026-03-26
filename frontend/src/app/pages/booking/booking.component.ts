@@ -28,6 +28,7 @@ export class BookingComponent implements OnInit {
   public errorLabelText: string = '';
   public bookingConfirmButtonText: string = '';
   public isLoading: boolean = true; // P3fdd
+  public skeletonSlots = Array.from({ length: 8 });
 
   constructor(
     private adminService: AdminService,
