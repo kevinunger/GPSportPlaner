@@ -9,6 +9,8 @@
     "adminsHeaderTitle": "Schlüsselhalter",
     "rulesTitle": "Regeln",
     "rulesHeaderTitle": "Regeln",
+    "infoTitle": "Info",
+    "infoHeaderTitle": "Info",
     "adminAreaTitle": "Adminbereich",
     "adminAreaHeaderTitle": "Adminbereich",
     "logoutTitle": "Ausloggen",
@@ -41,6 +43,13 @@
     "titleDelete":"Eintragungen wurden gelöscht!",
     "yourTrainingTime": "Deine Trainingszeit",
     "adminsInfo":"Bei den folgenden Personen kannst du dir einen Schlüssel holen:"
+  },
+  "info": {
+    "title": "Info",
+    "creatorLabel": "Erstellt von",
+    "creator": "Kevin Unger",
+    "description": "GPS Sportplaner ist als Wohnheim-Sportbuchungsapp mit Angular, Express und MongoDB umgesetzt. Den Quellcode findest du auf GitHub.",
+    "githubLabel": "Zum GitHub-Repository"
   },
   "timeslot": {
     "bookedByMe": "Gebucht von: Dir",

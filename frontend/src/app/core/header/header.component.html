@@ -11,21 +11,29 @@
   </button>
 
   <div class="menu" [ngClass]="{ menuActive: menuActive }">
-    <ng-container *ngFor="let entry of menuEntries">
-      <div
-        *ngIf="!entry.onlyAdmin || userRole == 'admin' || userRole == 'master'"
-        class="menuInner"
-      >
-        <app-menu-entry
-          (click)="onToggleMenu()"
-          [title]="entry.title"
-          [link]="entry.link"
-          [icon_name]="entry.icon_name"
-          [action]="entry.action"
-        ></app-menu-entry>
-        <hr class="divider" />
-      </div>
-    </ng-container>
+    <div class="menuLinks">
+      <ng-container *ngFor="let entry of menuEntries">
+        <div
+          *ngIf="!entry.onlyAdmin || userRole == 'admin' || userRole == 'master'"
+          class="menuInner"
+        >
+          <app-menu-entry
+            (click)="onToggleMenu()"
+            [title]="entry.title"
+            [link]="entry.link"
+            [icon_name]="entry.icon_name"
+            [action]="entry.action"
+          ></app-menu-entry>
+          <hr class="divider" />
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="menuAttribution">
+      <a class="menuAttributionLink" routerLink="/info" (click)="onToggleMenu()">
+        {{ 'info.title' | transloco }}
+      </a>
+    </div>
   </div>
   <div
     class="backdrop"

@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { ServerUnreachableComponent } from './server-unreachable/server-unreachable.component';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     ServerUnreachableComponent,
   ],
-  imports: [CommonModule, SharedModule, FontAwesomeModule, RouterModule, FormsModule],
+  imports: [CommonModule, SharedModule, FontAwesomeModule, RouterModule, FormsModule, TranslocoModule],
   exports: [
     FooterComponent,
     HeaderComponent,

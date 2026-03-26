@@ -1,1 +1,22 @@
-<p>info works!</p>
+<div class="pageContainer infoPage" *transloco="let t">
+  <section class="infoHero">
+    <h1>{{ t('info.title') }}</h1>
+  </section>
+
+  <section class="infoCard">
+    <h2>{{ t('info.creatorLabel') }}</h2>
+    <p class="creatorName">{{ t('info.creator') }}</p>
+    <p>{{ t('info.description') }}</p>
+
+    <div class="infoLinks">
+      <a
+        class="primaryLink"
+        href="https://github.com/kevinunger/GPSportPlaner"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ t('info.githubLabel') }}
+      </a>
+    </div>
+  </section>
+</div>

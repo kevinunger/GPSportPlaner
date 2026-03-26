@@ -4,6 +4,7 @@ import { BookingService } from '../../services/booking.service';
 import * as moment from 'moment';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslocoService } from '@jsverse/transloco';
+import { Role } from '../../types/index';
 @Component({
   selector: 'app-timeslot',
   standalone: false,
@@ -27,6 +28,7 @@ export class TimeslotComponent implements OnInit {
   //check if timeslot is changeable (true if tokenUser == timeslot.bookedBy or user is master/admin)
   changeable: boolean = false;
   isMyBooking: boolean = false;
+  canOverrideBooking: boolean = false;
 
   @Input() isReadOnly: boolean = false;
 
@@ -41,12 +43,17 @@ export class TimeslotComponent implements OnInit {
   ngOnChanges(): void {
     this.formatInputs();
     this.isMyBooking = this.checkIsMyBooking();
-    if (this.timeslot.bookedBy && !this.isMyBooking) {
+    this.canOverrideBooking = this.checkCanOverrideBooking();
+    if (this.timeslot.bookedBy && !this.isMyBooking && !this.canOverrideBooking) {
       this.disabledCheckbox = true;
+    } else {
+      this.disabledCheckbox = false;
     }
 
     if (this.isMyBooking) {
       this.checked = true;
+    } else if (!this.disabledCheckbox) {
+      this.checked = this.bookingService.isBookingSelected(this.timeslot);
     }
   }
 
@@ -70,6 +77,12 @@ export class TimeslotComponent implements OnInit {
       tokenData.room === this.timeslot.bookedBy.room &&
       tokenData.house === this.timeslot.bookedBy.house
     );
+  }
+
+  checkCanOverrideBooking(): boolean {
+    const tokenData = this.authService.getTokenData();
+    if (!tokenData) return false;
+    return tokenData.role === Role.Admin || tokenData.role === Role.Master;
   }
 
   getBookingText(): string {

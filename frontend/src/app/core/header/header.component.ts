@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit {
 
   activeLang = '';
   availableLangs: string[] = [];
+  githubUrl = 'https://github.com/kevinunger/GPSportPlaner';
 
   menuEntries: MenuEntry[] = [
     {
@@ -64,6 +65,13 @@ export class HeaderComponent implements OnInit {
       title: 'menu.rulesTitle',
       link: '/rules',
       icon_name: 'faClipboardList',
+      action: () => {},
+    },
+    {
+      headerTitle: 'menu.infoHeaderTitle',
+      title: 'menu.infoTitle',
+      link: '/info',
+      icon_name: 'faCircleInfo',
       action: () => {},
     },
     // Admins only

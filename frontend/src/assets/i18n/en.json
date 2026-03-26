@@ -9,6 +9,8 @@
     "adminsHeaderTitle": "Key Holders",
     "rulesTitle": "Rules",
     "rulesHeaderTitle": "Rules",
+    "infoTitle": "Info",
+    "infoHeaderTitle": "Info",
     "adminAreaTitle": "Admin Area",
     "adminAreaHeaderTitle": "Admin Area",
     "logoutTitle": "Log Out",
@@ -41,6 +43,13 @@
     "titleDelete":"Entries have been deleted!",
     "yourTrainingTime": "Your Training Time",
     "adminsInfo":"You can get a key from the following people:"
+  },
+  "info": {
+    "title": "Info",
+    "creatorLabel": "Created by",
+    "creator": "Kevin Unger",
+    "description": "GPS Sportplaner is a dorm sports booking app built with Angular, Express, and MongoDB. You can find the source code on GitHub.",
+    "githubLabel": "Open GitHub repository"
   },
   "timeslot": {
     "bookedByMe": "Booked by: You",

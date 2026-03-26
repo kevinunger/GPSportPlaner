@@ -1,0 +1,95 @@
+.infoPage {
+  align-items: stretch;
+  gap: 22px;
+  justify-content: flex-start;
+  padding-top: 18px;
+}
+
+.infoHero {
+  padding: 12px 8px 0;
+  text-align: center;
+}
+
+.eyebrow {
+  color: #2a6ac7;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.intro {
+  color: #5d6c80;
+  font-size: 18px;
+  line-height: 1.55;
+  margin: 0 auto;
+  max-width: 520px;
+  text-align: center;
+}
+
+.infoCard {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(42, 106, 199, 0.12);
+  border-radius: 24px;
+  padding: 28px 24px;
+}
+
+h2 {
+  color: #1b3250;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.creatorName {
+  color: #10243b;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 14px;
+}
+
+.infoCard p {
+  color: #516175;
+  line-height: 1.6;
+  margin-top: 0;
+}
+
+.infoLinks {
+  margin-top: 24px;
+}
+
+.primaryLink {
+  align-items: center;
+  background: #143259;
+  border-radius: 16px;
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .infoCard {
+    border-radius: 20px;
+    padding: 24px 18px;
+  }
+
+  .creatorName {
+    font-size: 24px;
+  }
+
+  .intro {
+    font-size: 17px;
+  }
+}

@@ -110,6 +110,12 @@ export class BookingService {
     }
   }
 
+  public isBookingSelected(booking: IBooking): boolean {
+    return this.selectedBookingsByUser
+      .getValue()
+      .some(selectedBooking => selectedBooking.start === booking.start && selectedBooking.end === booking.end);
+  }
+
   public removeBooking(booking: IBooking): void {
     // triggered on unCheck
     // check if booking is in selectedBookingsByUser

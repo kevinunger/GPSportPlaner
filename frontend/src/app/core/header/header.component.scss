@@ -59,6 +59,8 @@
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 246, 252, 0.94));
   border-left: 1px solid rgba(42, 106, 199, 0.12);
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
   height: 100dvh;
   max-width: 360px;
   padding: 104px 18px 28px;
@@ -75,6 +77,13 @@
   }
 }
 
+.menuLinks {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 .menuInner {
   margin: 0 0 12px;
 }
@@ -84,6 +93,42 @@
   border: 0;
   height: 1px;
   margin: 12px 6px 0;
+}
+
+.menuAttribution {
+  align-items: flex-start;
+  border-top: 1px solid rgba(42, 106, 199, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 16px 6px 0;
+}
+
+.menuAttributionEyebrow {
+  color: #6d7b8d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.menuAttributionLink,
+.menuGithubLink {
+  color: #153154;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menuGithubLink {
+  color: #2a6ac7;
+}
+
+.menuAttributionLink:hover,
+.menuGithubLink:hover {
+  text-decoration: underline;
 }
 
 .backdrop {
